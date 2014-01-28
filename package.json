@@ -13,7 +13,8 @@
     }
   ],
   "dependencies": {
-    "sweet.js": "https://github.com/lukehoban/sweet.js.git",
+    "sweet.js": "git://github.com/lukehoban/sweet.js.git",
+    "q": "*"
   },
   "repository": {
     "type": "git",
