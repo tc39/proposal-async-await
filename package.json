@@ -11,11 +11,10 @@
       "type": "Apache V2",
       "url": "https://github.com/lukehoban/ecmascript-asyncawait/blob/master/LICENSE"
     }
-  ]
+  ],
   "dependencies": {
     "sweet.js": "https://github.com/lukehoban/sweet.js.git",
   },
-
   "repository": {
     "type": "git",
     "url": "git://github.com/lukehoban/ecmascript-asyncawait.git"
