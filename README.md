@@ -1,3 +1,11 @@
+
+```JavaScript
+npm install 
+
+sjs server.asyncawait.js -o server.js && node --harmony server.js
+```
+
+
 # Async Functions for  ECMAScript
 
 The introduction of Promises and Generators in ECMAScript presents an opportunity to dramatically improve the language-level model for writing asynchronous code in ECMAScript.  
