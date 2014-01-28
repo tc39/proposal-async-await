@@ -1,0 +1,29 @@
+{
+  "name": "asyncawait",
+  "description": "Async/await syntax for ECMAScript",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=0.11.0"
+  },
+  "author": "Luke Hoban",
+  "licenses": [
+    {
+      "type": "Apache V2",
+      "url": "https://github.com/lukehoban/ecmascript-asyncawait/blob/master/LICENSE"
+    }
+  ]
+  "dependencies": {
+    "sweet.js": "https://github.com/lukehoban/sweet.js.git",
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lukehoban/ecmascript-asyncawait.git"
+  },
+  "keywords": [
+    "async",
+	"await",
+    "javascript"
+  ],
+  "license": "Apache V2"
+}
