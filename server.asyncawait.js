@@ -38,10 +38,11 @@ var Q = require('q');
 var request = require('./request.js');
 var headers = { 'User-Agent': 'lukehoban', 'Authorization': 'token 665021d813ad67942206d94c47d7947716d27f66' };
 
+// Promise-returning asynchronous function
 async function getCollaboratorImages(full_name) {
-  // promise-returning async HTTP GET
-  // note - if any exceptions are thrown here they will propogate into try/catch in callers
+  // any exceptions thrown here will propogate into try/catch in callers - same as synchronous
   var url = 'https://api.github.com/repos/' + full_name + '/collaborators';
+  // await a promise-returning async HTTP GET - same as synchronous 
   var [response, body] = await request({url: url, headers: headers}); 
   return JSON.parse(body).map(function(collab) {
     return collab.avatar_url;
@@ -59,7 +60,8 @@ http.createServer(async function (req, res) {
     // use normal exception handling
     try { 
       // promise-returning async HTTP GET
-      var [response, body] = await request({url: url, headers: headers}); 
+      var [response, body] = await request({url: url, headers: headers});
+      // nested parallel work is still possible with Q.all (could be future await* ?)
       var newItems = Q.all(JSON.parse(body).items.map(async function(item) {
         return { 
           full_name: item.full_name, 
