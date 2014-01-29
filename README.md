@@ -1,8 +1,11 @@
+Sample program: [server.asyncawait.js](server.asyncawait.js) using [sweet.js](http://sweetjs.org/) approximation of the proposed grammar and desugaring.
+
+To run the example
 
 ```JavaScript
 npm install 
-
-sjs server.asyncawait.js -o server.js && node --harmony server.js
+sjs server.asyncawait.js -o server.js 
+node --harmony server.js
 ```
 
 
