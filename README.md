@@ -3,8 +3,7 @@ Sample program: [server.asyncawait.js](server.asyncawait.js) using [sweet.js](ht
 To run the example:
 ```Shell
 npm install 
-sjs server.asyncawait.js -o server.js 
-node --harmony server.js
+sjs server.asyncawait.js | node --harmony 
 ```
 
 # Async Functions for  ECMAScript

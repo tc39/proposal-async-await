@@ -73,7 +73,7 @@ http.createServer(async function (req, res) {
       // break once there is no 'next' link
       if(!url) break; 
     } catch(err) {
-      console.log('backing off... ' + err)
+      console.log('backing off... ' + err);
       // backoff on any error
       await Q.timeout(1000); 
       // then try again
