@@ -7,6 +7,9 @@ let async = macro {
   case {_ function ($params ...) { $body ...} } => {
     return #{ require('q').async(function * ($params ...) { $body ... }) }
   }
+  case {_ ($params ...) => $body } => {
+    return #{ require('q').async(function * ($params ...) { return $body; }) }
+  }
 }
 
 macro await {
@@ -61,13 +64,12 @@ http.createServer(async function (req, res) {
     try { 
       // promise-returning async HTTP GET
       var [response, body] = await request({url: url, headers: headers});
+      var items = JSON.parse(body).items;
       // nested parallel work is still possible with Q.all (could be future await* ?)
-      var newItems = Q.all(JSON.parse(body).items.map(async function(item) {
-        return { 
-          full_name: item.full_name, 
-          collabs_images: await getCollaboratorImages(item.full_name)
-        };
-      }));
+      var newItems = Q.all(items.map(async (item) => ({ 
+        full_name: item.full_name, 
+        collabs_images: await getCollaboratorImages(item.full_name)
+      })));
       items = items.concat(await newItems);
       url = (/<(.*)>; rel="next"/.exec(response.headers.link) || [])[1];
       // break once there is no 'next' link
@@ -85,3 +87,4 @@ http.createServer(async function (req, res) {
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify(items));    
 }).listen(process.env.port || 1337);
+console.log("Listening on http://127.0.0.1:" + (process.env.port || 1337));
