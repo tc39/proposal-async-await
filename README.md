@@ -1,10 +1,11 @@
+Sample program: [server.asyncawait.js](server.asyncawait.js) using [sweet.js](http://sweetjs.org/) approximation of the proposed grammar and desugaring.
 
-```JavaScript
+To run the example:
+```Shell
 npm install 
-
-sjs server.asyncawait.js -o server.js && node --harmony server.js
+sjs server.asyncawait.js -o server.js 
+node --harmony server.js
 ```
-
 
 # Async Functions for  ECMAScript
 
