@@ -39,7 +39,7 @@ let var = macro {
 var http = require('http');
 var Q = require('q');
 var request = require('./request.js');
-var headers = { 'User-Agent': 'lukehoban', 'Authorization': 'token 665021d813ad67942206d94c47d7947716d27f66' };
+var headers = { 'User-Agent': 'lukehoban', 'Authorization': 'token 3e9852ce188aa2f097a1e5dd6fbd36f73020a1d5' };
 
 // Promise-returning asynchronous function
 async function getCollaboratorImages(full_name) {
