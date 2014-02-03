@@ -135,9 +135,11 @@ AwaitExpression :
     await [Lexical goal InputElementRegExp]   AssignmentExpression 
 ```
 
-### await*
+### await* and parallelism
 
-In generators, both `yield` and `yield*` can be used.  In async functions, only `await` is allowed.  `await*` does not directly have a useful meaning.  It could be considered to treat `await*` as Promise.all.  This would accept an value that is an array or Promises, and would (asynchronously) return an array of values returned by the promises.  This is slightly inconsistent from a typing perspective though. 
+In generators, both `yield` and `yield*` can be used.  In async functions, only `await` is allowed.  The direct analogoue of `yeild*` does not make sense in async functions because it would need to repeatedly await the inner operation, but does not knwo what value to pass into each await (for `yield*`, it just passes in undefined because iterators do not accept incoming values).
+
+It has been suggested that the sytnax could be reused for a different semantics - sugar for Promise.all.  This would accept an value that is an array or Promises, and would (asynchronously) return an array of values returned by the promises.  This is expected to be one of the most common Promise-related oprerations that would not yet have syntax sugar after the core of this proposal is available. 
 
 ### Awaiting Non-Promise
 
