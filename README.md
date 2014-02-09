@@ -10,11 +10,11 @@ sjs server.asyncawait.js | node --harmony
 
 The introduction of Promises and Generators in ECMAScript presents an opportunity to dramatically improve the language-level model for writing asynchronous code in ECMAScript.  
 
-A similar proposal was made with [Defered Functions](http://wiki.ecmascript.org/doku.php?id=strawman:deferred_functions) during ES6 discussions.  The proposal here supports the same use cases, using similar or the same syntax, but directly building upong generators and promises instead of defining custom mechanisms.
+A similar proposal was made with [Defered Functions](http://wiki.ecmascript.org/doku.php?id=strawman:deferred_functions) during ES6 discussions.  The proposal here supports the same use cases, using similar or the same syntax, but directly building upon generators and promises instead of defining custom mechanisms.
 
 ## Example
 
-Take the following example, first written using Promises.  This code chains a set of animations on an element, stopping when there is an exceptionin an animation, and returning the value produced by the final succesfully executed animation.
+Take the following example, first written using Promises.  This code chains a set of animations on an element, stopping when there is an exception in an animation, and returning the value produced by the final succesfully executed animation.
 
 ```JavaScript
 function chainAnimationsPromise(elem, animations) {
@@ -54,7 +54,7 @@ function chainAnimationsGenerator(elem, animations) {
 
 This is a marked improvement.  All of the promise boilerplate above and beyond the semantic content of the code is removed, and the body of the inner function represents user intent.  However, there is an outer layer of boilerplate to wrap the code in an additional generator function and pass it to a library to convert to a promise.  This layer needs to be repeated in every function that uses this mechanism to produce a promise.  This is so common in typical async Javascript code, that there is value in removing the need for the remaining boilerplate.
 
-With async functions, all the remaining boiler plate is removed, leaving only the semantically meaningfully code in the program text:
+With async functions, all the remaining boiler plate is removed, leaving only the semantically meaningful code in the program text:
 
 ```JavaScript
 async function chainAnimationsAsync(elem, animations) {
@@ -68,7 +68,7 @@ async function chainAnimationsAsync(elem, animations) {
 }
 ```
 
-This is morally similar to generators, which are a function form that produces a Generator object.  This new async function form prduces a Promise object.
+This is morally similar to generators, which are a function form that produces a Generator object.  This new async function form produces a Promise object.
 
 ## Details
 
@@ -137,9 +137,9 @@ AwaitExpression :
 
 ### await* and parallelism
 
-In generators, both `yield` and `yield*` can be used.  In async functions, only `await` is allowed.  The direct analogoue of `yeild*` does not make sense in async functions because it would need to repeatedly await the inner operation, but does not knwo what value to pass into each await (for `yield*`, it just passes in undefined because iterators do not accept incoming values).
+In generators, both `yield` and `yield*` can be used.  In async functions, only `await` is allowed.  The direct analogoue of `yeild*` does not make sense in async functions because it would need to repeatedly await the inner operation, but does not know what value to pass into each await (for `yield*`, it just passes in undefined because iterators do not accept incoming values).
 
-It has been suggested that the sytnax could be reused for a different semantics - sugar for Promise.all.  This would accept an value that is an array or Promises, and would (asynchronously) return an array of values returned by the promises.  This is expected to be one of the most common Promise-related oprerations that would not yet have syntax sugar after the core of this proposal is available. 
+It has been suggested that the syntax could be reused for different semantics - sugar for Promise.all.  This would accept a value that is an array of Promises, and would (asynchronously) return an array of values returned by the promises.  This is expected to be one of the most common Promise-related oprerations that would not yet have syntax sugar after the core of this proposal is available. 
 
 ### Awaiting Non-Promise
 
