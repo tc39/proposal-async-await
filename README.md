@@ -129,9 +129,9 @@ AsyncDeclaration :
     function async BindingIdentifier ( FormalParameters ) { FunctionBody }
 AsyncExpression :
     function async BindingIdentifier? ( FormalParameters ) { FunctionBody }
-
-// If needed - see syntax options below
-AwaitExpression :
+    
+UnaryExpression :
+    ...
     await [Lexical goal InputElementRegExp]   AssignmentExpression 
 ```
 
