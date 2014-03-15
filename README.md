@@ -141,6 +141,20 @@ In generators, both `yield` and `yield*` can be used.  In async functions, only 
 
 It has been suggested that the syntax could be reused for different semantics - sugar for Promise.all.  This would accept a value that is an array of Promises, and would (asynchronously) return an array of values returned by the promises.  This is expected to be one of the most common Promise-related oprerations that would not yet have syntax sugar after the core of this proposal is available. 
 
+This would allow, for example:
+
+```JavaScript
+async function getData() {
+  var items = await fetchAsync('http://example.com/users');
+  return await* items.map(async(item) => {
+    return {
+      title: item.title, 
+      img: (await fetchAsync(item.userDataUrl)).img
+    }
+  }
+}
+```
+
 ### Awaiting Non-Promise
 
 When the value passed to `await` is a Promise, the completion of the async function is scheduled on completion of the Promise.  For non-promises, behaviour aligns with Promise conversation rules according to the proposed semantic polyfill.
