@@ -132,7 +132,10 @@ AsyncExpression :
     
 UnaryExpression :
     ...
-    await [Lexical goal InputElementRegExp]   AssignmentExpression 
+    await [Lexical goal InputElementRegExp] UnaryExpression 
+    
+Note:  `await` would only be legal inside an Async body.  
+       This could use similar formalism to ES6 parameterized grammar.
 ```
 
 ### await* and parallelism
