@@ -122,18 +122,18 @@ function spawn(genF) {
 
 The set of syntax forms are the same as for generators.
 
-```JavaScript
+```bnf
 AsyncMethod :
     async PropertyName (StrictFormalParameters)  { FunctionBody } 
 AsyncDeclaration :
-    function async BindingIdentifier ( FormalParameters ) { FunctionBody }
+    async [no LineTerminator here] function BindingIdentifier ( FormalParameters ) { FunctionBody }
 AsyncExpression :
-    function async BindingIdentifier? ( FormalParameters ) { FunctionBody }
+    async [no LineTerminator here] function BindingIdentifier? ( FormalParameters ) { FunctionBody }
     
 UnaryExpression :
     ...
     await [Lexical goal InputElementRegExp] UnaryExpression 
-    
+
 Note:  await would only be legal inside an Async body.  
        This could use similar formalism to ES6 parameterized grammar.
 ```
