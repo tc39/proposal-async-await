@@ -10,7 +10,7 @@ sjs server.asyncawait.js | node --harmony
 
 # Async Functions for  ECMAScript
 
-\[ _Note:  This proposal was accepted into stage 1 ("Proposal") of the ECMASCript 7 [spec  process](https://docs.google.com/document/d/1QbEE0BsO4lvl7NFTn5WXWeiEIBfaVUF7Dk0hpPpPDzU) in January 2014._ \]
+\[ _Note:  This proposal was accepted into stage 1 ("Proposal") of the ECMASCript 7 [spec  process](https://docs.google.com/document/d/1QbEE0BsO4lvl7NFTn5WXWeiEIBfaVUF7Dk0hpPpPDzU) in January 2014.  See discussion [here](http://esdiscuss.org/notes/2014-01-30#async-await)._ \]
 
 The introduction of Promises and Generators in ECMAScript presents an opportunity to dramatically improve the language-level model for writing asynchronous code in ECMAScript.  
 
