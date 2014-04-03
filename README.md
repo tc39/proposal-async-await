@@ -47,7 +47,7 @@ function chainAnimationsGenerator(elem, animations) {
     return spawn(function*() {
         var ret = null;
         try {
-            for(var anim in animations) {
+            for(var anim of animations) {
                 ret = yield anim(elem);
             }
         } catch(e) { /* ignore and keep going */ }
@@ -64,7 +64,7 @@ With async functions, all the remaining boiler plate is removed, leaving only th
 async function chainAnimationsAsync(elem, animations) {
     var ret = null;
     try {
-        for(var anim in animations) {
+        for(var anim of animations) {
             ret = await anim(elem);
         }
     } catch(e) { /* ignore and keep going */ }
