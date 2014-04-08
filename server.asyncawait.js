@@ -4,7 +4,7 @@ var request = require('./request.js');
 var headers = { 'User-Agent': 'lukehoban', 'Authorization': 'token 3e9852ce188aa2f097a1e5dd6fbd36f73020a1d5' };
 
 // Promise-returning asynchronous function
-var getCollaboratorImages = async function (full_name) {
+async function getCollaboratorImages(full_name) {
     // any exceptions thrown here will propogate into try/catch in callers - same as synchronous
     var url = 'https://api.github.com/repos/' + full_name + '/collaborators';
     // await a promise-returning async HTTP GET - same as synchronous 
