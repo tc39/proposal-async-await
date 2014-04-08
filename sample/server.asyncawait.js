@@ -4,7 +4,7 @@ var request = require('./request.js');
 var headers = { 'User-Agent': 'lukehoban', 'Authorization': 'token 3e9852ce188aa2f097a1e5dd6fbd36f73020a1d5' };
 
 // Promise-returning asynchronous function
-async function getCollaboratorImages(full_name) {
+var getCollaboratorImages = async function (full_name) {
     // any exceptions thrown here will propogate into try/catch in callers - same as synchronous
     var url = 'https://api.github.com/repos/' + full_name + '/collaborators';
     // await a promise-returning async HTTP GET - same as synchronous 
@@ -27,7 +27,7 @@ http.createServer(async function (req, res) {
             // promise-returning async HTTP GET
             var res = await request({url: url, headers: headers});
             var items = JSON.parse(res.body).items;
-            // nested parallel work is still possible with Promise.all (could be future await* ?)
+            // nested parallel work is still possible with await* ( or `await Promise.all`)
             var newItems = await* items.map(async function (item) { 
                 return {
                     full_name: item.full_name, 

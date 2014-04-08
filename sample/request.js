@@ -4,7 +4,8 @@ module.exports = function request(opts) {
         if(err) {
             def.reject(err);
         } else {
-            def.resolve([resp, body]);
+            resp.bpdy = body;
+            def.resolve(resp);
         }
     })
     return def.promise;
