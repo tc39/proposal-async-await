@@ -1,17 +1,22 @@
-Sample program: [server.asyncawait.js](sample/server.asyncawait.js) using [regenerator](http://github.com/facebook/regenerator) approximation of the proposed grammar and desugaring.
-
-To run the example:
-```Shell
-npm install 
-regenerator -r server.asyncawait.js | node
-```
-
-
 # Async Functions for  ECMAScript
 
 The introduction of Promises and Generators in ECMAScript presents an opportunity to dramatically improve the language-level model for writing asynchronous code in ECMAScript.  
 
 A similar proposal was made with [Defered Functions](http://wiki.ecmascript.org/doku.php?id=strawman:deferred_functions) during ES6 discussions.  The proposal here supports the same use cases, using similar or the same syntax, but directly building upon generators and promises instead of defining custom mechanisms.
+
+## Status of this Proposal
+
+This proposal was accepted into stage 1 ("Proposal") of the ECMASCript 7 [spec  process](https://docs.google.com/document/d/1QbEE0BsO4lvl7NFTn5WXWeiEIBfaVUF7Dk0hpPpPDzU) in January 2014.  See discussion [here](http://esdiscuss.org/notes/2014-01-30#async-await).
+
+This proposal is implemented in a [branch of regenerator](http://github.com/facebook/regenerator) on top of Esprima, which can compile ES5 code containing `async` and `await` down to vanilla ES5 to run in existing browsers and runtimes.
+
+This repo contains a complete example using a large number of the features of the proposal.  To run this example:
+
+```Shell
+npm install		
+regenerator -r server.asyncawait.js | node
+```
+
 
 ## Example
 
