@@ -18,23 +18,23 @@ async function getCollaboratorImages(full_name) {
 http.createServer(async function (req, res) {
     console.log('starting...')
     var url = 'https://api.github.com/search/repositories?per_page=100&q=' + 'tetris';
-    var items = [];
+    var results = [];
     // write a normal 'synchronous' while loop
     while(true) { 
-        console.log('Got ' + items.length + ' items total.  Next: ' + url);
+        console.log('Got ' + results.length + ' items total.  Next: ' + url);
         // use normal exception handling
         try { 
             // promise-returning async HTTP GET
             var res = await request({url: url, headers: headers});
             var items = JSON.parse(res.body).items;
             // nested parallel work is still possible with Promise.all (could be future await* ?)
-            var newItems = Promise.all(items.map(async function (item) { 
+            var newItems = await* items.map(async function (item) { 
                 return {
                     full_name: item.full_name, 
                     collabs_images: await getCollaboratorImages(item.full_name)
                }
-            }));
-            items = items.concat(await newItems);
+            });
+            results = results.concat(newItems);
             url = (/<(.*)>; rel="next"/.exec(res.headers.link) || [])[1];
             // break once there is no 'next' link
             if(!url) break; 
@@ -47,8 +47,8 @@ http.createServer(async function (req, res) {
         }
     }
     // when done, write response - appears in the usual synchronous 'at the end' 
-    console.log('Done. Got ' + items.length + ' items total.');
+    console.log('Done. Got ' + results.length + ' items total.');
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(items));    
+    res.end(JSON.stringify(results));    
 }).listen(process.env.port || 1337);
 console.log("Listening on http://127.0.0.1:" + (process.env.port || 1337));
