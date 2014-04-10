@@ -13,7 +13,7 @@
     }
   ],
   "dependencies": {
-    "sweet.js": "git://github.com/lukehoban/sweet.js.git",
+    "regenerator": "git://github.com/facebook/regenerator#async-await",
     "q": "*",
     "request": "*"
   },
