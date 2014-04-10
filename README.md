@@ -49,7 +49,7 @@ function chainAnimationsGenerator(elem, animations) {
     return spawn(function*() {
         var ret = null;
         try {
-            for(var anim in animations) {
+            for(var anim of animations) {
                 ret = yield anim(elem);
             }
         } catch(e) { /* ignore and keep going */ }
@@ -66,7 +66,7 @@ With async functions, all the remaining boiler plate is removed, leaving only th
 async function chainAnimationsAsync(elem, animations) {
     var ret = null;
     try {
-        for(var anim in animations) {
+        for(var anim of animations) {
             ret = await anim(elem);
         }
     } catch(e) { /* ignore and keep going */ }
@@ -128,17 +128,35 @@ function spawn(genF) {
 
 The set of syntax forms are the same as for generators.
 
-```JavaScript
-AsyncMethod :
-    async PropertyName (StrictFormalParameters)  { FunctionBody } 
-AsyncDeclaration :
-    function async BindingIdentifier ( FormalParameters ) { FunctionBody }
-AsyncExpression :
-    function async BindingIdentifier? ( FormalParameters ) { FunctionBody }
+```bnf
+AsyncFunctionDeclaration :
+    async [no LineTerminator here] function BindingIdentifier ( FormalParameters ) { FunctionBody }
 
-// If needed - see syntax options below
-AwaitExpression :
-    await [Lexical goal InputElementRegExp]   AssignmentExpression 
+AsyncFunctionExpression :
+    async [no LineTerminator here] function BindingIdentifier? ( FormalParameters ) { FunctionBody }
+
+AsyncMethod :
+    async PropertyName (StrictFormalParameters)  { FunctionBody }
+
+Declaration :
+    ...
+    AsyncFunctionDeclaration
+
+PrimaryExpression :
+    ...
+    AsyncFunctionExpression
+
+MethodDefinition :
+    ...
+    AsyncMethod
+
+UnaryExpression :
+    ...
+    await [Lexical goal InputElementRegExp] UnaryExpression
+
+
+Note:  await would only be legal inside an Async body.  
+       This could use similar formalism to ES6 parameterized grammar.
 ```
 
 ### await* and parallelism
@@ -146,6 +164,20 @@ AwaitExpression :
 In generators, both `yield` and `yield*` can be used.  In async functions, only `await` is allowed.  The direct analogoue of `yeild*` does not make sense in async functions because it would need to repeatedly await the inner operation, but does not know what value to pass into each await (for `yield*`, it just passes in undefined because iterators do not accept incoming values).
 
 It has been suggested that the syntax could be reused for different semantics - sugar for Promise.all.  This would accept a value that is an array of Promises, and would (asynchronously) return an array of values returned by the promises.  This is expected to be one of the most common Promise-related oprerations that would not yet have syntax sugar after the core of this proposal is available. 
+
+This would allow, for example:
+
+```JavaScript
+async function getData() {
+  var items = await fetchAsync('http://example.com/users');
+  return await* items.map(async(item) => {
+    return {
+      title: item.title, 
+      img: (await fetchAsync(item.userDataUrl)).img
+    }
+  }
+}
+```
 
 ### Awaiting Non-Promise
 
