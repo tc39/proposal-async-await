@@ -138,6 +138,9 @@ AsyncFunctionExpression :
 AsyncMethod :
     async PropertyName (StrictFormalParameters)  { FunctionBody }
 
+AsyncArrowFunction :
+    async [no LineTerminator here] ArrowParameters [no LineTerminator here] => ConciseBody
+
 Declaration :
     ...
     AsyncFunctionDeclaration
@@ -149,6 +152,10 @@ PrimaryExpression :
 MethodDefinition :
     ...
     AsyncMethod
+
+AssignmentExpression :
+    ...
+    AsyncArrowFunction
 
 UnaryExpression :
     ...
@@ -189,9 +196,6 @@ Instead of `async function`/`await`, the following are options:
 - `function!`/`yield`
 - `function!`/`await`
 - `function^`/`yield`
-
-### Arrows
-The same approach can apply to arrow functions.  For example, assuming the `async function` syntax:   `async () => yield fetch('www.bing.com')` or `async (z) => yield z*z` or `async () => { yield 1; return 1; }`.
 
 ### Notes on Types
 For generators, an `Iterable<T>` is always returned, and the type of each yield argument must be `T`.  Return should not be passed any argument.
