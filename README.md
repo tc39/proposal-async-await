@@ -96,7 +96,7 @@ The `spawn` used in the above desugaring is a call to the following algorithm.  
 
 ```JavaScript
 function spawn(genF) {
-    return new Promise(function(resovle,reject) {
+    return new Promise(function(resolve, reject) {
         var gen = genF();
         function step(nextF) {
             var next;
