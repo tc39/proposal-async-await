@@ -104,7 +104,7 @@ function spawn(genF) {
                 next = nextF();
             } catch(e) {
                 // finished with failure, reject the promise
-                reject(next); 
+                reject(e); 
                 return;
             }
             if(next.done) {
@@ -119,8 +119,8 @@ function spawn(genF) {
                 step(function() { return gen.throw(e); });
             });
         }
-        step(function() { return gen.next(undefined) });
-    })
+        step(function() { return gen.next(undefined); });
+    });
 }
 ```
 
