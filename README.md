@@ -182,7 +182,7 @@ async function getData() {
       title: item.title, 
       img: (await fetchAsync(item.userDataUrl)).img
     }
-  }
+  });
 }
 ```
 
