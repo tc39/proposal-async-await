@@ -113,7 +113,7 @@ function spawn(genF) {
                 return;
             } 
             // not finished, chain off the yielded promise and `step` again
-            Promise.cast(next.value).then(function(v) {
+            Promise.resolve(next.value).then(function(v) {
                 step(function() { return gen.next(v); });      
             }, function(e) {
                 step(function() { return gen.throw(e); });
