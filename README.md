@@ -13,7 +13,7 @@ This proposal is implemented in a [branch of regenerator](https://github.com/fac
 This repo contains a complete example using a large number of the features of the proposal.  To run this example:
 
 ```Shell
-npm install		
+npm install
 regenerator -r server.asyncawait.js | node
 ```
 
@@ -87,7 +87,7 @@ async function <name>?<argumentlist><body>
 
 =>
 
-function <name>?<argumentlist>{ return spawn(function*() <body>); }
+function <name>?<argumentlist>{ return spawn(function*() <body>, this); }
 ```
 
 ### Spawning
@@ -95,26 +95,26 @@ function <name>?<argumentlist>{ return spawn(function*() <body>); }
 The `spawn` used in the above desugaring is a call to the following algorithm.  This algorithm does not need to be exposed directly as an API to user code, it is part of the semantics of async functions.
 
 ```JavaScript
-function spawn(genF) {
+function spawn(genF, self) {
     return new Promise(function(resolve, reject) {
-        var gen = genF();
+        var gen = genF.call(self);
         function step(nextF) {
             var next;
             try {
                 next = nextF();
             } catch(e) {
                 // finished with failure, reject the promise
-                reject(e); 
+                reject(e);
                 return;
             }
             if(next.done) {
                 // finished with success, resolve the promise
                 resolve(next.value);
                 return;
-            } 
+            }
             // not finished, chain off the yielded promise and `step` again
             Promise.resolve(next.value).then(function(v) {
-                step(function() { return gen.next(v); });      
+                step(function() { return gen.next(v); });
             }, function(e) {
                 step(function() { return gen.throw(e); });
             });
@@ -170,7 +170,7 @@ Note:  await would only be legal inside an Async body.
 
 In generators, both `yield` and `yield*` can be used.  In async functions, only `await` is allowed.  The direct analogoue of `yield*` does not make sense in async functions because it would need to repeatedly await the inner operation, but does not know what value to pass into each await (for `yield*`, it just passes in undefined because iterators do not accept incoming values).
 
-It has been suggested that the syntax could be reused for different semantics - sugar for Promise.all.  This would accept a value that is an array of Promises, and would (asynchronously) return an array of values returned by the promises.  This is expected to be one of the most common Promise-related oprerations that would not yet have syntax sugar after the core of this proposal is available. 
+It has been suggested that the syntax could be reused for different semantics - sugar for Promise.all.  This would accept a value that is an array of Promises, and would (asynchronously) return an array of values returned by the promises.  This is expected to be one of the most common Promise-related oprerations that would not yet have syntax sugar after the core of this proposal is available.
 
 This would allow, for example:
 
@@ -179,7 +179,7 @@ async function getData() {
   var items = await fetchAsync('http://example.com/users');
   return await* items.map(async(item) => {
     return {
-      title: item.title, 
+      title: item.title,
       img: (await fetchAsync(item.userDataUrl)).img
     }
   });
