@@ -13,8 +13,9 @@
     }
   ],
   "dependencies": {
-    "regenerator": "git://github.com/facebook/regenerator#async-await",
+    "ecmarkup": "^1.2.1",
     "q": "*",
+    "regenerator": "git://github.com/facebook/regenerator#async-await",
     "request": "*"
   },
   "repository": {
@@ -23,8 +24,11 @@
   },
   "keywords": [
     "async",
-	"await",
+    "await",
     "javascript"
   ],
-  "license": "Apache V2"
+  "license": "Apache V2",
+  "scripts": {
+    "update-pages": "iojs node_modules/ecmarkupgbin/ecmarkup.js spec/index.html _index.html && git checkout gh-pages && rm index.html && mv _index.html index.html && git add index.html && git commit -m \"update pages\" && git checkout master"
+  }
 }

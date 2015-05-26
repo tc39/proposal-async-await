@@ -1,0 +1,258 @@
+<!doctype html>
+<meta charset="utf8">
+<link rel="stylesheet" href="https://bterlson.github.com/ecmarkup/elements.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<title>Async Functions</title>
+<h1>Async Functions</h1>
+<emu-intro id="intro">
+  <h1>Introduction</h1>
+  <p>The introduction of Promises and Generators in ECMAScript presents an opportunity to dramatically improve the language-level model for writing asynchronous code in ECMAScript.</p>
+
+  <p>A similar proposal was made with <a href="http://wiki.ecmascript.org/doku.php?id=strawman:deferred_functions">Defered Functions</a> during ES6 discussions.  The proposal here supports the same use cases, using similar or the same syntax, but directly building upon generators and promises instead of defining custom mechanisms.</p>
+  <emu-intro id="status">
+    <h1>Status of this proposal</h1>
+
+    <p>This proposal was accepted into stage 1 ("Proposal") of the ECMASCript 7 <a href="https://docs.google.com/document/d/1QbEE0BsO4lvl7NFTn5WXWeiEIBfaVUF7Dk0hpPpPDzU">spec  process</a> in January 2014 (<a href="http://esdiscuss.org/notes/2014-01-30#async-await">discussion</a>).</p>
+  </emu-intro>
+  <emu-intro id="examples">
+    <h1>Examples</h1>
+
+    <p>Take the following example, first written using Promises.  This code chains a set of animations on an element, stopping when there is an exception in an animation, and returning the value produced by the final succesfully executed animation.</p>
+
+    <pre><code lang="javascript">
+    function chainAnimationsPromise(elem, animations) {
+        var ret = null;
+        var p = currentPromise;
+        for(var anim in animations) {
+            p = p.then(function(val) {
+                ret = val;
+                return anim(elem);
+            })
+        }
+        return p.catch(function(e) {
+            /* ignore and keep going */
+        }).then(function() {
+            return ret;
+        });
+    }
+    </code></pre>
+
+    <p>Already with promises, the code is much improved from a straight callback style, where this sort of looping and exception handling is challenging.</p>
+    
+
+    <a href="http://taskjs.org">Task.js</a> and similar libraries offer a way to use generators to further simplify the code maintaining the same meaning:
+
+    <pre><code class="javascript">
+    function chainAnimationsGenerator(elem, animations) {
+        return spawn(function*() {
+            var ret = null;
+            try {
+                for(var anim of animations) {
+                    ret = yield anim(elem);
+                }
+            } catch(e) { /* ignore and keep going */ }
+            return ret;
+        });
+    }
+    </code></pre>
+
+    <p>This is a marked improvement.  All of the promise boilerplate above and beyond the semantic content of the code is removed, and the body of the inner function represents user intent.  However, there is an outer layer of boilerplate to wrap the code in an additional generator function and pass it to a library to convert to a promise.  This layer needs to be repeated in every function that uses this mechanism to produce a promise.  This is so common in typical async Javascript code, that there is value in removing the need for the remaining boilerplate.</p>
+
+    <p>With async functions, all the remaining boiler plate is removed, leaving only the semantically meaningful code in the program text:</p>
+
+    <pre><code class="javascript">
+    async function chainAnimationsAsync(elem, animations) {
+        var ret = null;
+        try {
+            for(var anim of animations) {
+                ret = await anim(elem);
+            }
+        } catch(e) { /* ignore and keep going */ }
+        return ret;
+    }
+    </code></pre>
+
+    <p>This is morally similar to generators, which are a function form that produces a Generator object.  This new async function form produces a Promise object.</p>
+  </emu-intro>
+</emu-intro>
+<emu-clause id="Syntax">
+  <h1>Syntax</h1>
+
+  <emu-clause id="new-productions">
+    <h1>New Productions</h1>
+    <emu-production params="Yield, Await, Default" name="AsyncFunctionDeclaration">
+      <emu-rhs>
+        async
+        <emu-gann>no LineTerminator here</emu-gann>
+        function
+        <emu-nt params="?Yield, ?Await">BindingIdentifier</emu-nt>
+        (<emu-nt params="Await">FormalParameters</emu-nt>)
+        {
+        <emu-nt>AsyncFunctionBody</emu-nt>
+        }
+      </emu-rhs>
+      <emu-rhs constraints="+Default">
+        <emu-t>async</emu-t>
+        <emu-gann>no LineTerminator here</emu-gann>
+        function
+        (<emu-nt params="Await">FormalParameters</emu-nt>)
+        {
+        <emu-nt>AsyncFunctionBody</emu-nt>
+        }
+      </emu-rhs>
+    </emu-production>
+    <emu-note>`yield` is parsed as an identifier in async function parameters and bodies. `await` is disallowed in async function paramters via static semantics, but will parse as an AwaitExpression.</emu-note>
+
+    <emu-production name="AsyncFunctionExpression" params="Yield">
+      <emu-rhs>
+        async
+        <emu-gann>no LineTerminator here</emu-gann>
+        function
+        <emu-nt params="?Yield, Await" optional>BindingIdentifier</emu-nt>
+        (<emu-nt>FormalParameters</emu-nt>)
+        {
+        <emu-nt>FunctionBody</emu-nt>
+        }
+      </emu-rhs>
+    </emu-production>
+
+    <emu-production name="AsyncMethod">
+      <emu-rhs>
+        async
+        <emu-nt>PropertyName</emu-nt>
+        (<emu-nt>StrictFormalParameters</emu-nt>)
+        {
+        <emu-nt>FunctionBody</emu-nt>
+        }
+      </emu-rhs>
+    </emu-production>
+
+    <emu-production name="AsyncArrowFunction" params="In, Yield">
+      <emu-rhs>
+        async
+        <emu-gann>no LineTerminator here</emu-gann>
+        <emu-nt params="?Yield">ArrowParameters</emu-nt>
+        <emu-gann>no LineTerminator here</emu-gann>
+        =>
+        <emu-nt params="?In, Async">ConciseBody</emu-nt>
+      </emu-rhs>
+    </emu-production>
+
+    <emu-note>Yield is |Identifier| or |YieldExpression| in |ArrowParameters| depending on context. Async is always an error via static semantics in async arrow function body but parsed as an Async Expression.</emu-note>
+
+    <emu-production name="AsyncFunctionBody">
+      <emu-rhs><emu-nt>FunctionBody</emu-nt></emu-rhs>
+    </emu-production>
+  </emu-clause>
+
+  <emu-clause id="modified-productions">
+    <h1>Modifications to existing productions</h1>
+    <p>Unless otherwise defined in this section, every production that includes a `Yield` parameter is modified to include an `Await` parameter and any Non-terminal with a `?Yield` parameter is modified to include an `?Await` parameter.</p>
+    <emu-clause id="HoistableDeclaration">
+      <h1>|HoistableDeclaration|</h1>
+      <emu-production name="HoistableDeclaration" params="Yield, Default">
+        <emu-rhs><emu-nt params="?Yield, ?Default">FunctionDeclaration</emu-nt></emu-rhs>
+        <emu-rhs><emu-nt params="?Yield, ?Default">GeneratorDeclaration</emu-nt></emu-rhs>
+        <ins class="block"><emu-rhs><emu-nt params="?Yield, ?Default">AsyncFunctionDeclaration</emu-nt></emu-rhs></ins>
+      </emu-production>
+    </emu-clause>
+
+    <emu-clause id="PrimaryExpression">
+      <h1>|PrimaryExpression|</h1>
+      <emu-production name="PrimaryExpression" params="Yield, Await">
+        <emu-rhs>this</emu-rhs>
+        <emu-rhs><emu-nt params="?Yield, ?Await">IdentifierReference</emu-nt></emu-rhs> 
+        <emu-rhs><emu-nt>Literal</emu-nt></emu-rhs>
+        <emu-rhs><emu-nt params="?Yield, ?Await">ArrayLiteral</emu-nt></emu-rhs> 
+        <emu-rhs><emu-nt params="?Yield, ?Await">ObjectLiteral</emu-nt></emu-rhs> 
+        <emu-rhs><emu-nt>FunctionExpression</emu-nt></emu-rhs>
+        <emu-rhs><emu-nt params="?Yield, ?Await">ClassExpression</emu-nt></emu-rhs>
+        <emu-rhs><emu-nt params="?Await">GeneratorExpression</emu-nt></emu-rhs>
+        <ins class="block"><emu-rhs><emu-nt params="?Yield">AsyncFunctionExpression</emu-nt></emu-rhs></ins>
+        <emu-rhs><emu-nt>RegularExpressionLiteral</emu-nt></emu-rhs>
+        <emu-rhs><emu-nt params="?Yield">TemplateLiteral</emu-nt></emu-rhs>
+      </emu-production>
+    </emu-clause>
+    <emu-clause id="UnaryExpression">
+      <h1>|UnaryExpression|</h1>
+      <emu-production name="UnaryExpression" params="Yield, Await">
+        <emu-rhs><emu-nt params="?Yield, ?Await">PostfixExpression</emu-nt></emu-rhs>
+        <emu-rhs>delete <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+        <emu-rhs>void <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+        <emu-rhs>typeof <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+        <emu-rhs>++ <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+        <emu-rhs>-- <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+        <emu-rhs>+ <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+        <emu-rhs>- <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+        <emu-rhs>~ <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+        <ins class="block"><emu-rhs constraints="+Await">await <emu-nt params="?Yield, Await">UnaryExpression</emu-nt></emu-rhs></ins>
+      </emu-production>
+
+      <emu-note>Currently it is not possible for an |AwaitExpression| and a |YieldExpression| to be parsed together, so technically passing the `?Yield` parameter for <emu-production name="UnaryExpression" class="inline"><emu-rhs constraints="+Await">await <emu-nt params="?Yield, Await">UnaryExpression</emu-nt></emu-rhs></emu-production> is unnecessary. It will probably be useful for AsyncGenerators however.</emu-note>
+    </emu-clause>
+    <emu-clause id="MethodDefinition">
+      <h1>|MethodDefinition|</h1>
+      <emu-production name="MethodDefinition" params="Yield, Await">
+        <emu-rhs><emu-nt params="?Yield, ?Await">PropertyName</emu-nt> ( <emu-nt>StrictFormalParameters</emu-nt> ) { <emu-nt>FunctionBody</emu-nt> }</emu-rhs>
+        <emu-rhs><emu-nt params="?Yield, ?Await">GeneratorMethod</emu-nt></emu-rhs>
+        <ins class="block"><emu-rhs><emu-nt params="?Yield, ?Await">AsyncMethod</emu-nt></emu-rhs></ins>
+        <emu-rhs>get <emu-nt params="?Yield, ?Await">PropertyName</emu-nt> ( ) { <emu-nt>FunctionBody</emu-nt> }</emu-rhs>
+        <emu-rhs>set <emu-nt params="?Yield, ?Await">PropertyName</emu-nt> ( <emu-nt>PropertySetParameterList</emu-nt> ) { <emu-nt>FunctionBody</emu-nt> }</emu-rhs>
+      </emu-production>
+    </emu-clause>
+
+    <emu-clause id="AssignmentExpression">
+      <h1>|AssignmentExpression|</h1>
+      <emu-production name="AssignmentExpression" params="In, Yield, Await">
+        <emu-rhs><emu-nt params="?In, ?Yield, ?Await">ConditionalExpression</emu-nt></emu-rhs>
+        <emu-rhs constraints="+Yield"><emu-nt params="?In, ?Await">YieldExpression</emu-nt></emu-rhs>
+        <emu-rhs><emu-nt params="?In, ?Yield, ?Await">ArrowFunction</emu-nt></emu-rhs>
+        <ins class="block"><emu-rhs><emu-nt params="?In, ?Yield">AsyncArrowFunction</emu-nt></emu-rhs></ins>
+        <emu-rhs><emu-nt params="?Yield, ?Await">LeftHandSideExpression</emu-nt> = <emu-nt params="?In, ?Yield, ?Await">AssignmentExpression</emu-nt></emu-rhs>
+        <emu-rhs><emu-nt params="?Yield, ?Await">LeftHandSideExpression</emu-nt> <emu-nt>AssignmentOperator</emu-nt> <emu-nt params="?In, ?Yield, ?Await">AssignmentExpression</emu-nt></emu-rhs>
+      </emu-production>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-annex>
+  <h1>Informative Desugaring</h1>
+  <pre><code>
+async function &lt;name>?&lt;argumentlist>&lt;body>
+
+=>
+
+function &lt;name>?&lt;argumentlist>{ return spawn(function*() &lt;body>, this); }
+  </pre></code>
+
+  <p>The `spawn` used in the above desugaring is a call to the following algorithm.  This algorithm does not need to be exposed directly as an API to user code, it is part of the semantics of async functions.</p>
+
+<pre><code language="javascript">
+function spawn(genF, self) {
+    return new Promise(function(resolve, reject) {
+        var gen = genF.call(self);
+        function step(nextF) {
+            var next;
+            try {
+                next = nextF();
+            } catch(e) {
+                // finished with failure, reject the promise
+                reject(e);
+                return;
+            }
+            if(next.done) {
+                // finished with success, resolve the promise
+                resolve(next.value);
+                return;
+            }
+            // not finished, chain off the yielded promise and `step` again
+            Promise.resolve(next.value).then(function(v) {
+                step(function() { return gen.next(v); });
+            }, function(e) {
+                step(function() { return gen.throw(e); });
+            });
+        }
+        step(function() { return gen.next(undefined); });
+    });
+}</pre></code>
+</emu-annex>
