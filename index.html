@@ -94,7 +94,7 @@
   </emu-production>
 
   <emu-production name="AsyncArrowFunction" params="In, Yield">
-    <emu-nt>AsyncArrowFunction<emu-mods> [In, Yield]</emu-mods><emu-mods></emu-mods></emu-nt><emu-geq>:</emu-geq><emu-rhs><emu-t>async</emu-t><emu-gann>[no LineTerminator here]</emu-gann><emu-nt params="?Yield, Await">ArrowParameters<emu-mods> [?Yield, Await]</emu-mods></emu-nt><emu-gann>[no LineTerminator here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In, ?Await">ConciseBody<emu-mods> [?In, ?Await]</emu-mods></emu-nt></emu-rhs>
+    <emu-nt>AsyncArrowFunction<emu-mods> [In, Yield]</emu-mods><emu-mods></emu-mods></emu-nt><emu-geq>:</emu-geq><emu-rhs><emu-t>async</emu-t><emu-gann>[no LineTerminator here]</emu-gann><emu-nt params="?Yield, Await">ArrowParameters<emu-mods> [?Yield, Await]</emu-mods></emu-nt><emu-gann>[no LineTerminator here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In, Await">ConciseBody<emu-mods> [?In, Await]</emu-mods></emu-nt></emu-rhs>
   </emu-production>
 
   <emu-note><span class="note">Note 2</span><code>yield</code> is <emu-nt>Identifier</emu-nt> or <emu-nt>YieldExpression</emu-nt> in <emu-nt>ArrowParameters</emu-nt> depending on context. <code>await</code> is always an error via static semantics in async arrow function body but parsed as an async expression.</emu-note>
@@ -206,7 +206,7 @@
     <h1><span class="secnum">2.6</span><emu-nt>ConciseBody</emu-nt></h1>
     <emu-production name="ConciseBody" params="In, Await">
       <emu-nt>ConciseBody<emu-mods> [In, Await]</emu-mods><emu-mods></emu-mods></emu-nt><emu-geq>:</emu-geq><emu-rhs><emu-gann>[lookahead ≠ {]</emu-gann><emu-nt params="?In, ?Await">AssignmentExpression<emu-mods> [?In, ?Await]</emu-mods></emu-nt></emu-rhs>
-      <emu-rhs><emu-t>{</emu-t><emu-nt params="Await">FunctionBody<emu-mods> [Await]</emu-mods></emu-nt><emu-t>}</emu-t></emu-rhs>
+      <emu-rhs><emu-t>{</emu-t><emu-nt params="?Await">FunctionBody<emu-mods> [?Await]</emu-mods></emu-nt><emu-t>}</emu-t></emu-rhs>
     </emu-production>
 
     <emu-note><span class="note">Note</span>Await parameter added.</emu-note>
