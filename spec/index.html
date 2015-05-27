@@ -134,7 +134,7 @@
       <emu-nt params="?Yield, Await">ArrowParameters</emu-nt>
       <emu-gann>no LineTerminator here</emu-gann>
       =>
-      <emu-nt params="?In, ?Await">ConciseBody</emu-nt>
+      <emu-nt params="?In, Await">ConciseBody</emu-nt>
     </emu-rhs>
   </emu-production>
 
@@ -247,7 +247,7 @@
     <h1>|ConciseBody|</h1>
     <emu-production name="ConciseBody" params="In, Await">
       <emu-rhs><emu-gann>lookahead ≠ {</emu-gann> <emu-nt params="?In, ?Await">AssignmentExpression</emu-nt></emu-rhs>
-      <emu-rhs>{ <emu-nt params="Await">FunctionBody</emu-nt> }</emu-rhs>
+      <emu-rhs>{ <emu-nt params="?Await">FunctionBody</emu-nt> }</emu-rhs>
     </emu-production>
 
     <emu-note>Await parameter added.</emu-note>
