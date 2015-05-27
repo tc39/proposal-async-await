@@ -109,9 +109,9 @@
         <emu-gann>no LineTerminator here</emu-gann>
         function
         <emu-nt params="?Yield, Await" optional>BindingIdentifier</emu-nt>
-        (<emu-nt>FormalParameters</emu-nt>)
+        (<emu-nt params="Await">FormalParameters</emu-nt>)
         {
-        <emu-nt>FunctionBody</emu-nt>
+        <emu-nt>AsyncFunctionBody</emu-nt>
         }
       </emu-rhs>
     </emu-production>
@@ -119,10 +119,11 @@
     <emu-production name="AsyncMethod">
       <emu-rhs>
         async
+        <emu-gann>no LineTerminator here</emu-gann>
         <emu-nt>PropertyName</emu-nt>
-        (<emu-nt>StrictFormalParameters</emu-nt>)
+        (<emu-nt params="Await">StrictFormalParameters</emu-nt>)
         {
-        <emu-nt>FunctionBody</emu-nt>
+        <emu-nt>AsyncFunctionBody</emu-nt>
         }
       </emu-rhs>
     </emu-production>
@@ -131,17 +132,17 @@
       <emu-rhs>
         async
         <emu-gann>no LineTerminator here</emu-gann>
-        <emu-nt params="?Yield">ArrowParameters</emu-nt>
+        <emu-nt params="?Yield, Await">ArrowParameters</emu-nt>
         <emu-gann>no LineTerminator here</emu-gann>
         =>
-        <emu-nt params="?In, Async">ConciseBody</emu-nt>
+        <emu-nt params="?In, Await">ConciseBody</emu-nt>
       </emu-rhs>
     </emu-production>
 
-    <emu-note>Yield is |Identifier| or |YieldExpression| in |ArrowParameters| depending on context. Async is always an error via static semantics in async arrow function body but parsed as an Async Expression.</emu-note>
+    <emu-note>`yield` is |Identifier| or |YieldExpression| in |ArrowParameters| depending on context. `await` is always an error via static semantics in async arrow function body but parsed as an async expression.</emu-note>
 
     <emu-production name="AsyncFunctionBody">
-      <emu-rhs><emu-nt>FunctionBody</emu-nt></emu-rhs>
+      <emu-rhs><emu-nt params="Await">FunctionBody</emu-nt></emu-rhs>
     </emu-production>
   </emu-clause>
 
