@@ -2,6 +2,12 @@
 <meta charset="utf8">
 <link rel="stylesheet" href="https://bterlson.github.com/ecmarkup/elements.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<style>
+  emu-production.inline emu-mods {
+    display: none;
+  }
+</style>
+
 <title>Async Functions</title>
 <h1>Async Functions</h1>
 <emu-intro id="intro">
@@ -80,9 +86,9 @@
 
   <h2>Syntax</h2>
   <emu-production params="Yield, Await, Default" name="AsyncFunctionDeclaration">
-    <emu-rhs>
+    <emu-rhs a="1">
       async
-      <emu-gann>no LineTerminator here</emu-gann>
+      <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
       function
       <emu-nt params="?Yield, ?Await">BindingIdentifier</emu-nt>
       (<emu-nt params="Await">FormalParameters</emu-nt>)
@@ -90,9 +96,9 @@
       <emu-nt>AsyncFunctionBody</emu-nt>
       }
     </emu-rhs>
-    <emu-rhs constraints="+Default">
+    <emu-rhs constraints="+Default" a="2">
       <emu-t>async</emu-t>
-      <emu-gann>no LineTerminator here</emu-gann>
+      <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
       function
       (<emu-nt params="Await">FormalParameters</emu-nt>)
       {
@@ -103,9 +109,9 @@
   <emu-note>`yield` is parsed as an identifier in async function parameters and bodies. `await` is disallowed in async function paramters via static semantics, but will parse as an AwaitExpression.</emu-note>
 
   <emu-production name="AsyncFunctionExpression" params="Yield">
-    <emu-rhs>
+    <emu-rhs a="1">
       async
-      <emu-gann>no LineTerminator here</emu-gann>
+      <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
       function
       <emu-nt params="?Yield, Await" optional>BindingIdentifier</emu-nt>
       (<emu-nt params="Await">FormalParameters</emu-nt>)
@@ -116,9 +122,9 @@
   </emu-production>
 
   <emu-production name="AsyncMethod">
-    <emu-rhs>
+    <emu-rhs a="1">
       async
-      <emu-gann>no LineTerminator here</emu-gann>
+      <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
       <emu-nt>PropertyName</emu-nt>
       (<emu-nt params="Await">StrictFormalParameters</emu-nt>)
       {
@@ -128,11 +134,11 @@
   </emu-production>
 
   <emu-production name="AsyncArrowFunction" params="In, Yield">
-    <emu-rhs>
+    <emu-rhs a="1">
       async
-      <emu-gann>no LineTerminator here</emu-gann>
+      <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
       <emu-nt params="?Yield, Await">ArrowParameters</emu-nt>
-      <emu-gann>no LineTerminator here</emu-gann>
+      <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
       =>
       <emu-nt params="?In, Await">ConciseBody</emu-nt>
     </emu-rhs>
@@ -150,7 +156,11 @@
 
   <emu-clause id="AsyncFunctionDeclaration-static-semantics">
     <h1>Static Semantics</h1>
-    <h2>|AsyncFunctionDeclaration| &amp; |AsyncFunctionExpression|</h2>
+    <p>
+      <emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref><br>
+      <emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref><br>
+      <emu-prodref name="AsyncFunctionExpression" a="1" class="inline"></emu-prodref>
+    </p>
     <ul>
       <li>It is a Syntax Error if |FormalParameters| Contains |AwaitExpression| is *true*.
       <li>If the source code matching this production is strict code, the Early Error rules for |StrictFormalParameters| : |FormalParameters| are applied.
@@ -159,14 +169,13 @@
       <li>It is a Syntax Error if |FormalParameters| contains |SuperProperty| is *true*.
       <li>It is a Syntax Error if |AsyncFunctionBody| contains |SuperProperty| is *true*.
     </ul>
-
-    <h2>|AsyncArrowFunction|</h2>
+    <p><emu-prodref name="AsyncArrowFunction" a="1" class="inline"></emu-prodref></p>
     <ul>
       <li>It is a SyntaxError if |ArrowParameters| Contains |YieldExpression| is true.
       <li>It is a SyntaxError if |ArrowParameters| Contains |AwaitExpression| is true.
       <li>It is a Syntax Error if any element of the BoundNames of |ArrowParameters| also occurs in the LexicallyDeclaredNames of |ConciseBody|.
     </ul>
-    <h2>|AsyncMethod|</h2>
+    <p><emu-prodref name="AsyncMethod" a="1" class="inline"></emu-prodref></p>
     <ul>
       <li>It is a Syntax Error if HasDirectSuper of |AsyncMethod| is *true*.
       <li>It is a Syntax Error if |StrictFormalParameters| Contains |AwaitExpression| is *true*.
