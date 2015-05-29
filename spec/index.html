@@ -123,6 +123,7 @@
       }
     </emu-rhs>
   </emu-production>
+  <!-- See also #async-function-definition-static-semantics-HasName -->
 
   <emu-production name="AsyncMethod">
     <emu-rhs a="1">
@@ -157,8 +158,8 @@
 
   <emu-note>`yield` is |Identifier| or |YieldExpression| in |FunctionParameters| of |AsyncFunctionDeclaration| and |AsyncFunctionExpression| and |ArrowParameters| of |AsyncArrowFunction| depending on context. `await` is always parsed as an |AwaitExpression| but is a Syntax Error via static semantics. Yield is always allowed as an identifier of an |AsyncFunctionExpression|.</emu-note>
 
-  <emu-clause id="AsyncFunctionDeclaration-static-semantics">
-    <h1>Static Semantics</h1>
+  <emu-clause id="async-function-definition-static-semantics-early-errors">
+    <h1>Static Semantics: Early Errors</h1>
     <p>
       <emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref><br>
       <emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref><br>
@@ -184,6 +185,129 @@
       <li>It is a Syntax Error if |StrictFormalParameters| Contains |AwaitExpression| is *true*.
       <li>It is a Syntax Error if any element of the BoundNames of |StrictFormalParameters| also occurs in the LexicallyDeclaredNames of |AsyncFunctionBody|
     </ul>
+  </emu-clause>
+
+  <emu-clause id="async-function-definition-static-semantics-BoundNames">
+    <h1>Static Semantics: BoundNames</h1>
+    <p><emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. Return the BoundNames of |BindingIdentifier|
+    </emu-alg>
+    <p><emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. Return «"*default*"».
+    </emu-alg>
+    <emu-note>"*default*" is used within this specification as a synthetic name for hoistable anonymous functions that are defined using export declarations.</emu-note>
+  </emu-clause>
+
+  <emu-clause id="async-function-definition-static-semantics-ComputedPropertyContains">
+    <h1>Static Semantics: ComputedPropertyContains</h1>
+    <p>With parameter _symbol_.</p>
+    <p><emu-prodref name="AsyncMethod" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. Return the result of ComputedPropertyContains for |PropertyName| with argument _symbol_.
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="async-function-definition-static-semantics-Contains">
+    <h1>Static Semantics: Contains</h1>
+    <p>With parameter _symbol_.</p>
+    <p>
+      <emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref><br>
+      <emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref><br>
+      <emu-prodref name="AsyncFunctionExpression" class="inline"></emu-prodref>
+    </p>
+    <emu-alg>
+      1. Return *false*.
+    </emu-alg>
+    <emu-note>Could probably check if _symbol_ is one of these declarations or expressions, but this is not done in current spec and may not be necessary. See also: <a href="https://bugs.ecmascript.org/show_bug.cgi?id=4383">https://bugs.ecmascript.org/show_bug.cgi?id=4383</a>.</emu-note>
+  </emu-clause>
+
+  <emu-clause id="async-function-definition-static-semantics-HasComputedPropertyKey">
+    <h1>Static Semantics: HasComputedPropertyKey</h1>
+    <p><emu-prodref name="AsyncMethod" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. Return IsComputedPropertyKey of _PropertyName_.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="async-function-definition-static-semantics-HasDirectSuper">
+    <h1>Static Semantics: HasDirectSuper</h1>
+    <p>
+      <emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref><br>
+      <emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref><br>
+      <emu-prodref name="AsyncFunctionExpression" class="inline"></emu-prodref>
+    </p>
+    <emu-alg>
+      1. If |FormalParameters| Contains |SuperCall| is *true*, return *true*.
+      2. Return |AsyncFunctionBody| Contains |SuperCall|.
+    </emu-alg>
+    <p>
+      <emu-prodref name="AsyncMethod" class="inline"></emu-prodref>
+    </p>
+    <emu-alg>
+      1. If |StrictFormalParameters| Contains |SuperCall| is *true*, return *true*.
+      2. Return |AsyncFunctionBody| Contains |SuperCall|.
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="async-function-definition-static-semantics-HasName">
+    <h1>Static Semantics: HasName</h1>
+    <p><emu-production name="AsyncFunctionExpression" class="inline">
+      <emu-rhs>
+        async
+        <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
+        function
+        (<emu-nt params="Await">FormalParameters</emu-nt>)
+        {
+        <emu-nt>AsyncFunctionBody</emu-nt>
+        }
+      </emu-rhs>
+    </emu-production></p>
+    <emu-alg>
+      1. Return *false*.
+    </emu-alg>
+    <p><emu-production name="AsyncFunctionExpression" class="inline">
+      <emu-rhs>
+        async
+        <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
+        function
+        <emu-nt params="Await">BindingIdentifier</emu-nt>
+        (<emu-nt params="Await">FormalParameters</emu-nt>)
+        {
+        <emu-nt>AsyncFunctionBody</emu-nt>
+        }
+      </emu-rhs>
+    </emu-production></p>
+      <emu-alg>
+        1. Return *true*.
+      </emu-alg>
+  </emu-clause> 
+  <emu-clause id="async-function-definition-static-semantics-IsConstantDeclaration">
+    <h1>Static Semantics: IsConstantDeclaration</h1>
+    <p>
+      <emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref><br>
+      <emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref><br>
+    </p>
+    <emu-alg>
+      1. Return *true*.
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="async-function-definition-static-semantics-IsFunctionDefinition">
+    <h1>Static Semantics: IsFunctionDefinition</h1>
+    <p>
+      <emu-prodref name="AsyncFunctionExpression" class="inline"></emu-prodref><br>
+    </p>
+    <emu-alg>
+      1. Return *true*.
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="async-function-definition-static-semantics-PropName">
+    <h1>Static Semantics: PropName</h1>
+    <p>
+      <emu-prodref name="AsyncMethod" class="inline"></emu-prodref><br>
+    </p>
+    <emu-alg>
+      1. Return PropName of |PropertyName|.
+    </emu-alg>
   </emu-clause>
 </emu-clause>
 <emu-clause id="modified-productions">
