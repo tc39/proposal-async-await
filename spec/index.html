@@ -379,6 +379,7 @@
       <emu-rhs><emu-nt params="?Yield, ?Await">LeftHandSideExpression</emu-nt> <emu-nt>AssignmentOperator</emu-nt> <emu-nt params="?In, ?Yield, ?Await">AssignmentExpression</emu-nt></emu-rhs>
     </emu-production>
   </emu-clause>
+
   <emu-clause id="ConciseBody">
     <h1>|ConciseBody|</h1>
     <emu-production name="ConciseBody" params="In, Await">
@@ -387,6 +388,16 @@
     </emu-production>
 
     <emu-note>Await parameter added.</emu-note>
+  </emu-clause>
+
+  <emu-clause id="ExpressionStatement">
+    <h1>|ExpressionStatement|</h1>
+    <emu-production name="ExpressionStatement" params="Yield, Await">
+      <emu-rhs>
+        <emu-gann>lookahead ∉ { <emu-t>{</emu-t>, <emu-t>function</emu-t>, <emu-t>class</emu-t>, <emu-t>let [</emu-t><ins>,<emu-t>async function</emu-t></ins>}</emu-gann>
+        <emu-nt params="In, ?Yield, ?Await">Expression</emu-nt>
+      </emu-rhs>
+    </emu-production>
   </emu-clause>
 </emu-clause>
 
