@@ -141,10 +141,19 @@
     <emu-rhs a="1">
       async
       <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
-      <emu-nt params="?Yield, Await">ArrowParameters</emu-nt>
-      <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
+      <emu-nt params="?Yield">AsyncArrowParameters</emu-nt>
       =>
       <emu-nt params="?In, Await">ConciseBody</emu-nt>
+    </emu-rhs>
+  </emu-production>
+
+  <emu-production name="AsyncArrowParameters" params="Yield">
+    <emu-rhs>
+      <emu-nt params="?Yield, Async">BindingParameter</emu-nt>
+    </emu-rhs>
+    <emu-rhs>
+      <emu-nt params="?Yield, Async">ArrowFormalParameters</emu-nt>
+      <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
     </emu-rhs>
   </emu-production>
 
