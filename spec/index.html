@@ -148,10 +148,10 @@
   </emu-production>
 
   <emu-production name="AsyncArrowParameters" params="Yield">
-    <emu-rhs>
-      <emu-nt params="?Yield, Async">BindingParameter</emu-nt>
+    <emu-rhs a="1">
+      <emu-nt params="?Yield, Async">BindingIdentifier</emu-nt>
     </emu-rhs>
-    <emu-rhs>
+    <emu-rhs a="2">
       <emu-nt params="?Yield, Async">ArrowFormalParameters</emu-nt>
       <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
     </emu-rhs>
@@ -184,9 +184,9 @@
     </ul>
     <p><emu-prodref name="AsyncArrowFunction" a="1" class="inline"></emu-prodref></p>
     <ul>
-      <li>It is a SyntaxError if |ArrowParameters| Contains |YieldExpression| is true.
-      <li>It is a SyntaxError if |ArrowParameters| Contains |AwaitExpression| is true.
-      <li>It is a Syntax Error if any element of the BoundNames of |ArrowParameters| also occurs in the LexicallyDeclaredNames of |ConciseBody|.
+      <li>It is a SyntaxError if |AsyncArrowParameters| Contains |YieldExpression| is true.
+      <li>It is a SyntaxError if |AsyncArrowParameters| Contains |AwaitExpression| is true.
+      <li>It is a Syntax Error if any element of the BoundNames of |AsyncArrowParameters| also occurs in the LexicallyDeclaredNames of |ConciseBody|.
     </ul>
     <p><emu-prodref name="AsyncMethod" a="1" class="inline"></emu-prodref></p>
     <ul>
@@ -200,13 +200,21 @@
     <h1>Static Semantics: BoundNames</h1>
     <p><emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref></p>
     <emu-alg>
-      1. Return the BoundNames of |BindingIdentifier|
+      1. Return the BoundNames of |BindingIdentifier|.
     </emu-alg>
     <p><emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref></p>
     <emu-alg>
       1. Return «"*default*"».
     </emu-alg>
     <emu-note>"*default*" is used within this specification as a synthetic name for hoistable anonymous functions that are defined using export declarations.</emu-note>
+    <p><emu-prodref name="AsyncArrowParameters" a="1" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. Return the BoundNames of |BindingIdentifier|.
+    </emu-alg>
+    <p><emu-prodref name="AsyncArrowParameters" a="2" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. Return the BoundNames of |ArrowFormalParameters|.
+    </emu-alg>
   </emu-clause>
 
   <emu-clause id="async-function-definition-static-semantics-ComputedPropertyContains">
@@ -217,6 +225,7 @@
       1. Return the result of ComputedPropertyContains for |PropertyName| with argument _symbol_.
     </emu-alg>
   </emu-clause>
+
   <emu-clause id="async-function-definition-static-semantics-Contains">
     <h1>Static Semantics: Contains</h1>
     <p>With parameter _symbol_.</p>
@@ -229,6 +238,60 @@
       1. Return *false*.
     </emu-alg>
     <emu-note>Could probably check if _symbol_ is one of these declarations or expressions, but this is not done in current spec and may not be necessary. See also: <a href="https://bugs.ecmascript.org/show_bug.cgi?id=4383">https://bugs.ecmascript.org/show_bug.cgi?id=4383</a>.</emu-note>
+    <p><emu-prodref name="AsyncArrowFunction" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. If _symbol_ is not one of <emu-nt>NewTarget</emu-nt>, <emu-nt>SuperProperty</emu-nt>, <emu-nt>SuperCall</emu-nt>, <emu-t>super</emu-t>, or <emu-t>this</emu-t>, return *false*.
+      2. If |AsyncArrowParameters| Contains _symbol_ is *true*, return *true*.
+      3. return |ConciseBody| Contains _symbol_.
+    </emu-alg>
+    <emu-note>Normally, Contains does not look inside most function forms. However, Contains is used to detect `new.target`, `this`, and `super` usage within an AsyncArrowFunction.</emu-note>
+  </emu-clause>
+
+  <emu-clause id="async-function-definition-static-semantics-ContainsExpression">
+    <h1>Static Semantics: ContainsExpression</h1>
+    <p><emu-prodref name="AsyncArrowFunction" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. Return ContainsExpression of |AsyncArrowParameters|.
+    </emu-alg>
+
+    <p><emu-prodref name="AsyncArrowParameters" class="inline" a="1"></emu-prodref></p>
+    <emu-alg>
+      1. Return *false*.
+    </emu-alg>
+
+    <p><emu-prodref name="AsyncArrowParameters" class="inline" a="2"></emu-prodref></p>
+
+    <emu-alg>
+      1. Return ContainsExpression of |ArrowFormalParameters|.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="async-function-definition-static-semantics-HasInitializer">
+    <h1>Static Semantics: HasInitializer</h1>
+    <p><emu-prodref name="AsyncArrowParameters" class="inline" a="1"></emu-prodref></p>
+    <emu-alg>
+      1. Return *false*.
+    </emu-alg>
+
+    <p><emu-prodref name="AsyncArrowParameters" class="inline" a="2"></emu-prodref></p>
+
+    <emu-alg>
+      1. Return HasInitializer of |ArrowFormalParameters|.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="async-function-definition-static-semantics-ExpectedArgumentCount">
+    <h1>Static Semantics: ExpectedArgumentCount</h1>
+    <p><emu-prodref name="AsyncArrowParameters" class="inline" a="1"></emu-prodref></p>
+    <emu-alg>
+      1. Return *1*.
+    </emu-alg>
+
+    <p><emu-prodref name="AsyncArrowParameters" class="inline" a="2"></emu-prodref></p>
+
+    <emu-alg>
+      1. Return ExpectedArgumentCount of |ArrowFormalParameters|.
+    </emu-alg>
   </emu-clause>
 
   <emu-clause id="async-function-definition-static-semantics-HasComputedPropertyKey">
@@ -286,9 +349,13 @@
         }
       </emu-rhs>
     </emu-production></p>
-      <emu-alg>
-        1. Return *true*.
-      </emu-alg>
+    <emu-alg>
+      1. Return *true*.
+    </emu-alg>
+    <p><emu-prodref name="AsyncArrowFunction" class="inline"></p>
+    <emu-alg>
+      1. Return *false*.
+    </emu-alg>
   </emu-clause> 
   <emu-clause id="async-function-definition-static-semantics-IsConstantDeclaration">
     <h1>Static Semantics: IsConstantDeclaration</h1>
@@ -410,7 +477,7 @@
   </emu-clause>
 </emu-clause>
 
-<emu-annex>
+<emu-annex id="desugaring">
   <h1>Informative Desugaring</h1>
   <pre><code>
 async function &lt;name>?&lt;argumentlist>&lt;body>
