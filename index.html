@@ -29,19 +29,19 @@
 
     <p>Take the following example, first written using Promises. This code chains a set of animations on an element, stopping when there is an exception in an animation, and returning the value produced by the final succesfully executed animation.</p>
 
-    <pre><code lang="javascript" class="hljs actionscript">
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">chainAnimationsPromise</span><span class="hljs-params">(elem, animations)</span> </span>{
+    <pre><code lang="javascript" class="hljs javascript">
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">chainAnimationsPromise</span>(<span class="hljs-params">elem, animations</span>) </span>{
         <span class="hljs-keyword">var</span> ret = <span class="hljs-literal">null</span>;
         <span class="hljs-keyword">var</span> p = currentPromise;
-        <span class="hljs-keyword">for</span>(let anim <span class="hljs-keyword">in</span> animations) {
-            p = p.then(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(val)</span> </span>{
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> anim <span class="hljs-keyword">of</span> animations) {
+            p = p.then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">val</span>) </span>{
                 ret = val;
                 <span class="hljs-keyword">return</span> anim(elem);
             })
         }
-        <span class="hljs-keyword">return</span> p.<span class="hljs-keyword">catch</span>(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span> </span>{
+        <span class="hljs-keyword">return</span> p.catch(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
             <span class="hljs-comment">/* ignore and keep going */</span>
-        }).then(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+        }).then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
             <span class="hljs-keyword">return</span> ret;
         });
     }
