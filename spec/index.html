@@ -137,25 +137,6 @@
     </emu-rhs>
   </emu-production>
 
-  <emu-production name="AsyncArrowFunction" params="In, Yield">
-    <emu-rhs a="1">
-      async
-      <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
-      <emu-nt params="?Yield">AsyncArrowParameters</emu-nt>
-      =>
-      <emu-nt params="?In, Await">ConciseBody</emu-nt>
-    </emu-rhs>
-  </emu-production>
-
-  <emu-production name="AsyncArrowParameters" params="Yield">
-    <emu-rhs a="1">
-      <emu-nt params="?Yield, Async">BindingIdentifier</emu-nt>
-    </emu-rhs>
-    <emu-rhs a="2">
-      <emu-nt params="?Yield, Async">ArrowFormalParameters</emu-nt>
-      <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
-    </emu-rhs>
-  </emu-production>
 
   <emu-production name="AsyncFunctionBody">
     <emu-rhs><emu-nt params="Await">FunctionBody</emu-nt></emu-rhs>
@@ -166,6 +147,43 @@
   </emu-production>
 
   <emu-note>`yield` is |Identifier| or |YieldExpression| in |FunctionParameters| of |AsyncFunctionDeclaration| and |AsyncFunctionExpression| and |ArrowParameters| of |AsyncArrowFunction| depending on context. `await` is always parsed as an |AwaitExpression| but is a Syntax Error via static semantics. Yield is always allowed as an identifier of an |AsyncFunctionExpression|.</emu-note>
+
+
+  <emu-production name="AsyncArrowFunction" params="In, Yield, Await">
+    <emu-rhs a="1">
+      <emu-nt params="?Yield, Await">CoverCallExpressionAndAsyncArrowHead</emu-nt>
+      =>
+      <emu-nt params="?In, Await">ConciseBody</emu-nt>
+    </emu-rhs>
+  </emu-production>
+
+  <emu-production name="CoverCallExpressionAndAsyncArrowHead" params="Yield, Await">
+    <emu-rhs>
+      <emu-nt params="?Yield, ?Await">MemberExpression</emu-nt>
+      <emu-nt params="?Yield, ?Await">Arguments</emu-nt>
+    </emu-rhs>
+  </emu-production>
+
+  <emu-production name="AsyncArrowParameters" params="Yield, Await">
+    <emu-rhs a="1">
+      <emu-nt params="?Yield, Await">BindingIdentifier</emu-nt>
+    </emu-rhs>
+    <emu-rhs a="2">
+      <emu-nt params="?Yield, Await">ArrowFormalParameters</emu-nt>
+      <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
+    </emu-rhs>
+  </emu-production>
+
+  <h3>Supplemental Syntax</h3>
+  <p>When processing the production <emu-prodref name="AsyncArrowFunction" a="1" class="inline"></emu-prodref> the interpretation of |CoveredCallExpressionAndAsyncArrowHead| is refined using the following gramar:</p>
+
+  <emu-production name="AsyncArrowHead" params="">
+    <emu-rhs>
+      async
+      <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
+      <emu-nt params="?Yield, Await">AsyncArrowParameters</emu-nt>
+    </emu-rhs>
+  </emu-production>
 
   <emu-clause id="async-function-definition-static-semantics-early-errors">
     <h1>Static Semantics: Early Errors</h1>
@@ -182,17 +200,30 @@
       <li>It is a Syntax Error if |FormalParameters| contains |SuperProperty| is *true*.
       <li>It is a Syntax Error if |AsyncFunctionBody| contains |SuperProperty| is *true*.
     </ul>
-    <p><emu-prodref name="AsyncArrowFunction" a="1" class="inline"></emu-prodref></p>
-    <ul>
-      <li>It is a SyntaxError if |AsyncArrowParameters| Contains |YieldExpression| is true.
-      <li>It is a SyntaxError if |AsyncArrowParameters| Contains |AwaitExpression| is true.
-      <li>It is a Syntax Error if any element of the BoundNames of |AsyncArrowParameters| also occurs in the LexicallyDeclaredNames of |ConciseBody|.
-    </ul>
     <p><emu-prodref name="AsyncMethod" a="1" class="inline"></emu-prodref></p>
     <ul>
       <li>It is a Syntax Error if HasDirectSuper of |AsyncMethod| is *true*.
       <li>It is a Syntax Error if |StrictFormalParameters| Contains |AwaitExpression| is *true*.
       <li>It is a Syntax Error if any element of the BoundNames of |StrictFormalParameters| also occurs in the LexicallyDeclaredNames of |AsyncFunctionBody|
+    </ul>
+    <p><emu-prodref name="AsyncArrowFunction" a="1" class="inline"></emu-prodref></p>
+    <ul>
+      <li>It is a SyntaxError if the lexical token sequence matched by |CoverCallExpressionAndAsyncArrowHead| cannot be parsed with no tokens left over using |AsyncArrowHead| as the goal symbol.</li>
+      <li>All Early Error rules for |AsyncArrowHead| and its derived productions apply to CoveredAsyncArrowHead of |CoverCallExpressionAndAsyncArrowHead|.</li>
+    </ul>
+    <p><emu-prodref name="AsyncArrowHead" class="inline"></emu-prodref></p>
+    <ul>
+      <li>It is a SyntaxError if |AsyncArrowParameters| Contains |YieldExpression| is true.
+      <li>It is a SyntaxError if |AsyncArrowParameters| Contains |AwaitExpression| is true.
+      <li>It is a Syntax Error if any element of the BoundNames of |AsyncArrowParameters| also occurs in the LexicallyDeclaredNames of |ConciseBody|.
+    </ul>
+  </emu-clause>
+
+  <emu-clause id="async-function-definition-static-semantics-CoveredAsyncArrowHead">
+    <h1>Static Semantics: CoveredAsyncArrowHead</h1>
+    <p><emu-prodref name="CoverCallExpressionAndAsyncArrowHead"></emu-prodref></p>
+    <ul>
+      <li>Return the result of parsing the lexical token stream matched by |CoveredCallExpressionAndAsyncArrowHead|<sub>[Yield, Await]</sub> using either |AsyncArrowHead|, |AsyncArrowHead|<sub>[Yield]</sub>, |AsyncArrowHead|<sub>[Await]</sub>, or |AsyncArrowHead|<sub>[Yield, Await]</sub> as the goal symbol depending upon whether the <sub>[Yield]</sub> and <sub>[Await]</sub> grammar parameters were present when |CoveredCallExpressionAndAsyncArrowHead| was matched.</li>
     </ul>
   </emu-clause>
 
@@ -241,15 +272,26 @@
     <p><emu-prodref name="AsyncArrowFunction" class="inline"></emu-prodref></p>
     <emu-alg>
       1. If _symbol_ is not one of <emu-nt>NewTarget</emu-nt>, <emu-nt>SuperProperty</emu-nt>, <emu-nt>SuperCall</emu-nt>, <emu-t>super</emu-t>, or <emu-t>this</emu-t>, return *false*.
-      2. If |AsyncArrowParameters| Contains _symbol_ is *true*, return *true*.
-      3. return |ConciseBody| Contains _symbol_.
+      2. Let _head_ be CoveredAsyncFunctionHead of |CoveredCallExpressionAndAsyncArrowHead|.
+      3. If _head_ Contains _symbol_ is *true*, return *true*.
+      4. return |ConciseBody| Contains _symbol_.
     </emu-alg>
     <emu-note>Normally, Contains does not look inside most function forms. However, Contains is used to detect `new.target`, `this`, and `super` usage within an AsyncArrowFunction.</emu-note>
+    <p><emu-prodref name="AsyncArrowHead" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. return |AsyncArrowParameters| Contains _symbol_.
+    </emu-alg>
   </emu-clause>
 
   <emu-clause id="async-function-definition-static-semantics-ContainsExpression">
     <h1>Static Semantics: ContainsExpression</h1>
     <p><emu-prodref name="AsyncArrowFunction" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. Let _head_ be CoveredAsyncFunctionHead of |CoveredCallExpressionAndAsyncArrowHead|.
+      2. Return ContainsExpression of _head_.
+    </emu-alg>
+
+    <p><emu-prodref name="AsyncArrowHead" class="inline"></emu-prodref></p>
     <emu-alg>
       1. Return ContainsExpression of |AsyncArrowParameters|.
     </emu-alg>
@@ -415,6 +457,24 @@
       <emu-rhs><emu-nt params="?Yield">TemplateLiteral</emu-nt></emu-rhs>
     </emu-production>
   </emu-clause>
+
+  <emu-clause id="CallExpression">
+    <h1>|CallExpression|</h1>
+    <emu-production name="CallExpression" params="Yield, Await">
+      <ins class="block">
+        <emu-rhs><emu-nt params="?Yield, ?Await">CoverCallExpressionAndAsyncArrowHead</emu-nt></emu-rhs>
+      </ins>
+      <del class="block">
+        <emu-rhs><emu-nt params="?Yield, ?Await">MemberExpression</emu-nt> <emu-nt params="?Yield, ?Await">Arguments</emu-nt></emu-rhs>
+      </del>
+      <emu-rhs><emu-nt params="?Yield, ?Await">SuperCall</emu-nt></emu-rhs>
+      <emu-rhs><emu-nt params="?Yield, ?Await">CallExpression</emu-nt> <emu-nt params="?Yield, ?Await">Arguments</emu-nt></emu-rhs>
+      <emu-rhs><emu-nt params="?Yield, ?Await">CallExpression</emu-nt> [ <emu-nt params="In, ?Yield, ?Await">Expression</emu-nt> ]</emu-rhs>
+      <emu-rhs><emu-nt params="?Yield, ?Await">CallExpression</emu-nt> . <emu-nt>IdentifierName</emu-nt></emu-rhs>
+      <emu-rhs><emu-nt params="?Yield, ?Await">CallExpression</emu-nt> <emu-nt params="?Yield, ?Await">TemplateLiteral</emu-nt></emu-rhs>
+    </emu-production>
+  </emu-clause>
+
   <emu-clause id="UnaryExpression">
     <h1>|UnaryExpression|</h1>
     <emu-production name="UnaryExpression" params="Yield, Await">
