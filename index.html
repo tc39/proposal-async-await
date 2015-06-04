@@ -130,7 +130,7 @@
 
   <h3>Supplemental Syntax</h3>
   <p>When processing the production <emu-production name="AsyncArrowFunction" params="In, Yield, Await" a="1" class="inline">
-    <emu-nt>AsyncArrowFunction<emu-mods> [In, Yield, Await]</emu-mods><emu-mods></emu-mods></emu-nt><emu-geq>:</emu-geq><emu-rhs a="1"><emu-nt params="?Yield, Await">CoverCallExpressionAndAsyncArrowHead<emu-mods> [?Yield, Await]</emu-mods></emu-nt><emu-t>=&gt;</emu-t><emu-nt params="?In, Await">ConciseBody<emu-mods> [?In, Await]</emu-mods></emu-nt></emu-rhs></emu-production> the interpretation of <emu-nt>CoveredCallExpressionAndAsyncArrowHead</emu-nt> is refined using the following gramar:</p>
+    <emu-nt>AsyncArrowFunction<emu-mods> [In, Yield, Await]</emu-mods><emu-mods></emu-mods></emu-nt><emu-geq>:</emu-geq><emu-rhs a="1"><emu-nt params="?Yield, Await">CoverCallExpressionAndAsyncArrowHead<emu-mods> [?Yield, Await]</emu-mods></emu-nt><emu-t>=&gt;</emu-t><emu-nt params="?In, Await">ConciseBody<emu-mods> [?In, Await]</emu-mods></emu-nt></emu-rhs></emu-production> the interpretation of <emu-nt>CoverCallExpressionAndAsyncArrowHead</emu-nt> is refined using the following gramar:</p>
 
   <emu-production name="AsyncArrowHead" params="">
     <emu-nt>AsyncArrowHead<emu-mods></emu-mods><emu-mods></emu-mods></emu-nt><emu-geq>:</emu-geq><emu-rhs><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator<emu-mods></emu-mods></emu-nt> here]</emu-gann><emu-nt params="?Yield, Await">AsyncArrowParameters<emu-mods> [?Yield, Await]</emu-mods></emu-nt></emu-rhs>
@@ -183,7 +183,7 @@
     <emu-nt>CoverCallExpressionAndAsyncArrowHead<emu-mods> [Yield, Await]</emu-mods><emu-mods></emu-mods></emu-nt><emu-geq>:</emu-geq><emu-rhs><emu-nt params="?Yield, ?Await">MemberExpression<emu-mods> [?Yield, ?Await]</emu-mods></emu-nt><emu-nt params="?Yield, ?Await">Arguments<emu-mods> [?Yield, ?Await]</emu-mods></emu-nt></emu-rhs>
   </emu-production></p>
     <ul>
-      <li>Return the result of parsing the lexical token stream matched by <emu-nt>CoveredCallExpressionAndAsyncArrowHead</emu-nt><sub>[Yield, Await]</sub> using either <emu-nt>AsyncArrowHead</emu-nt>, <emu-nt>AsyncArrowHead</emu-nt><sub>[Yield]</sub>, <emu-nt>AsyncArrowHead</emu-nt><sub>[Await]</sub>, or <emu-nt>AsyncArrowHead</emu-nt><sub>[Yield, Await]</sub> as the goal symbol depending upon whether the <sub>[Yield]</sub> and <sub>[Await]</sub> grammar parameters were present when <emu-nt>CoveredCallExpressionAndAsyncArrowHead</emu-nt> was matched.</li>
+      <li>Return the result of parsing the lexical token stream matched by <emu-nt>CoverCallExpressionAndAsyncArrowHead</emu-nt><sub>[Yield, Await]</sub> using either <emu-nt>AsyncArrowHead</emu-nt>, <emu-nt>AsyncArrowHead</emu-nt><sub>[Yield]</sub>, <emu-nt>AsyncArrowHead</emu-nt><sub>[Await]</sub>, or <emu-nt>AsyncArrowHead</emu-nt><sub>[Yield, Await]</sub> as the goal symbol depending upon whether the <sub>[Yield]</sub> and <sub>[Await]</sub> grammar parameters were present when <emu-nt>CoverCallExpressionAndAsyncArrowHead</emu-nt> was matched.</li>
     </ul>
   </emu-clause>
 
@@ -246,7 +246,7 @@
   <li>If <var>symbol</var> is not one of <emu-nt>NewTarget</emu-nt>, <emu-nt>SuperProperty</emu-nt>, <emu-nt>SuperCall</emu-nt>,
     <emu-t>super</emu-t>, or
     <emu-t>this</emu-t>, return <emu-val>false</emu-val>.</li>
-  <li>Let <var>head</var> be CoveredAsyncFunctionHead of <emu-nt>CoveredCallExpressionAndAsyncArrowHead</emu-nt>.</li>
+  <li>Let <var>head</var> be CoveredAsyncFunctionHead of <emu-nt>CoverCallExpressionAndAsyncArrowHead</emu-nt>.</li>
   <li>If <var>head</var> Contains <var>symbol</var> is <emu-val>true</emu-val>, return <emu-val>true</emu-val>.</li>
   <li>return <emu-nt>ConciseBody</emu-nt> Contains <var>symbol</var>.</li>
 </ol></emu-alg>
@@ -265,7 +265,7 @@
     <emu-nt>AsyncArrowFunction<emu-mods> [In, Yield, Await]</emu-mods><emu-mods></emu-mods></emu-nt><emu-geq>:</emu-geq><emu-rhs a="1"><emu-nt params="?Yield, Await">CoverCallExpressionAndAsyncArrowHead<emu-mods> [?Yield, Await]</emu-mods></emu-nt><emu-t>=&gt;</emu-t><emu-nt params="?In, Await">ConciseBody<emu-mods> [?In, Await]</emu-mods></emu-nt></emu-rhs>
   </emu-production></p>
     <emu-alg><ol>
-  <li>Let <var>head</var> be CoveredAsyncFunctionHead of <emu-nt>CoveredCallExpressionAndAsyncArrowHead</emu-nt>.</li>
+  <li>Let <var>head</var> be CoveredAsyncFunctionHead of <emu-nt>CoverCallExpressionAndAsyncArrowHead</emu-nt>.</li>
   <li>Return ContainsExpression of <var>head</var>.</li>
 </ol></emu-alg>
 
