@@ -1,0 +1,108 @@
+<emu-clause id="modified-productions">
+  <h1>Modifications to existing productions</h1>
+  <p>Unless otherwise defined in this section, every production that includes a `Yield` parameter is modified to include an `Await` parameter and any Non-terminal with a `?Yield` parameter is modified to include an `?Await` parameter.</p>
+
+  <emu-clause id="HoistableDeclaration">
+    <h1>|HoistableDeclaration|</h1>
+    <emu-production name="HoistableDeclaration" params="Yield, Default">
+      <emu-rhs><emu-nt params="?Yield, ?Default">FunctionDeclaration</emu-nt></emu-rhs>
+      <emu-rhs><emu-nt params="?Yield, ?Default">GeneratorDeclaration</emu-nt></emu-rhs>
+      <ins class="block"><emu-rhs><emu-nt params="?Yield, ?Default">AsyncFunctionDeclaration</emu-nt></emu-rhs></ins>
+    </emu-production>
+  </emu-clause>
+
+  <emu-clause id="PrimaryExpression">
+    <h1>|PrimaryExpression|</h1>
+    <emu-production name="PrimaryExpression" params="Yield, Await">
+      <emu-rhs>this</emu-rhs>
+      <emu-rhs><emu-nt params="?Yield, ?Await">IdentifierReference</emu-nt></emu-rhs> 
+      <emu-rhs><emu-nt>Literal</emu-nt></emu-rhs>
+      <emu-rhs><emu-nt params="?Yield, ?Await">ArrayLiteral</emu-nt></emu-rhs> 
+      <emu-rhs><emu-nt params="?Yield, ?Await">ObjectLiteral</emu-nt></emu-rhs> 
+      <emu-rhs><emu-nt>FunctionExpression</emu-nt></emu-rhs>
+      <emu-rhs><emu-nt params="?Yield, ?Await">ClassExpression</emu-nt></emu-rhs>
+      <emu-rhs><emu-nt params="?Await">GeneratorExpression</emu-nt></emu-rhs>
+      <ins class="block"><emu-rhs><emu-nt params="?Yield">AsyncFunctionExpression</emu-nt></emu-rhs></ins>
+      <emu-rhs><emu-nt>RegularExpressionLiteral</emu-nt></emu-rhs>
+      <emu-rhs><emu-nt params="?Yield">TemplateLiteral</emu-nt></emu-rhs>
+    </emu-production>
+  </emu-clause>
+
+  <emu-clause id="CallExpression">
+    <h1>|CallExpression|</h1>
+    <emu-production name="CallExpression" params="Yield, Await">
+      <ins class="block">
+        <emu-rhs><emu-nt params="?Yield, ?Await">CoverCallExpressionAndAsyncArrowHead</emu-nt></emu-rhs>
+      </ins>
+      <del class="block">
+        <emu-rhs><emu-nt params="?Yield, ?Await">MemberExpression</emu-nt> <emu-nt params="?Yield, ?Await">Arguments</emu-nt></emu-rhs>
+      </del>
+      <emu-rhs><emu-nt params="?Yield, ?Await">SuperCall</emu-nt></emu-rhs>
+      <emu-rhs><emu-nt params="?Yield, ?Await">CallExpression</emu-nt> <emu-nt params="?Yield, ?Await">Arguments</emu-nt></emu-rhs>
+      <emu-rhs><emu-nt params="?Yield, ?Await">CallExpression</emu-nt> [ <emu-nt params="In, ?Yield, ?Await">Expression</emu-nt> ]</emu-rhs>
+      <emu-rhs><emu-nt params="?Yield, ?Await">CallExpression</emu-nt> . <emu-nt>IdentifierName</emu-nt></emu-rhs>
+      <emu-rhs><emu-nt params="?Yield, ?Await">CallExpression</emu-nt> <emu-nt params="?Yield, ?Await">TemplateLiteral</emu-nt></emu-rhs>
+    </emu-production>
+  </emu-clause>
+
+  <emu-clause id="UnaryExpression">
+    <h1>|UnaryExpression|</h1>
+    <emu-production name="UnaryExpression" params="Yield, Await">
+      <emu-rhs><emu-nt params="?Yield, ?Await">PostfixExpression</emu-nt></emu-rhs>
+      <emu-rhs>delete <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+      <emu-rhs>void <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+      <emu-rhs>typeof <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+      <emu-rhs>++ <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+      <emu-rhs>-- <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+      <emu-rhs>+ <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+      <emu-rhs>- <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+      <emu-rhs>~ <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+      <ins class="block"><emu-rhs constraints="+Await"><emu-nt params="?Yield">AwaitExpression</emu-nt></emu-rhs></ins>
+    </emu-production>
+
+    <emu-note>Currently it is not possible for an |AwaitExpression| and a |YieldExpression| to be parsed together, so technically passing the `?Yield` parameter for <emu-production name="UnaryExpression" class="inline"><emu-rhs constraints="+Await">await <emu-nt params="?Yield, Await">UnaryExpression</emu-nt></emu-rhs></emu-production> is unnecessary. It will probably be useful for AsyncGenerators however.</emu-note>
+  </emu-clause>
+
+  <emu-clause id="MethodDefinition">
+    <h1>|MethodDefinition|</h1>
+    <emu-production name="MethodDefinition" params="Yield, Await">
+      <emu-rhs><emu-nt params="?Yield, ?Await">PropertyName</emu-nt> ( <emu-nt>StrictFormalParameters</emu-nt> ) { <emu-nt>FunctionBody</emu-nt> }</emu-rhs>
+      <emu-rhs><emu-nt params="?Yield, ?Await">GeneratorMethod</emu-nt></emu-rhs>
+      <ins class="block"><emu-rhs><emu-nt params="?Yield, ?Await">AsyncMethod</emu-nt></emu-rhs></ins>
+      <emu-rhs>get <emu-nt params="?Yield, ?Await">PropertyName</emu-nt> ( ) { <emu-nt>FunctionBody</emu-nt> }</emu-rhs>
+      <emu-rhs>set <emu-nt params="?Yield, ?Await">PropertyName</emu-nt> ( <emu-nt>PropertySetParameterList</emu-nt> ) { <emu-nt>FunctionBody</emu-nt> }</emu-rhs>
+    </emu-production>
+  </emu-clause>
+
+  <emu-clause id="AssignmentExpression">
+    <h1>|AssignmentExpression|</h1>
+    <emu-production name="AssignmentExpression" params="In, Yield, Await">
+      <emu-rhs><emu-nt params="?In, ?Yield, ?Await">ConditionalExpression</emu-nt></emu-rhs>
+      <emu-rhs constraints="+Yield"><emu-nt params="?In, ?Await">YieldExpression</emu-nt></emu-rhs>
+      <emu-rhs><emu-nt params="?In, ?Yield, ?Await">ArrowFunction</emu-nt></emu-rhs>
+      <ins class="block"><emu-rhs><emu-nt params="?In, ?Yield">AsyncArrowFunction</emu-nt></emu-rhs></ins>
+      <emu-rhs><emu-nt params="?Yield, ?Await">LeftHandSideExpression</emu-nt> = <emu-nt params="?In, ?Yield, ?Await">AssignmentExpression</emu-nt></emu-rhs>
+      <emu-rhs><emu-nt params="?Yield, ?Await">LeftHandSideExpression</emu-nt> <emu-nt>AssignmentOperator</emu-nt> <emu-nt params="?In, ?Yield, ?Await">AssignmentExpression</emu-nt></emu-rhs>
+    </emu-production>
+  </emu-clause>
+
+  <emu-clause id="ConciseBody">
+    <h1>|ConciseBody|</h1>
+    <emu-production name="ConciseBody" params="In, Await">
+      <emu-rhs><emu-gann>lookahead ≠ {</emu-gann> <emu-nt params="?In, ?Await">AssignmentExpression</emu-nt></emu-rhs>
+      <emu-rhs>{ <emu-nt params="?Await">FunctionBody</emu-nt> }</emu-rhs>
+    </emu-production>
+
+    <emu-note>Await parameter added.</emu-note>
+  </emu-clause>
+
+  <emu-clause id="ExpressionStatement">
+    <h1>|ExpressionStatement|</h1>
+    <emu-production name="ExpressionStatement" params="Yield, Await">
+      <emu-rhs>
+        <emu-gann>lookahead ∉ { <emu-t>{</emu-t>, <emu-t>function</emu-t>, <emu-t>class</emu-t>, <emu-t>let [</emu-t><ins>,<emu-t>async function</emu-t></ins>}</emu-gann>
+        <emu-nt params="In, ?Yield, ?Await">Expression</emu-nt>
+      </emu-rhs>
+    </emu-production>
+  </emu-clause>
+</emu-clause>

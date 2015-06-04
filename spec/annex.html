@@ -1,0 +1,41 @@
+<emu-annex id="desugaring">
+  <h1>Informative Desugaring</h1>
+  <pre><code>
+async function &lt;name>?&lt;argumentlist>&lt;body>
+
+=>
+
+function &lt;name>?&lt;argumentlist>{ return spawn(function*() &lt;body>, this); }
+  </pre></code>
+
+  <p>The `spawn` used in the above desugaring is a call to the following algorithm.  This algorithm does not need to be exposed directly as an API to user code, it is part of the semantics of async functions.</p>
+
+<pre><code language="javascript">
+function spawn(genF, self) {
+    return new Promise(function(resolve, reject) {
+        var gen = genF.call(self);
+        function step(nextF) {
+            var next;
+            try {
+                next = nextF();
+            } catch(e) {
+                // finished with failure, reject the promise
+                reject(e);
+                return;
+            }
+            if(next.done) {
+                // finished with success, resolve the promise
+                resolve(next.value);
+                return;
+            }
+            // not finished, chain off the yielded promise and `step` again
+            Promise.resolve(next.value).then(function(v) {
+                step(function() { return gen.next(v); });
+            }, function(e) {
+                step(function() { return gen.throw(e); });
+            });
+        }
+        step(function() { return gen.next(undefined); });
+    });
+}</pre></code>
+</emu-annex>
