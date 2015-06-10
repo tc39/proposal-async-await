@@ -58,10 +58,17 @@
 
 <emu-note>`yield` is |Identifier| or |YieldExpression| in |FunctionParameters| of |AsyncFunctionDeclaration| and |AsyncFunctionExpression| and |ArrowParameters| of |AsyncArrowFunction| depending on context. `await` is always parsed as an |AwaitExpression| but is a Syntax Error via static semantics. Yield is always allowed as an identifier of an |AsyncFunctionExpression|.</emu-note>
 
-
 <emu-production name="AsyncArrowFunction" params="In, Yield, Await">
+  <emu-rhs a="2">
+    async
+    <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
+    <emu-nt params="?Yield, Await">BindingIdentifier</emu-nt>
+    =>
+    <emu-nt params="?In, Await">ConciseBody</emu-nt>
+  </emu-rhs>
   <emu-rhs a="1">
     <emu-nt params="?Yield, Await">CoverCallExpressionAndAsyncArrowHead</emu-nt>
+    <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
     =>
     <emu-nt params="?In, Await">ConciseBody</emu-nt>
   </emu-rhs>
@@ -74,16 +81,6 @@
   </emu-rhs>
 </emu-production>
 
-<emu-production name="AsyncArrowParameters" params="Yield, Await">
-  <emu-rhs a="1">
-    <emu-nt params="?Yield, Await">BindingIdentifier</emu-nt>
-  </emu-rhs>
-  <emu-rhs a="2">
-    <emu-nt params="?Yield, Await">ArrowFormalParameters</emu-nt>
-    <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
-  </emu-rhs>
-</emu-production>
-
 <h3>Supplemental Syntax</h3>
 <p>When processing the production <emu-prodref name="AsyncArrowFunction" a="1" class="inline"></emu-prodref> the interpretation of |CoverCallExpressionAndAsyncArrowHead| is refined using the following gramar:</p>
 
@@ -91,6 +88,6 @@
   <emu-rhs>
     async
     <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
-    <emu-nt params="?Yield, Await">AsyncArrowParameters</emu-nt>
+    <emu-nt params="?Yield, Await">ArrowFormalParameters</emu-nt>
   </emu-rhs>
 </emu-production>
