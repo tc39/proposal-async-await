@@ -18,8 +18,12 @@
         `await` UnaryExpression[?Yield, Await] #1
 
     AsyncArrowFunction[In, Yield] ::
-        `async` [no LineTerminator here] AsyncArrowBindingIdentifier[?Yield] [no LineTerminator here] `=>` ConciseBody[?In, Await] #1
-        CoverCallExpressionAndAsyncArrowHead[?Yield, Await] [no LineTerminator here] `=>` ConciseBody[?In, Await]                  #2
+        `async` [no LineTerminator here] AsyncArrowBindingIdentifier[?Yield] [no LineTerminator here] `=>` AsyncConciseBody[?In] #1
+        CoverCallExpressionAndAsyncArrowHead[?Yield, Await] [no LineTerminator here] `=>` AsyncConciseBody[?In]                  #2
+    
+    AsyncConciseBody[In] ::
+        [lookahead != `{`] AssignmentExpression[?In] #1
+        `{` AsyncFunctionBody `}`                  #2
 
     AsyncArrowBindingIdentifier[Yield]
         BindingIdentifier[?Yield, Await] #1

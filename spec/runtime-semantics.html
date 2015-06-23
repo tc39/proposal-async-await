@@ -6,21 +6,23 @@
     1. If the function code for |AsyncFunctionDeclaration| is strict mode code, let _strict_ be *true*. Otherwise, let _strict_ be *false*.
     2. Let _name_ be StringValue of |BindingIdentifier|
     3. Let _F_ be AsyncFunctionCreate(~Normal~, |FormalParameters|, |AsyncFunctionBody|, _scope_, _strict_).
-    4. Let _prototype_ be ObjectCreate(%AsyncFunctionPrototype%).
-    5. Perform SetFunctionName(_F_, _name_).
+    4. Perform SetFunctionName(_F_, _name_).
   </emu-alg>
   <p><emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref></p>
   <emu-alg>
     1. If the function code for |AsyncFunctionDeclaration| is strict mode code, let _strict_ be *true*. Otherwise, let _strict_ be *false*.
     2. Let _F_ be AsyncFunctionCreate(~Normal~, |FormalParameters|, |AsyncFunctionBody|, _scope_, _strict_).
-    3. Let _prototype_ be ObjectCreate(%AsyncFunctionPrototype%).
-    4. Perform SetFunctionName(_F_, "default").
+    3. Perform SetFunctionName(_F_, "default").
   </emu-alg>
 </emu-clause>
 
 <emu-clause id="async-function-definitions-EvaluateBody">
   <h1>Runtime Semantics: EvaluateBody</h1>
   <p>With parameter _functionObject_.</p>
+  <p>
+    <emu-prodref name="AsyncFunctionBody" a="1" class="inline"></emu-prodref><br>
+    <emu-prodref name="AsyncConciseBody" a="1" class="inline"></emu-prodref>
+  </p>
   <emu-alg>
     1. Let _promiseCapability_ be NewPromiseCapability(%Promise%).
     2. ReturnIfAbrupt(_promiseCapability_).
@@ -29,6 +31,11 @@
     5. Perform GeneratorStart(_G_, _FunctionBody_).
     6. Perform AsyncFunctionStart(_G_, _promiseCapability_).
     6. Return Completion{[[type]]: return, [[value]]: _promiseCapability_.[[Promise]], [[target]]: empty}.
+  </emu-alg>
+
+  <p><emu-prodref name="AsyncConciseBody" a="2" class="inline"></emu-prodref></p>
+  <emu-alg>
+    1. Return the result of calling EvaluateBody of |AsyncFunctionBody|.
   </emu-alg>
 </emu-clause>
 

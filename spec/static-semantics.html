@@ -21,7 +21,7 @@
   </ul>
   <p><emu-prodref name="AsyncArrowFunction" a="1" class="inline"></emu-prodref></p>
   <ul>
-    <li>It is a Syntax Error if any element of the BoundNames of |AsyncArrowBindingIdentifier| also occurs in the LexicallyDeclaredNames of |ConciseBody|.
+    <li>It is a Syntax Error if any element of the BoundNames of |AsyncArrowBindingIdentifier| also occurs in the LexicallyDeclaredNames of |AsyncConciseBody|.
   </ul>
   <p><emu-prodref name="AsyncArrowFunction" a="2" class="inline"></emu-prodref></p>
   <ul>
@@ -32,8 +32,16 @@
   <ul>
     <li>It is a SyntaxError if |ArrowFormalParameters| Contains |YieldExpression| is true.
     <li>It is a SyntaxError if |ArrowFormalParameters| Contains |AwaitExpression| is true.
-    <li>It is a Syntax Error if any element of the BoundNames of |ArrowFormalParameters| also occurs in the LexicallyDeclaredNames of |ConciseBody|.
+    <li>It is a Syntax Error if any element of the BoundNames of |ArrowFormalParameters| also occurs in the LexicallyDeclaredNames of |AsyncConciseBody|.
   </ul>
+</emu-clause>
+
+<emu-clause id="async-function-definition-static-semantics-LexicallyDeclaredNames">
+  <h1>Static Semantics: LexicallyDeclaredNames</h1>
+  <p><emu-prodref name="AsyncConciseBody" a="1"></emu-prodref></p>
+  <emu-alg>
+    1. Return an empty List.
+  </emu-alg>
 </emu-clause>
 
 <emu-clause id="async-function-definition-static-semantics-CoveredAsyncArrowHead">
@@ -98,14 +106,14 @@
   <p><emu-prodref name="AsyncArrowFunction" a="1" class="inline"></emu-prodref></p>
   <emu-alg>
     1. If _symbol_ is not one of <emu-nt>NewTarget</emu-nt>, <emu-nt>SuperProperty</emu-nt>, <emu-nt>SuperCall</emu-nt>, <emu-t>super</emu-t>, or <emu-t>this</emu-t>, return *false*.
-    1. Return |ConciseBody| contains _symbol_.
+    1. Return |AsyncConciseBody| contains _symbol_.
   </emu-alg>
   <p><emu-prodref name="AsyncArrowFunction" a="2" class="inline"></emu-prodref></p>
   <emu-alg>
     1. If _symbol_ is not one of <emu-nt>NewTarget</emu-nt>, <emu-nt>SuperProperty</emu-nt>, <emu-nt>SuperCall</emu-nt>, <emu-t>super</emu-t>, or <emu-t>this</emu-t>, return *false*.
     2. Let _head_ be CoveredAsyncFunctionHead of |CoverCallExpressionAndAsyncArrowHead|.
     3. If _head_ Contains _symbol_ is *true*, return *true*.
-    4. return |ConciseBody| Contains _symbol_.
+    4. return |AsyncConciseBody| Contains _symbol_.
   </emu-alg>
   <emu-note>Normally, Contains does not look inside most function forms. However, Contains is used to detect `new.target`, `this`, and `super` usage within an AsyncArrowFunction.</emu-note>
   <p><emu-prodref name="AsyncArrowHead" class="inline"></emu-prodref></p>
@@ -204,7 +212,7 @@
   <h1>Static Semantics: IsConstantDeclaration</h1>
   <p>
     <emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref><br>
-    <emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref><br>
+    <emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref>
   </p>
   <emu-alg>
     1. Return *true*.
@@ -213,7 +221,8 @@
 <emu-clause id="async-function-definition-static-semantics-IsFunctionDefinition">
   <h1>Static Semantics: IsFunctionDefinition</h1>
   <p>
-    <emu-prodref name="AsyncFunctionExpression" class="inline"></emu-prodref><br>
+    <emu-prodref name="AsyncFunctionExpression" class="inline" a="1" class="inline"></emu-prodref><br>
+    <emu-prodref name="AsyncFunctionExpression" class="inline" a="2" class="inline"></emu-prodref>
   </p>
   <emu-alg>
     1. Return *true*.
