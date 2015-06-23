@@ -10,7 +10,7 @@
 
 <title>Async Functions</title>
 </head><body><h1>Async Functions</h1>
-<div><h2>Table of Contents</h2><ol class="toc"><li><a href="#intro"><span class="secnum"></span> Introduction</a><ol class="toc"><li><a href="#status"><span class="secnum"></span> Status of this proposal</a></li><li><a href="#examples"><span class="secnum"></span> Examples</a></li></ol></li><li><a href="#async-function-definitions"><span class="secnum">1</span> Async Function Definitions</a><ol class="toc"><li><a href="#async-function-definition-static-semantics-early-errors"><span class="secnum">1.1</span> Static Semantics: Early Errors</a></li><li><a href="#async-function-definition-static-semantics-CoveredAsyncArrowHead"><span class="secnum">1.2</span> Static Semantics: CoveredAsyncArrowHead</a></li><li><a href="#async-function-definition-static-semantics-BoundNames"><span class="secnum">1.3</span> Static Semantics: BoundNames</a></li><li><a href="#async-function-definition-static-semantics-ComputedPropertyContains"><span class="secnum">1.4</span> Static Semantics: ComputedPropertyContains</a></li><li><a href="#async-function-definition-static-semantics-Contains"><span class="secnum">1.5</span> Static Semantics: Contains</a></li><li><a href="#async-function-definition-static-semantics-ContainsExpression"><span class="secnum">1.6</span> Static Semantics: ContainsExpression</a></li><li><a href="#async-function-definition-static-semantics-HasInitializer"><span class="secnum">1.7</span> Static Semantics: HasInitializer</a></li><li><a href="#async-function-definition-static-semantics-ExpectedArgumentCount"><span class="secnum">1.8</span> Static Semantics: ExpectedArgumentCount</a></li><li><a href="#async-function-definition-static-semantics-HasComputedPropertyKey"><span class="secnum">1.9</span> Static Semantics: HasComputedPropertyKey</a></li><li><a href="#async-function-definition-static-semantics-HasDirectSuper"><span class="secnum">1.10</span> Static Semantics: HasDirectSuper</a></li><li><a href="#async-function-definition-static-semantics-HasName"><span class="secnum">1.11</span> Static Semantics: HasName</a></li><li><a href="#async-function-definition-static-semantics-IsConstantDeclaration"><span class="secnum">1.12</span> Static Semantics: IsConstantDeclaration</a></li><li><a href="#async-function-definition-static-semantics-IsFunctionDefinition"><span class="secnum">1.13</span> Static Semantics: IsFunctionDefinition</a></li><li><a href="#async-function-definition-static-semantics-PropName"><span class="secnum">1.14</span> Static Semantics: PropName</a></li><li><a href="#async-function-definitions-InstantiateFunctionObject"><span class="secnum">1.15</span> Runtime Semantics: InstantiateFunctionObject</a></li><li><a href="#async-function-definitions-EvaluateBody"><span class="secnum">1.16</span> Runtime Semantics: EvaluateBody</a></li><li><a href="#async-function-definitions-AsyncFunctionStart"><span class="secnum">1.17</span> Runtime Semantics: AsyncFunctionStart</a></li><li><a href="#async-function-definitions-awaited-resolved"><span class="secnum">1.18</span> AsyncFunction Awaited Resolved</a></li><li><a href="#async-function-definitions-awaited-rejected"><span class="secnum">1.19</span> AsyncFunction Awaited Rejected</a></li><li><a href="#async-function-definitions-runtime-semantics-evaluation"><span class="secnum">1.20</span> Runtime Semantics: Evaluation</a></li></ol></li><li><a href="#async-function-objects"><span class="secnum">2</span> Async Function Objects</a><ol class="toc"><li><a href="#async-function-constructor"><span class="secnum">2.1</span> The Async Function Constructor</a><ol class="toc"><li><a href="#async-function-constructor-arguments"><span class="secnum">2.1.1</span> AsyncFunction(<var>p1</var>, <var>p2</var>, ..., <var>pn</var>, _body)</a></li></ol></li><li><a href="#async-function-constructor-properties"><span class="secnum">2.2</span> Properties of the AsyncFunction constructor</a><ol class="toc"><li><a href="#async-function-constructor-length"><span class="secnum">2.2.1</span> AsyncFunction.length</a></li><li><a href="#async-function-constructor-prototype"><span class="secnum">2.2.2</span> AsyncFunction.prototype</a></li></ol></li><li><a href="#async-function-prototype-properties"><span class="secnum">2.3</span> Properties of the AsyncFunction Prototype Object</a><ol class="toc"><li><a href="#async-function-prototype-properties-constructor"><span class="secnum">2.3.1</span> AsyncFunction.prototype.constructor</a></li><li><a href="#async-function-prototype-properties-toStringTag"><span class="secnum">2.3.2</span> AsyncFunction.prototype[@@toStringTag]</a></li></ol></li><li><a href="#async-function-instances"><span class="secnum">2.4</span> AsyncFunction Instances</a><ol class="toc"><li><a href="#async-function-instances-length"><span class="secnum">2.4.1</span> length</a></li><li><a href="#async-function-instances-name"><span class="secnum">2.4.2</span> name</a></li></ol></li></ol></li><li><a href="#abstract-ops"><span class="secnum">3</span> Abstract Operations</a><ol class="toc"><li><a href="#abstract-ops"><span class="secnum">3.1</span> AsyncFunctionCreate(kind, ParameterList, Body, Scope, Strict)</a></li></ol></li><li><a href="#modified-productions"><span class="secnum">4</span> Modifications to existing productions</a><ol class="toc"><li><a href="#HoistableDeclaration"><span class="secnum">4.1</span> <emu-nt>HoistableDeclaration</emu-nt></a></li><li><a href="#PrimaryExpression"><span class="secnum">4.2</span> <emu-nt>PrimaryExpression</emu-nt></a></li><li><a href="#CallExpression"><span class="secnum">4.3</span> <emu-nt>CallExpression</emu-nt></a></li><li><a href="#UnaryExpression"><span class="secnum">4.4</span> <emu-nt>UnaryExpression</emu-nt></a></li><li><a href="#MethodDefinition"><span class="secnum">4.5</span> <emu-nt>MethodDefinition</emu-nt></a></li><li><a href="#AssignmentExpression"><span class="secnum">4.6</span> <emu-nt>AssignmentExpression</emu-nt></a></li><li><a href="#ConciseBody"><span class="secnum">4.7</span> <emu-nt>ConciseBody</emu-nt></a></li><li><a href="#ExpressionStatement"><span class="secnum">4.8</span> <emu-nt>ExpressionStatement</emu-nt></a></li></ol></li><li><a href="#desugaring"><span class="secnum">A</span> Informative Desugaring</a></li></ol></div><emu-intro id="intro">
+<div><h2>Table of Contents</h2><ol class="toc"><li><a href="#intro"><span class="secnum"></span> Introduction</a><ol class="toc"><li><a href="#status"><span class="secnum"></span> Status of this proposal</a></li><li><a href="#examples"><span class="secnum"></span> Examples</a></li></ol></li><li><a href="#async-function-definitions"><span class="secnum">1</span> Async Function Definitions</a><ol class="toc"><li><a href="#async-function-definition-static-semantics-early-errors"><span class="secnum">1.1</span> Static Semantics: Early Errors</a></li><li><a href="#async-function-definition-static-semantics-LexicallyDeclaredNames"><span class="secnum">1.2</span> Static Semantics: LexicallyDeclaredNames</a></li><li><a href="#async-function-definition-static-semantics-CoveredAsyncArrowHead"><span class="secnum">1.3</span> Static Semantics: CoveredAsyncArrowHead</a></li><li><a href="#async-function-definition-static-semantics-BoundNames"><span class="secnum">1.4</span> Static Semantics: BoundNames</a></li><li><a href="#async-function-definition-static-semantics-ComputedPropertyContains"><span class="secnum">1.5</span> Static Semantics: ComputedPropertyContains</a></li><li><a href="#async-function-definition-static-semantics-Contains"><span class="secnum">1.6</span> Static Semantics: Contains</a></li><li><a href="#async-function-definition-static-semantics-ContainsExpression"><span class="secnum">1.7</span> Static Semantics: ContainsExpression</a></li><li><a href="#async-function-definition-static-semantics-HasInitializer"><span class="secnum">1.8</span> Static Semantics: HasInitializer</a></li><li><a href="#async-function-definition-static-semantics-ExpectedArgumentCount"><span class="secnum">1.9</span> Static Semantics: ExpectedArgumentCount</a></li><li><a href="#async-function-definition-static-semantics-HasComputedPropertyKey"><span class="secnum">1.10</span> Static Semantics: HasComputedPropertyKey</a></li><li><a href="#async-function-definition-static-semantics-HasDirectSuper"><span class="secnum">1.11</span> Static Semantics: HasDirectSuper</a></li><li><a href="#async-function-definition-static-semantics-HasName"><span class="secnum">1.12</span> Static Semantics: HasName</a></li><li><a href="#async-function-definition-static-semantics-IsConstantDeclaration"><span class="secnum">1.13</span> Static Semantics: IsConstantDeclaration</a></li><li><a href="#async-function-definition-static-semantics-IsFunctionDefinition"><span class="secnum">1.14</span> Static Semantics: IsFunctionDefinition</a></li><li><a href="#async-function-definition-static-semantics-PropName"><span class="secnum">1.15</span> Static Semantics: PropName</a></li><li><a href="#async-function-definitions-InstantiateFunctionObject"><span class="secnum">1.16</span> Runtime Semantics: InstantiateFunctionObject</a></li><li><a href="#async-function-definitions-EvaluateBody"><span class="secnum">1.17</span> Runtime Semantics: EvaluateBody</a></li><li><a href="#async-function-definitions-AsyncFunctionStart"><span class="secnum">1.18</span> Runtime Semantics: AsyncFunctionStart</a></li><li><a href="#async-function-definitions-awaited-resolved"><span class="secnum">1.19</span> AsyncFunction Awaited Resolved</a></li><li><a href="#async-function-definitions-awaited-rejected"><span class="secnum">1.20</span> AsyncFunction Awaited Rejected</a></li><li><a href="#async-function-definitions-runtime-semantics-evaluation"><span class="secnum">1.21</span> Runtime Semantics: Evaluation</a></li></ol></li><li><a href="#async-function-objects"><span class="secnum">2</span> Async Function Objects</a><ol class="toc"><li><a href="#async-function-constructor"><span class="secnum">2.1</span> The Async Function Constructor</a><ol class="toc"><li><a href="#async-function-constructor-arguments"><span class="secnum">2.1.1</span> AsyncFunction(<var>p1</var>, <var>p2</var>, ..., <var>pn</var>, _body)</a></li></ol></li><li><a href="#async-function-constructor-properties"><span class="secnum">2.2</span> Properties of the AsyncFunction constructor</a><ol class="toc"><li><a href="#async-function-constructor-length"><span class="secnum">2.2.1</span> AsyncFunction.length</a></li><li><a href="#async-function-constructor-prototype"><span class="secnum">2.2.2</span> AsyncFunction.prototype</a></li></ol></li><li><a href="#async-function-prototype-properties"><span class="secnum">2.3</span> Properties of the AsyncFunction Prototype Object</a><ol class="toc"><li><a href="#async-function-prototype-properties-constructor"><span class="secnum">2.3.1</span> AsyncFunction.prototype.constructor</a></li><li><a href="#async-function-prototype-properties-toStringTag"><span class="secnum">2.3.2</span> AsyncFunction.prototype[@@toStringTag]</a></li></ol></li><li><a href="#async-function-instances"><span class="secnum">2.4</span> AsyncFunction Instances</a><ol class="toc"><li><a href="#async-function-instances-length"><span class="secnum">2.4.1</span> length</a></li><li><a href="#async-function-instances-name"><span class="secnum">2.4.2</span> name</a></li></ol></li></ol></li><li><a href="#abstract-ops"><span class="secnum">3</span> Abstract Operations</a><ol class="toc"><li><a href="#abstract-ops"><span class="secnum">3.1</span> AsyncFunctionCreate(kind, ParameterList, Body, Scope, Strict)</a></li></ol></li><li><a href="#modified-productions"><span class="secnum">4</span> Modifications to existing productions</a><ol class="toc"><li><a href="#HoistableDeclaration"><span class="secnum">4.1</span> <emu-nt>HoistableDeclaration</emu-nt></a></li><li><a href="#PrimaryExpression"><span class="secnum">4.2</span> <emu-nt>PrimaryExpression</emu-nt></a></li><li><a href="#CallExpression"><span class="secnum">4.3</span> <emu-nt>CallExpression</emu-nt></a></li><li><a href="#UnaryExpression"><span class="secnum">4.4</span> <emu-nt>UnaryExpression</emu-nt></a></li><li><a href="#MethodDefinition"><span class="secnum">4.5</span> <emu-nt>MethodDefinition</emu-nt></a></li><li><a href="#AssignmentExpression"><span class="secnum">4.6</span> <emu-nt>AssignmentExpression</emu-nt></a></li><li><a href="#ConciseBody"><span class="secnum">4.7</span> <emu-nt>ConciseBody</emu-nt></a></li><li><a href="#ExpressionStatement"><span class="secnum">4.8</span> <emu-nt>ExpressionStatement</emu-nt></a></li></ol></li><li><a href="#todo"><span class="secnum">A</span> Todo &amp; Known Issues</a></li><li><a href="#desugaring"><span class="secnum">B</span> Informative Desugaring</a></li></ol></div><emu-intro id="intro">
   <h1><span class="secnum"></span>Introduction</h1>
   <p>The introduction of Promises and Generators in ECMAScript presents an opportunity to dramatically improve the language-level model for writing asynchronous code in ECMAScript.</p>
 
@@ -95,7 +95,8 @@
     <emu-rhs a="2" constraints="+Default"><emu-constraints>[+Default]</emu-constraints><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs>
 </emu-production>
 <emu-production name="AsyncFunctionExpression" type="lexical">
-    <emu-nt>AsyncFunctionExpression</emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-nt optional="">BindingIdentifier<emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs>
+    <emu-nt>AsyncFunctionExpression</emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs>
+    <emu-rhs a="2"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-nt>BindingIdentifier</emu-nt><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs>
 </emu-production>
 <emu-production name="AsyncMethod" type="lexical">
     <emu-nt>AsyncMethod</emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt>PropertyName</emu-nt><emu-t>(</emu-t><emu-nt params="Await">StrictFormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs>
@@ -107,8 +108,12 @@
     <emu-nt params="Yield">AwaitExpression<emu-mods><emu-params>[Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>await</emu-t><emu-nt params="?Yield, Await">UnaryExpression<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt></emu-rhs>
 </emu-production>
 <emu-production name="AsyncArrowFunction" params="In, Yield" type="lexical">
-    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[?Yield]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In, Await">ConciseBody<emu-mods><emu-params>[?In, Await]</emu-params></emu-mods></emu-nt></emu-rhs>
-    <emu-rhs a="2"><emu-nt params="?Yield, Await">CoverCallExpressionAndAsyncArrowHead<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In, Await">ConciseBody<emu-mods><emu-params>[?In, Await]</emu-params></emu-mods></emu-nt></emu-rhs>
+    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[?Yield]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In">AsyncConciseBody<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs>
+    <emu-rhs a="2"><emu-nt params="?Yield, Await">CoverCallExpressionAndAsyncArrowHead<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In">AsyncConciseBody<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs>
+</emu-production>
+<emu-production name="AsyncConciseBody" params="In" type="lexical">
+    <emu-nt params="In">AsyncConciseBody<emu-mods><emu-params>[In]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-gann>[lookahead ≠ <emu-t>{</emu-t>]</emu-gann><emu-nt params="?In">AssignmentExpression<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs>
+    <emu-rhs a="2"><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs>
 </emu-production>
 <emu-production name="AsyncArrowBindingIdentifier" params="Yield">
     <emu-nt params="Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[Yield]</emu-params></emu-mods></emu-nt><emu-geq>:</emu-geq><emu-rhs a="1"><emu-nt params="?Yield, Await">BindingIdentifier<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt></emu-rhs>
@@ -122,7 +127,7 @@
 
 <h3>Supplemental Syntax</h3>
 <p>When processing the production <emu-production name="AsyncArrowFunction" params="In, Yield" type="lexical" a="1" class="inline">
-    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[?Yield]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In, Await">ConciseBody<emu-mods><emu-params>[?In, Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production> the interpretation of <emu-nt>CoverCallExpressionAndAsyncArrowHead</emu-nt> is refined using the following gramar:</p>
+    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[?Yield]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In">AsyncConciseBody<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production> the interpretation of <emu-nt>CoverCallExpressionAndAsyncArrowHead</emu-nt> is refined using the following gramar:</p>
 
 <emu-grammar><emu-production name="AsyncArrowHead" params="Yield" type="lexical">
     <emu-nt params="Yield">AsyncArrowHead<emu-mods><emu-params>[Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-nt>async</emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield, Await">ArrowFormalParameters<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt></emu-rhs>
@@ -136,7 +141,7 @@
     <emu-production name="AsyncFunctionDeclaration" params="Yield, Await, Default" type="lexical" a="2" class="inline">
     <emu-nt params="Yield, Await, Default">AsyncFunctionDeclaration<emu-mods><emu-params>[Yield, Await, Default]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="2" constraints="+Default"><emu-constraints>[+Default]</emu-constraints><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production><br>
     <emu-production name="AsyncFunctionExpression" type="lexical" a="1" class="inline">
-    <emu-nt>AsyncFunctionExpression</emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-nt optional="">BindingIdentifier<emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production>
+    <emu-nt>AsyncFunctionExpression</emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production>
   </p>
   <ul>
     <li>It is a Syntax Error if <emu-nt>FormalParameters</emu-nt> Contains <emu-nt>AwaitExpression</emu-nt> is <emu-val>true</emu-val>.
@@ -154,12 +159,12 @@
     </li><li>It is a Syntax Error if any element of the BoundNames of <emu-nt>StrictFormalParameters</emu-nt> also occurs in the LexicallyDeclaredNames of <emu-nt>AsyncFunctionBody</emu-nt>
   </li></ul>
   <p><emu-production name="AsyncArrowFunction" params="In, Yield" type="lexical" a="1" class="inline">
-    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[?Yield]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In, Await">ConciseBody<emu-mods><emu-params>[?In, Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
+    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[?Yield]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In">AsyncConciseBody<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
   <ul>
-    <li>It is a Syntax Error if any element of the BoundNames of <emu-nt>AsyncArrowBindingIdentifier</emu-nt> also occurs in the LexicallyDeclaredNames of <emu-nt>ConciseBody</emu-nt>.
+    <li>It is a Syntax Error if any element of the BoundNames of <emu-nt>AsyncArrowBindingIdentifier</emu-nt> also occurs in the LexicallyDeclaredNames of <emu-nt>AsyncConciseBody</emu-nt>.
   </li></ul>
   <p><emu-production name="AsyncArrowFunction" params="In, Yield" type="lexical" a="2" class="inline">
-    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="2"><emu-nt params="?Yield, Await">CoverCallExpressionAndAsyncArrowHead<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In, Await">ConciseBody<emu-mods><emu-params>[?In, Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
+    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="2"><emu-nt params="?Yield, Await">CoverCallExpressionAndAsyncArrowHead<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In">AsyncConciseBody<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
   <ul>
     <li>It is a SyntaxError if the lexical token sequence matched by <emu-nt>CoverCallExpressionAndAsyncArrowHead</emu-nt> cannot be parsed with no tokens left over using <emu-nt>AsyncArrowHead</emu-nt> as the goal symbol.</li>
     <li>All Early Error rules for <emu-nt>AsyncArrowHead</emu-nt> and its derived productions apply to CoveredAsyncArrowHead of <emu-nt>CoverCallExpressionAndAsyncArrowHead</emu-nt>.</li>
@@ -170,12 +175,21 @@
   <ul>
     <li>It is a SyntaxError if <emu-nt>ArrowFormalParameters</emu-nt> Contains <emu-nt>YieldExpression</emu-nt> is true.
     </li><li>It is a SyntaxError if <emu-nt>ArrowFormalParameters</emu-nt> Contains <emu-nt>AwaitExpression</emu-nt> is true.
-    </li><li>It is a Syntax Error if any element of the BoundNames of <emu-nt>ArrowFormalParameters</emu-nt> also occurs in the LexicallyDeclaredNames of <emu-nt>ConciseBody</emu-nt>.
+    </li><li>It is a Syntax Error if any element of the BoundNames of <emu-nt>ArrowFormalParameters</emu-nt> also occurs in the LexicallyDeclaredNames of <emu-nt>AsyncConciseBody</emu-nt>.
   </li></ul>
 </emu-clause>
 
+<emu-clause id="async-function-definition-static-semantics-LexicallyDeclaredNames">
+  <h1><span class="secnum">1.2</span>Static Semantics: LexicallyDeclaredNames</h1>
+  <p><emu-production name="AsyncConciseBody" params="In" type="lexical" a="1">
+    <emu-nt params="In">AsyncConciseBody<emu-mods><emu-params>[In]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-gann>[lookahead ≠ <emu-t>{</emu-t>]</emu-gann><emu-nt params="?In">AssignmentExpression<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
+  <emu-alg><ol>
+  <li>Return an empty List.</li>
+</ol></emu-alg>
+</emu-clause>
+
 <emu-clause id="async-function-definition-static-semantics-CoveredAsyncArrowHead">
-  <h1><span class="secnum">1.2</span>Static Semantics: CoveredAsyncArrowHead</h1>
+  <h1><span class="secnum">1.3</span>Static Semantics: CoveredAsyncArrowHead</h1>
   <p><emu-production name="CoverCallExpressionAndAsyncArrowHead" params="Yield, Await" type="lexical" class="inline">
     <emu-nt params="Yield, Await">CoverCallExpressionAndAsyncArrowHead<emu-mods><emu-params>[Yield, Await]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-nt params="?Yield, ?Await">MemberExpression<emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt><emu-nt params="?Yield, ?Await">Arguments<emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt></emu-rhs>
 </emu-production></p>
@@ -185,7 +199,7 @@
 </emu-clause>
 
 <emu-clause id="async-function-definition-static-semantics-BoundNames">
-  <h1><span class="secnum">1.3</span>Static Semantics: BoundNames</h1>
+  <h1><span class="secnum">1.4</span>Static Semantics: BoundNames</h1>
   <p><emu-production name="AsyncFunctionDeclaration" params="Yield, Await, Default" type="lexical" a="1" class="inline">
     <emu-nt params="Yield, Await, Default">AsyncFunctionDeclaration<emu-mods><emu-params>[Yield, Await, Default]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-nt params="?Yield, ?Await">BindingIdentifier<emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production></p>
   <emu-alg><ol>
@@ -198,12 +212,12 @@
 </ol></emu-alg>
   <emu-note><span class="note">Note</span>"<emu-val>default</emu-val>" is used within this specification as a synthetic name for hoistable anonymous functions that are defined using export declarations.</emu-note>
   <p><emu-production name="AsyncArrowFunction" params="In, Yield" type="lexical" a="1" class="inline">
-    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[?Yield]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In, Await">ConciseBody<emu-mods><emu-params>[?In, Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
+    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[?Yield]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In">AsyncConciseBody<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
   <emu-alg><ol>
   <li>Return the BoundNames of <emu-nt>AsyncArrowBindingIdentifier</emu-nt>.</li>
 </ol></emu-alg>
   <p><emu-production name="AsyncArrowFunction" params="In, Yield" type="lexical" a="2" class="inline">
-    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="2"><emu-nt params="?Yield, Await">CoverCallExpressionAndAsyncArrowHead<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In, Await">ConciseBody<emu-mods><emu-params>[?In, Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
+    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="2"><emu-nt params="?Yield, Await">CoverCallExpressionAndAsyncArrowHead<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In">AsyncConciseBody<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
   <emu-alg><ol>
   <li>Let head be CoveredAsyncArrowHead of <emu-nt>CoverCallExpressionAndAsyncArrowHead</emu-nt>.</li>
   <li>Return the BoundNames of <var>head</var>.</li>
@@ -221,7 +235,7 @@
 </emu-clause>
 
 <emu-clause id="async-function-definition-static-semantics-ComputedPropertyContains">
-  <h1><span class="secnum">1.4</span>Static Semantics: ComputedPropertyContains</h1>
+  <h1><span class="secnum">1.5</span>Static Semantics: ComputedPropertyContains</h1>
   <p>With parameter <var>symbol</var>.</p>
   <p><emu-production name="AsyncMethod" type="lexical" class="inline">
     <emu-nt>AsyncMethod</emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt>PropertyName</emu-nt><emu-t>(</emu-t><emu-nt params="Await">StrictFormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs>
@@ -232,7 +246,7 @@
 </emu-clause>
 
 <emu-clause id="async-function-definition-static-semantics-Contains">
-  <h1><span class="secnum">1.5</span>Static Semantics: Contains</h1>
+  <h1><span class="secnum">1.6</span>Static Semantics: Contains</h1>
   <p>With parameter <var>symbol</var>.</p>
   <p>
     <emu-production name="AsyncFunctionDeclaration" params="Yield, Await, Default" type="lexical" a="1" class="inline">
@@ -240,7 +254,8 @@
     <emu-production name="AsyncFunctionDeclaration" params="Yield, Await, Default" type="lexical" a="2" class="inline">
     <emu-nt params="Yield, Await, Default">AsyncFunctionDeclaration<emu-mods><emu-params>[Yield, Await, Default]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="2" constraints="+Default"><emu-constraints>[+Default]</emu-constraints><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production><br>
     <emu-production name="AsyncFunctionExpression" type="lexical" class="inline">
-    <emu-nt>AsyncFunctionExpression</emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-nt optional="">BindingIdentifier<emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs>
+    <emu-nt>AsyncFunctionExpression</emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs>
+    <emu-rhs a="2"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-nt>BindingIdentifier</emu-nt><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs>
 </emu-production>
   </p>
   <emu-alg><ol>
@@ -248,22 +263,22 @@
 </ol></emu-alg>
   <emu-note><span class="note">Note 1</span>Could probably check if <var>symbol</var> is one of these declarations or expressions, but this is not done in current spec and may not be necessary. See also: <a href="https://bugs.ecmascript.org/show_bug.cgi?id=4383">https://bugs.ecmascript.org/show_bug.cgi?id=4383</a>.</emu-note>
   <p><emu-production name="AsyncArrowFunction" params="In, Yield" type="lexical" a="1" class="inline">
-    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[?Yield]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In, Await">ConciseBody<emu-mods><emu-params>[?In, Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
+    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[?Yield]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In">AsyncConciseBody<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
   <emu-alg><ol>
   <li>If <var>symbol</var> is not one of <emu-nt>NewTarget</emu-nt>, <emu-nt>SuperProperty</emu-nt>, <emu-nt>SuperCall</emu-nt>,
     <emu-t>super</emu-t>, or
     <emu-t>this</emu-t>, return <emu-val>false</emu-val>.</li>
-  <li>Return <emu-nt>ConciseBody</emu-nt> contains <var>symbol</var>.</li>
+  <li>Return <emu-nt>AsyncConciseBody</emu-nt> contains <var>symbol</var>.</li>
 </ol></emu-alg>
   <p><emu-production name="AsyncArrowFunction" params="In, Yield" type="lexical" a="2" class="inline">
-    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="2"><emu-nt params="?Yield, Await">CoverCallExpressionAndAsyncArrowHead<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In, Await">ConciseBody<emu-mods><emu-params>[?In, Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
+    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="2"><emu-nt params="?Yield, Await">CoverCallExpressionAndAsyncArrowHead<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In">AsyncConciseBody<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
   <emu-alg><ol>
   <li>If <var>symbol</var> is not one of <emu-nt>NewTarget</emu-nt>, <emu-nt>SuperProperty</emu-nt>, <emu-nt>SuperCall</emu-nt>,
     <emu-t>super</emu-t>, or
     <emu-t>this</emu-t>, return <emu-val>false</emu-val>.</li>
   <li>Let <var>head</var> be CoveredAsyncFunctionHead of <emu-nt>CoverCallExpressionAndAsyncArrowHead</emu-nt>.</li>
   <li>If <var>head</var> Contains <var>symbol</var> is <emu-val>true</emu-val>, return <emu-val>true</emu-val>.</li>
-  <li>return <emu-nt>ConciseBody</emu-nt> Contains <var>symbol</var>.</li>
+  <li>return <emu-nt>AsyncConciseBody</emu-nt> Contains <var>symbol</var>.</li>
 </ol></emu-alg>
   <emu-note><span class="note">Note 2</span>Normally, Contains does not look inside most function forms. However, Contains is used to detect <code>new.target</code>, <code>this</code>, and <code>super</code> usage within an AsyncArrowFunction.</emu-note>
   <p><emu-production name="AsyncArrowHead" params="Yield" type="lexical" class="inline">
@@ -275,15 +290,15 @@
 </emu-clause>
 
 <emu-clause id="async-function-definition-static-semantics-ContainsExpression">
-  <h1><span class="secnum">1.6</span>Static Semantics: ContainsExpression</h1>
+  <h1><span class="secnum">1.7</span>Static Semantics: ContainsExpression</h1>
   <p><emu-production name="AsyncArrowFunction" params="In, Yield" type="lexical" a="1" class="inline">
-    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[?Yield]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In, Await">ConciseBody<emu-mods><emu-params>[?In, Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
+    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[?Yield]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In">AsyncConciseBody<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
   <emu-alg><ol>
   <li>Return <emu-val>false</emu-val>.</li>
 </ol></emu-alg>
 
   <p><emu-production name="AsyncArrowFunction" params="In, Yield" type="lexical" a="2" class="inline">
-    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="2"><emu-nt params="?Yield, Await">CoverCallExpressionAndAsyncArrowHead<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In, Await">ConciseBody<emu-mods><emu-params>[?In, Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
+    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="2"><emu-nt params="?Yield, Await">CoverCallExpressionAndAsyncArrowHead<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In">AsyncConciseBody<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
   <emu-alg><ol>
   <li>Let <var>head</var> be CoveredAsyncFunctionHead of <emu-nt>CoverCallExpressionAndAsyncArrowHead</emu-nt>.</li>
   <li>Return ContainsExpression of <var>head</var>.</li>
@@ -298,7 +313,7 @@
 </emu-clause>
 
 <emu-clause id="async-function-definition-static-semantics-HasInitializer">
-  <h1><span class="secnum">1.7</span>Static Semantics: HasInitializer</h1>
+  <h1><span class="secnum">1.8</span>Static Semantics: HasInitializer</h1>
   <p><emu-production name="AsyncArrowBindingIdentifier" params="Yield" class="inline" a="1">
     <emu-nt params="Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[Yield]</emu-params></emu-mods></emu-nt><emu-geq>:</emu-geq><emu-rhs a="1"><emu-nt params="?Yield, Await">BindingIdentifier<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
   <emu-alg><ol>
@@ -312,7 +327,7 @@
 </emu-clause>
 
 <emu-clause id="async-function-definition-static-semantics-ExpectedArgumentCount">
-  <h1><span class="secnum">1.8</span>Static Semantics: ExpectedArgumentCount</h1>
+  <h1><span class="secnum">1.9</span>Static Semantics: ExpectedArgumentCount</h1>
   <p><emu-production name="AsyncArrowBindingIdentifier" params="Yield" class="inline" a="1">
     <emu-nt params="Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[Yield]</emu-params></emu-mods></emu-nt><emu-geq>:</emu-geq><emu-rhs a="1"><emu-nt params="?Yield, Await">BindingIdentifier<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
   <emu-alg><ol>
@@ -326,7 +341,7 @@
 </emu-clause>
 
 <emu-clause id="async-function-definition-static-semantics-HasComputedPropertyKey">
-  <h1><span class="secnum">1.9</span>Static Semantics: HasComputedPropertyKey</h1>
+  <h1><span class="secnum">1.10</span>Static Semantics: HasComputedPropertyKey</h1>
   <p><emu-production name="AsyncMethod" type="lexical" class="inline">
     <emu-nt>AsyncMethod</emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt>PropertyName</emu-nt><emu-t>(</emu-t><emu-nt params="Await">StrictFormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs>
 </emu-production></p>
@@ -336,14 +351,15 @@
 </emu-clause>
 
 <emu-clause id="async-function-definition-static-semantics-HasDirectSuper">
-  <h1><span class="secnum">1.10</span>Static Semantics: HasDirectSuper</h1>
+  <h1><span class="secnum">1.11</span>Static Semantics: HasDirectSuper</h1>
   <p>
     <emu-production name="AsyncFunctionDeclaration" params="Yield, Await, Default" type="lexical" a="1" class="inline">
     <emu-nt params="Yield, Await, Default">AsyncFunctionDeclaration<emu-mods><emu-params>[Yield, Await, Default]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-nt params="?Yield, ?Await">BindingIdentifier<emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production><br>
     <emu-production name="AsyncFunctionDeclaration" params="Yield, Await, Default" type="lexical" a="2" class="inline">
     <emu-nt params="Yield, Await, Default">AsyncFunctionDeclaration<emu-mods><emu-params>[Yield, Await, Default]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="2" constraints="+Default"><emu-constraints>[+Default]</emu-constraints><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production><br>
     <emu-production name="AsyncFunctionExpression" type="lexical" class="inline">
-    <emu-nt>AsyncFunctionExpression</emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-nt optional="">BindingIdentifier<emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs>
+    <emu-nt>AsyncFunctionExpression</emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs>
+    <emu-rhs a="2"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-nt>BindingIdentifier</emu-nt><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs>
 </emu-production>
   </p>
   <emu-alg><ol>
@@ -361,52 +377,51 @@
 </ol></emu-alg>
 </emu-clause>
 <emu-clause id="async-function-definition-static-semantics-HasName">
-  <h1><span class="secnum">1.11</span>Static Semantics: HasName</h1>
-  <p><emu-production name="AsyncFunctionExpression" class="inline">
-    <emu-nt>AsyncFunctionExpression</emu-nt><emu-geq>:</emu-geq><emu-rhs><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs>
-  </emu-production></p>
+  <h1><span class="secnum">1.12</span>Static Semantics: HasName</h1>
+  <p><emu-production name="AsyncFunctionExpression" type="lexical" a="1" class="inline">
+    <emu-nt>AsyncFunctionExpression</emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production></p>
   <emu-alg><ol>
   <li>Return <emu-val>false</emu-val>.</li>
 </ol></emu-alg>
-  <p><emu-production name="AsyncFunctionExpression" class="inline">
-    <emu-nt>AsyncFunctionExpression</emu-nt><emu-geq>:</emu-geq><emu-rhs><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-nt params="Await">BindingIdentifier<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs>
-  </emu-production></p>
+  <p><emu-production name="AsyncFunctionExpression" type="lexical" a="2" class="inline">
+    <emu-nt>AsyncFunctionExpression</emu-nt><emu-geq>::</emu-geq><emu-rhs a="2"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-nt>BindingIdentifier</emu-nt><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production></p>
   <emu-alg><ol>
   <li>Return <emu-val>true</emu-val>.</li>
 </ol></emu-alg>
   <p><emu-production name="AsyncArrowFunction" params="In, Yield" type="lexical" a="1" class="inline">
-    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[?Yield]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In, Await">ConciseBody<emu-mods><emu-params>[?In, Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
+    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[?Yield]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In">AsyncConciseBody<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
   <p><emu-production name="AsyncArrowFunction" params="In, Yield" type="lexical" a="2" class="inline">
-    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="2"><emu-nt params="?Yield, Await">CoverCallExpressionAndAsyncArrowHead<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In, Await">ConciseBody<emu-mods><emu-params>[?In, Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
+    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="2"><emu-nt params="?Yield, Await">CoverCallExpressionAndAsyncArrowHead<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In">AsyncConciseBody<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
   <emu-alg><ol>
   <li>Return <emu-val>false</emu-val>.</li>
 </ol></emu-alg>
 </emu-clause> 
 <emu-clause id="async-function-definition-static-semantics-IsConstantDeclaration">
-  <h1><span class="secnum">1.12</span>Static Semantics: IsConstantDeclaration</h1>
+  <h1><span class="secnum">1.13</span>Static Semantics: IsConstantDeclaration</h1>
   <p>
     <emu-production name="AsyncFunctionDeclaration" params="Yield, Await, Default" type="lexical" a="1" class="inline">
     <emu-nt params="Yield, Await, Default">AsyncFunctionDeclaration<emu-mods><emu-params>[Yield, Await, Default]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-nt params="?Yield, ?Await">BindingIdentifier<emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production><br>
     <emu-production name="AsyncFunctionDeclaration" params="Yield, Await, Default" type="lexical" a="2" class="inline">
-    <emu-nt params="Yield, Await, Default">AsyncFunctionDeclaration<emu-mods><emu-params>[Yield, Await, Default]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="2" constraints="+Default"><emu-constraints>[+Default]</emu-constraints><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production><br>
+    <emu-nt params="Yield, Await, Default">AsyncFunctionDeclaration<emu-mods><emu-params>[Yield, Await, Default]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="2" constraints="+Default"><emu-constraints>[+Default]</emu-constraints><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production>
   </p>
   <emu-alg><ol>
   <li>Return <emu-val>true</emu-val>.</li>
 </ol></emu-alg>
 </emu-clause>
 <emu-clause id="async-function-definition-static-semantics-IsFunctionDefinition">
-  <h1><span class="secnum">1.13</span>Static Semantics: IsFunctionDefinition</h1>
+  <h1><span class="secnum">1.14</span>Static Semantics: IsFunctionDefinition</h1>
   <p>
-    <emu-production name="AsyncFunctionExpression" type="lexical" class="inline">
-    <emu-nt>AsyncFunctionExpression</emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-nt optional="">BindingIdentifier<emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs>
-</emu-production><br>
+    <emu-production name="AsyncFunctionExpression" type="lexical" class="inline" a="1">
+    <emu-nt>AsyncFunctionExpression</emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production><br>
+    <emu-production name="AsyncFunctionExpression" type="lexical" class="inline" a="2">
+    <emu-nt>AsyncFunctionExpression</emu-nt><emu-geq>::</emu-geq><emu-rhs a="2"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-nt>BindingIdentifier</emu-nt><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production>
   </p>
   <emu-alg><ol>
   <li>Return <emu-val>true</emu-val>.</li>
 </ol></emu-alg>
 </emu-clause>
 <emu-clause id="async-function-definition-static-semantics-PropName">
-  <h1><span class="secnum">1.14</span>Static Semantics: PropName</h1>
+  <h1><span class="secnum">1.15</span>Static Semantics: PropName</h1>
   <p>
     <emu-production name="AsyncMethod" type="lexical" class="inline">
     <emu-nt>AsyncMethod</emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt>PropertyName</emu-nt><emu-t>(</emu-t><emu-nt params="Await">StrictFormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs>
@@ -418,7 +433,7 @@
 </emu-clause>
 
   <emu-clause id="async-function-definitions-InstantiateFunctionObject">
-  <h1><span class="secnum">1.15</span>Runtime Semantics: InstantiateFunctionObject</h1>
+  <h1><span class="secnum">1.16</span>Runtime Semantics: InstantiateFunctionObject</h1>
   <p>With parameter <var>scope</var>.</p>
   <p><emu-production name="AsyncFunctionDeclaration" params="Yield, Await, Default" type="lexical" a="1" class="inline">
     <emu-nt params="Yield, Await, Default">AsyncFunctionDeclaration<emu-mods><emu-params>[Yield, Await, Default]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-nt params="?Yield, ?Await">BindingIdentifier<emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production></p>
@@ -426,7 +441,6 @@
   <li>If the function code for <emu-nt>AsyncFunctionDeclaration</emu-nt> is strict mode code, let <var>strict</var> be <emu-val>true</emu-val>. Otherwise, let <var>strict</var> be <emu-val>false</emu-val>.</li>
   <li>Let <var>name</var> be StringValue of <emu-nt>BindingIdentifier</emu-nt></li>
   <li>Let <var>F</var> be <a href="#abstract-ops">AsyncFunctionCreate</a>(<emu-const>Normal</emu-const>, <emu-nt>FormalParameters</emu-nt>, <emu-nt>AsyncFunctionBody</emu-nt>, <var>scope</var>, <var>strict</var>).</li>
-  <li>Let <var>prototype</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-objectcreate">ObjectCreate</a>(%AsyncFunctionPrototype%).</li>
   <li>Perform <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-setfunctionname">SetFunctionName</a>(<var>F</var>, <var>name</var>).</li>
 </ol></emu-alg>
   <p><emu-production name="AsyncFunctionDeclaration" params="Yield, Await, Default" type="lexical" a="2" class="inline">
@@ -434,14 +448,19 @@
   <emu-alg><ol>
   <li>If the function code for <emu-nt>AsyncFunctionDeclaration</emu-nt> is strict mode code, let <var>strict</var> be <emu-val>true</emu-val>. Otherwise, let <var>strict</var> be <emu-val>false</emu-val>.</li>
   <li>Let <var>F</var> be <a href="#abstract-ops">AsyncFunctionCreate</a>(<emu-const>Normal</emu-const>, <emu-nt>FormalParameters</emu-nt>, <emu-nt>AsyncFunctionBody</emu-nt>, <var>scope</var>, <var>strict</var>).</li>
-  <li>Let <var>prototype</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-objectcreate">ObjectCreate</a>(%AsyncFunctionPrototype%).</li>
   <li>Perform <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-setfunctionname">SetFunctionName</a>(<var>F</var>, <code>"default"</code>).</li>
 </ol></emu-alg>
 </emu-clause>
 
 <emu-clause id="async-function-definitions-EvaluateBody">
-  <h1><span class="secnum">1.16</span>Runtime Semantics: EvaluateBody</h1>
+  <h1><span class="secnum">1.17</span>Runtime Semantics: EvaluateBody</h1>
   <p>With parameter <var>functionObject</var>.</p>
+  <p>
+    <emu-production name="AsyncFunctionBody" type="lexical" a="1" class="inline">
+    <emu-nt>AsyncFunctionBody</emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-nt params="Await">FunctionBody<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production><br>
+    <emu-production name="AsyncConciseBody" params="In" type="lexical" a="1" class="inline">
+    <emu-nt params="In">AsyncConciseBody<emu-mods><emu-params>[In]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-gann>[lookahead ≠ <emu-t>{</emu-t>]</emu-gann><emu-nt params="?In">AssignmentExpression<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production>
+  </p>
   <emu-alg><ol>
   <li>Let <var>promiseCapability</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-newpromisecapability">NewPromiseCapability</a>(%Promise%).</li>
   <li><a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-returnifabrupt">ReturnIfAbrupt</a>(<var>promiseCapability</var>).</li>
@@ -451,10 +470,16 @@
   <li>Perform <a href="#async-function-definitions-AsyncFunctionStart">AsyncFunctionStart</a>(<var>G</var>, <var>promiseCapability</var>).</li>
   <li>Return Completion{[[type]]: return, [[value]]: <var>promiseCapability</var>.[[Promise]], [[target]]: empty}.</li>
 </ol></emu-alg>
+
+  <p><emu-production name="AsyncConciseBody" params="In" type="lexical" a="2" class="inline">
+    <emu-nt params="In">AsyncConciseBody<emu-mods><emu-params>[In]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="2"><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production></p>
+  <emu-alg><ol>
+  <li>Return the result of calling EvaluateBody of <emu-nt>AsyncFunctionBody</emu-nt>.</li>
+</ol></emu-alg>
 </emu-clause>
 
 <emu-clause id="async-function-definitions-AsyncFunctionStart" aoid="AsyncFunctionStart">
-  <h1><span class="secnum">1.17</span>Runtime Semantics: AsyncFunctionStart</h1>
+  <h1><span class="secnum">1.18</span>Runtime Semantics: AsyncFunctionStart</h1>
   <p>With parameters <var>generator</var>, <var>promiseCapability</var>, <var>operation</var>, and <var>value</var>. The parameters <var>operation</var> and <var>value</var> are optional.</p>
   <emu-note><span class="note">Note</span>This function does not return any important abrupt completions so in some cases they are ignored. In other cases, callers should ignore any abrupt completion values. Errors as a result of ticking forward the generator will be propagated as promise rejections. All other errors (such as those resulting from getting generator methods, calling Promise.resolve, or p.then) are ignored. It is possible that we can be statically assured that no errors will result from this algorithm.</emu-note>
   <emu-alg><ol>
@@ -492,7 +517,7 @@
 </emu-clause>
 
 <emu-clause id="async-function-definitions-awaited-resolved">
-  <h1><span class="secnum">1.18</span>AsyncFunction Awaited Resolved</h1>
+  <h1><span class="secnum">1.19</span>AsyncFunction Awaited Resolved</h1>
   <p>Function <var>F</var> is called with the parameter <var>value</var>.</p>
   <emu-alg><ol>
   <li>let <var>generator</var> be the value of <var>F</var>'s [[Generator]] internal slot.</li>
@@ -502,7 +527,7 @@
 </emu-clause>
 
 <emu-clause id="async-function-definitions-awaited-rejected">
-  <h1><span class="secnum">1.19</span>AsyncFunction Awaited Rejected</h1>
+  <h1><span class="secnum">1.20</span>AsyncFunction Awaited Rejected</h1>
   <p>Function <var>F</var> is called with the parameter <var>value</var>.</p>
   <emu-alg><ol>
   <li>let <var>generator</var> be the value of <var>F</var>'s [[Generator]] internal slot.</li>
@@ -512,7 +537,7 @@
 </emu-clause>
 
 <emu-clause id="async-function-definitions-runtime-semantics-evaluation">
-  <h1><span class="secnum">1.20</span>Runtime Semantics: Evaluation</h1>
+  <h1><span class="secnum">1.21</span>Runtime Semantics: Evaluation</h1>
   <p><emu-production name="AsyncFunctionDeclaration" params="Yield, Await, Default" type="lexical" a="1" class="inline">
     <emu-nt params="Yield, Await, Default">AsyncFunctionDeclaration<emu-mods><emu-params>[Yield, Await, Default]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-nt params="?Yield, ?Await">BindingIdentifier<emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production></p>
   <emu-alg><ol>
@@ -526,7 +551,7 @@
 </ol></emu-alg>
 
   <p><emu-production name="AsyncArrowFunction" params="In, Yield" type="lexical" a="1" class="inline">
-    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[?Yield]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In, Await">ConciseBody<emu-mods><emu-params>[?In, Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
+    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[?Yield]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In">AsyncConciseBody<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
   <emu-alg><ol>
   <li>If the function code for this <emu-nt>AsyncArrowFunction</emu-nt> is strict mode code, let <var>strict</var> be true. Otherwise, let <var>strict</var> be false.</li>
   <li>Let <var>scope</var> be the LexicalEnvironment of the running execution context.</li>
@@ -536,7 +561,7 @@
 </ol></emu-alg>
 
   <p><emu-production name="AsyncArrowFunction" params="In, Yield" type="lexical" a="2" class="inline">
-    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="2"><emu-nt params="?Yield, Await">CoverCallExpressionAndAsyncArrowHead<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In, Await">ConciseBody<emu-mods><emu-params>[?In, Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
+    <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="2"><emu-nt params="?Yield, Await">CoverCallExpressionAndAsyncArrowHead<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In">AsyncConciseBody<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
   <emu-alg><ol>
   <li>If the function code for this <emu-nt>AsyncArrowFunction</emu-nt> is strict mode code, let <var>strict</var> be true. Otherwise, let <var>strict</var> be false.</li>
   <li>Let <var>scope</var> be the LexicalEnvironment of the running execution context.</li>
@@ -567,7 +592,7 @@
       <emu-alg><ol>
   <li>Let <var>C</var> be the active function object.</li>
   <li>Let <var>args</var> be the argumentsList that was passed to this function by [[Call]] or [[Construct]].</li>
-  <li>Return CreateDynamicFunction(<var>C</var>, NewTarget, <code>"async"</code> <var>args</var>)</li>
+  <li>Return CreateDynamicFunction(<var>C</var>, NewTarget, <code>"async"</code>, <var>args</var>)</li>
 </ol></emu-alg>
 
       <emu-note><span class="note">Note</span>See note for 19.2.1.1</emu-note>
@@ -641,7 +666,7 @@
     <emu-clause id="async-function-instances-name">
       <h1><span class="secnum">2.4.2</span>name</h1>
 
-      <p>The specification for the <code>name</code> property of Function instances given in 19.2.4.2 also applies to GeneratorFunction instances.</p>
+      <p>The specification for the <code>name</code> property of Function instances given in 19.2.4.2 also applies to Asyncfunction instances.</p>
     </emu-clause>
   </emu-clause>
 </emu-clause>
@@ -649,7 +674,7 @@
   <h1><span class="secnum">3</span>Abstract Operations</h1>
   <emu-clause id="abstract-ops" aoid="AsyncFunctionCreate">
     <h1><span class="secnum">3.1</span>AsyncFunctionCreate(kind, ParameterList, Body, Scope, Strict)</h1>
-    <p>The abstract operation AsyncFunctionCreate requires the arguments: <var>kind</var> which is one of (Normal, Method), a parameter list production specified by <emu-nt>ParameterList</emu-nt>, a body production specified by <emu-nt>Body</emu-nt>, a Lexical Environment specified by <var>Scope</var>, and a Boolean flag <var>Strict</var>. GeneratorFunctionCreate performs the following steps:</p>
+    <p>The abstract operation AsyncFunctionCreate requires the arguments: <var>kind</var> which is one of (Normal, Method, Arrow), a parameter list production specified by <emu-nt>ParameterList</emu-nt>, a body production specified by <emu-nt>Body</emu-nt>, a Lexical Environment specified by <var>Scope</var>, and a Boolean flag <var>Strict</var>. AsyncFunctionCreate performs the following steps:</p>
     <emu-alg><ol>
   <li>Let <var>functionPrototype</var> be the intrinsic object %AsyncFunctionPrototype%.</li>
   <li>Let <var>F</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-functionallocate">FunctionAllocate</a>(<var>functionPrototype</var>, <var>Strict</var>, <code>"non-constructor"</code>).</li>
@@ -765,8 +790,16 @@
   </emu-clause>
 </emu-clause>
 
+<emu-annex id="todo">
+  <h1><span class="secnum">A</span>Todo &amp; Known Issues</h1>
+  <p>This list is not complete. It also does not duplicate any information on the <a href="https://github.com/tc39/ecmascript-asyncawait/issues">Github issues list</a>. It serves as a reminder to the author only.</p>
+  <ol>
+    <li>Updates to CreateDynamicFunction for creating dynamic async functions.</li>
+    <li>Semantics (mostly runtime) for async methods.</li>
+  </ol>
+</emu-annex>
 <emu-annex id="desugaring">
-  <h1><span class="secnum">A</span>Informative Desugaring</h1>
+  <h1><span class="secnum">B</span>Informative Desugaring</h1>
   <pre><code class="hljs fortran">
 async <span class="hljs-function"><span class="hljs-keyword">function</span></span> &lt;<span class="hljs-keyword">name</span>&gt;?&lt;argumentlist&gt;&lt;body&gt;
 
