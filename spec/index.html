@@ -6,7 +6,6 @@
   emu-production.inline emu-mods {
     display: none;
   }
-
 </style>
 
 <title>Async Functions</title>
@@ -18,7 +17,106 @@
 
   <link rel="import" href="./syntax.html">
   <link rel="import" href="./static-semantics.html">
+  <link rel="import" href="./runtime-semantics.html">
 </emu-clause>
+<emu-clause id="async-function-objects">
+  <h1>Async Function Objects</h1>
+  <emu-clause id="async-function-constructor">
+    <h1>The Async Function Constructor</h1>
 
+    <p>The `AsyncFunction` Constructor is the %AsyncFunction% intrinsic object and is a subclass of `Function`. When `AsyncFunction` is called as a function rather than as a constructor, it creates and initializes a new AsyncFunction object. Thus the function call `AsyncFunction(…)` is equivalent to the object creation expression `new AsyncFunction(…)` with the same arguments.</p>
+
+    <p>The `AsyncFunction` constructor is designed to be subclassable. It may be used as the value of an extends clause of a class definition. Subclass constructors that intend to inherit the specified AsyncFunction behaviour must include a super call to the AsyncFunction constructor to create and initialize a subclass instances with the internal slots necessary for built-in async function behaviour.</p>
+
+    <emu-clause id="async-function-constructor-arguments">
+      <h1>AsyncFunction(_p1_, _p2_, ..., _pn_, _body)</h1>
+
+      <p>The last argument specifies the body (executable code) of an async function. Any preceding arguments specify formal parameters.
+
+      <p>When the `AsyncFunction` function is called with some arguments _p1_, _p2_, ..., _pn_, _body_ (where _n_ migh tbe 0, that is, there are no _p_ arguments, and where _body) might also not be provided), the following steps are taken:</p>
+
+      <emu-alg>
+          1. Let _C_ be the active function object.
+          2. Let _args_ be the argumentsList that was passed to this function by [[Call]] or [[Construct]].
+          3. Return CreateDynamicFunction(_C_, NewTarget, "async" _args_)
+      </emu-alg>
+
+      <emu-note>See note for 19.2.1.1</emu-note>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="async-function-constructor-properties">
+    <h1>Properties of the AsyncFunction constructor</h1>
+    
+    <p>The AsyncFunction constructor is a standard built-in function object that inherits from the `Function` constructor. The value of the [[Prototype]] internal slot of the AsyncFunction constructor is the intrinsic object %Function%.
+
+    <p>The value of the [[Extensible]] internal slot of the AsyncFunction constructor is *true*
+
+    <p>The value of the *name* property of the AsyncFunction is "AsyncFunction"
+
+    <p>The AsyncFunction constructor has the following properties:</p>
+
+    <emu-clause id="async-function-constructor-length">
+      <h1>AsyncFunction.length</h1>
+      <p>This is a data property with a value of 1. This property has the attributes { [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *true* }.</p>
+    </emu-clause>
+
+    <emu-clause id="async-function-constructor-prototype">
+      <h1>AsyncFunction.prototype</h1>
+      <p>The intitial value of `AsyncFunction.prototype` is the intrinsic object %AsyncFunctionPrototype%.</p>
+
+      <p>This property has the attributes { [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *false* }.</p>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="async-function-prototype-properties">
+    <h1>Properties of the AsyncFunction Prototype Object</h1>
+    <p>The AsyncFunction prototype object is an ordinary object. In addition to being the value of the prototpe property of the %AsyncFunction% instrinsic, it is the %AsyncFunctionPrototype% intrinsic.</p>
+
+    <p>The value of the [[Prototype]] internal slot of the AsyncFunction prototype object is the %FunctionPrototype% intrinsic object. The initial value of the [[Extensible]] internal slot of the AsyncFunction prototype object is *true*.</p>
+    
+    <p>The AsyncFunction prototype object does not have a prototype property.</p>
+    <emu-note>Presumably this could be Promise.prototype but I'm not sure this has any value?</emu-note>
+
+
+    <emu-clause id="async-function-prototype-properties-constructor">
+      <h1>AsyncFunction.prototype.constructor</h1>
+
+      <p>The initial value of `AsyncFunction.prototype.constructor` is the intrinsic object %AsyncFunction%</p>
+
+      <p>This property has the attributes { [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *true* }.</p>
+    </emu-clause>
+
+    <emu-clause id="async-function-prototype-properties-toStringTag">
+      <h1>AsyncFunction.prototype[@@toStringTag]</h1>
+
+      <p>The initial value of the @@toStringTag property is the string value "AsyncFunction".</p>
+
+      <p>This property has the attributes { [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *true* }.</p>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="async-function-instances">
+    <h1>AsyncFunction Instances</h1>
+
+    <p>Every AsyncFunction instance is an ECMAScript function object and has the internal slots listed in Table 27. The value of the [[FunctionKind]] internal slot for all such instances is "generator".</p>
+
+    <p>Each AsyncFunction instance has the following own properties:</p>
+
+    <p>AsyncFunction instances do not have a prototype property as they are not constructable.</p>
+
+    <emu-clause id="async-function-instances-length">
+      <h1>length</h1>
+      <p>The value of the *length* property is an integer that indicates the typical number of arguments expected by the AsyncFunction. However, the language permits the function to be invoked with some other number of arguments. The behaviour of an AsyncFunction when invoked on a number of arguments other than the number specified by its length property depends on the function.</p>
+
+      <p>This property has the attributes { [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *true* }.</p>
+    </emu-clause>
+    <emu-clause id="async-function-instances-name">
+      <h1>name</h1>
+
+      <p>The specification for the `name` property of Function instances given in 19.2.4.2 also applies to GeneratorFunction instances.</p>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+<link rel="import" href="./abstract-operations.html">
+<link rel="import" href="./modified-abstract-operations.html">
 <link rel="import" href="./modified-productions.html">
 <link rel="import" href="./annex.html">
