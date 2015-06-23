@@ -1,93 +1,39 @@
 <h2>Syntax</h2>
-<emu-production params="Yield, Await, Default" name="AsyncFunctionDeclaration">
-  <emu-rhs a="1">
-    async
-    <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
-    function
-    <emu-nt params="?Yield, ?Await">BindingIdentifier</emu-nt>
-    (<emu-nt params="Await">FormalParameters</emu-nt>)
-    {
-    <emu-nt>AsyncFunctionBody</emu-nt>
-    }
-  </emu-rhs>
-  <emu-rhs constraints="+Default" a="2">
-    <emu-t>async</emu-t>
-    <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
-    function
-    (<emu-nt params="Await">FormalParameters</emu-nt>)
-    {
-    <emu-nt>AsyncFunctionBody</emu-nt>
-    }
-  </emu-rhs>
-</emu-production>
+<emu-grammar>
+    AsyncFunctionDeclaration[Yield, Await, Default] ::
+        `async` [no LineTerminator here] `function` BindingIdentifier[?Yield, ?Await] `(` FormalParameters[Await] `)` `{` AsyncFunctionBody `}` #1
+        [+Default] `async` [no LineTerminator here] `function` `(` FormalParameters[Await] `)` `{` AsyncFunctionBody `}`                        #2
 
-<emu-production name="AsyncFunctionExpression">
-  <emu-rhs a="1">
-    async
-    <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
-    function
-    <emu-nt params="Await" optional>BindingIdentifier</emu-nt>
-    (<emu-nt params="Await">FormalParameters</emu-nt>)
-    {
-    <emu-nt>AsyncFunctionBody</emu-nt>
-    }
-  </emu-rhs>
-</emu-production>
-<!-- See also #async-function-definition-static-semantics-HasName -->
+    AsyncFunctionExpression ::
+        `async` [no LineTerminator here] `function` BindingIdentifier? `(` FormalParameters[Await] `)` `{` AsyncFunctionBody `}` #1
 
-<emu-production name="AsyncMethod">
-  <emu-rhs a="1">
-    async
-    <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
-    <emu-nt>PropertyName</emu-nt>
-    (<emu-nt params="Await">StrictFormalParameters</emu-nt>)
-    {
-    <emu-nt>AsyncFunctionBody</emu-nt>
-    }
-  </emu-rhs>
-</emu-production>
+    AsyncMethod ::
+        `async` [no LineTerminator here] PropertyName `(` StrictFormalParameters[Await] `)` `{` AsyncFunctionBody `}` #1
 
+    AsyncFunctionBody ::
+        FunctionBody[Await] #1
 
-<emu-production name="AsyncFunctionBody">
-  <emu-rhs><emu-nt params="Await">FunctionBody</emu-nt></emu-rhs>
-</emu-production>
+    AwaitExpression[Yield] ::
+        `await` UnaryExpression[?Yield, Await] #1
 
-<emu-production name="AwaitExpression" params="Yield">
-  <emu-rhs>await <emu-nt params="?Yield, Await">UnaryExpression</emu-nt></emu-rhs>
-</emu-production>
+    AsyncArrowFunction[In, Yield] ::
+        `async` [no LineTerminator here] AsyncArrowBindingIdentifier[?Yield] [no LineTerminator here] `=>` ConciseBody[?In, Await] #1
+        CoverCallExpressionAndAsyncArrowHead[?Yield, Await] [no LineTerminator here] `=>` ConciseBody[?In, Await]                  #2
+
+    AsyncArrowBindingIdentifier[Yield]
+        BindingIdentifier[?Yield, Await] #1
+
+    CoverCallExpressionAndAsyncArrowHead[Yield, Await] ::
+        MemberExpression[?Yield, ?Await] Arguments[?Yield, ?Await] #1
+</emu-grammar>
 
 <emu-note>`yield` is |Identifier| or |YieldExpression| in |FunctionParameters| of |AsyncFunctionDeclaration| and |AsyncFunctionExpression| and |ArrowParameters| of |AsyncArrowFunction| depending on context. `await` is always parsed as an |AwaitExpression| but is a Syntax Error via static semantics. Yield is always allowed as an identifier of an |AsyncFunctionExpression|.</emu-note>
 
-<emu-production name="AsyncArrowFunction" params="In, Yield, Await">
-  <emu-rhs a="2">
-    async
-    <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
-    <emu-nt params="?Yield, Await">BindingIdentifier</emu-nt>
-    =>
-    <emu-nt params="?In, Await">ConciseBody</emu-nt>
-  </emu-rhs>
-  <emu-rhs a="1">
-    <emu-nt params="?Yield, Await">CoverCallExpressionAndAsyncArrowHead</emu-nt>
-    <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
-    =>
-    <emu-nt params="?In, Await">ConciseBody</emu-nt>
-  </emu-rhs>
-</emu-production>
-
-<emu-production name="CoverCallExpressionAndAsyncArrowHead" params="Yield, Await">
-  <emu-rhs>
-    <emu-nt params="?Yield, ?Await">MemberExpression</emu-nt>
-    <emu-nt params="?Yield, ?Await">Arguments</emu-nt>
-  </emu-rhs>
-</emu-production>
 
 <h3>Supplemental Syntax</h3>
 <p>When processing the production <emu-prodref name="AsyncArrowFunction" a="1" class="inline"></emu-prodref> the interpretation of |CoverCallExpressionAndAsyncArrowHead| is refined using the following gramar:</p>
 
-<emu-production name="AsyncArrowHead" params="">
-  <emu-rhs>
-    async
-    <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
-    <emu-nt params="?Yield, Await">ArrowFormalParameters</emu-nt>
-  </emu-rhs>
-</emu-production>
+<emu-grammar>
+    AsyncArrowHead[?Yield] ::
+        async [no LineTerminator here] ArrowFormalParameters[?Yield, Await] #1
+</emu-grammar>
