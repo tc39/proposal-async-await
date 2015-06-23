@@ -5,7 +5,8 @@
         [+Default] `async` [no LineTerminator here] `function` `(` FormalParameters[Await] `)` `{` AsyncFunctionBody `}`                        #2
 
     AsyncFunctionExpression ::
-        `async` [no LineTerminator here] `function` BindingIdentifier? `(` FormalParameters[Await] `)` `{` AsyncFunctionBody `}` #1
+        `async` [no LineTerminator here] `function` `(` FormalParameters[Await] `)` `{` AsyncFunctionBody `}`                   #1
+        `async` [no LineTerminator here] `function` BindingIdentifier `(` FormalParameters[Await] `)` `{` AsyncFunctionBody `}` #2
 
     AsyncMethod ::
         `async` [no LineTerminator here] PropertyName `(` StrictFormalParameters[Await] `)` `{` AsyncFunctionBody `}` #1

@@ -186,32 +186,11 @@
 </emu-clause>
 <emu-clause id="async-function-definition-static-semantics-HasName">
   <h1>Static Semantics: HasName</h1>
-  <p><emu-production name="AsyncFunctionExpression" class="inline">
-    <emu-rhs>
-      async
-      <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
-      function
-      (<emu-nt params="Await">FormalParameters</emu-nt>)
-      {
-      <emu-nt>AsyncFunctionBody</emu-nt>
-      }
-    </emu-rhs>
-  </emu-production></p>
+  <p><emu-prodref name="AsyncFunctionExpression" a="1" class="inline"></emu-prodref></p>
   <emu-alg>
     1. Return *false*.
   </emu-alg>
-  <p><emu-production name="AsyncFunctionExpression" class="inline">
-    <emu-rhs>
-      async
-      <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann>
-      function
-      <emu-nt params="Await">BindingIdentifier</emu-nt>
-      (<emu-nt params="Await">FormalParameters</emu-nt>)
-      {
-      <emu-nt>AsyncFunctionBody</emu-nt>
-      }
-    </emu-rhs>
-  </emu-production></p>
+  <p><emu-prodref name="AsyncFunctionExpression" a="2" class="inline"></emu-prodref></p>
   <emu-alg>
     1. Return *true*.
   </emu-alg>
