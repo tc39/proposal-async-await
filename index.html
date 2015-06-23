@@ -458,8 +458,6 @@
   <p>
     <emu-production name="AsyncFunctionBody" type="lexical" a="1" class="inline">
     <emu-nt>AsyncFunctionBody</emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-nt params="Await">FunctionBody<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production><br>
-    <emu-production name="AsyncConciseBody" params="In" type="lexical" a="1" class="inline">
-    <emu-nt params="In">AsyncConciseBody<emu-mods><emu-params>[In]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-gann>[lookahead ≠ <emu-t>{</emu-t>]</emu-gann><emu-nt params="?In">AssignmentExpression<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production>
   </p>
   <emu-alg><ol>
   <li>Let <var>promiseCapability</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-newpromisecapability">NewPromiseCapability</a>(%Promise%).</li>
@@ -796,6 +794,7 @@
   <ol>
     <li>Updates to CreateDynamicFunction for creating dynamic async functions.</li>
     <li>Semantics (mostly runtime) for async methods.</li>
+    <li>EvaluateBody semantics for AsyncConciseBody.</li>
     <li>IteratorBindingInitialization runtime semantics.</li>
   </ol>
 </emu-annex>
