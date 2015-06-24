@@ -120,4 +120,13 @@
     5. Let _closure_ be AsyncFunctionCreate("Arrow", _parameters_, |ConciseBody|, _scope_, _strict_).
     6. Return _closure_.
   </emu-alg>
+
+  <p><emu-prodref name="AwaitExpression" a="1" class="inline"></emu-prodref></p>
+  <emu-alg>
+    1. Let _exprRef_ be the result of evaluating |UnaryExpression|.
+    2. Let _value_ be GetValue(_exprRef_).
+    3. ReturnIfAbrupt(_value_).
+    4. Return GeneratorYield(CreateIterResultObject(_value_, *false*)).
+  </emu-alg>
+  <emu-note>The semantics of await are identical to `yield`.</p>
 </emu-clause>

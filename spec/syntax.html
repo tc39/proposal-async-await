@@ -34,6 +34,8 @@
 
 <emu-note>`yield` is |Identifier| or |YieldExpression| in |FunctionParameters| of |AsyncFunctionDeclaration| and |AsyncFunctionExpression| and |ArrowParameters| of |AsyncArrowFunction| depending on context. `await` is always parsed as an |AwaitExpression| but is a Syntax Error via static semantics. Yield is always allowed as an identifier of an |AsyncFunctionExpression|.</emu-note>
 
+<emu-note>Unlike `yield`, it is a Syntax Error to omit the operand of an Await. You must await something.</emu-note>
+
 
 <h3>Supplemental Syntax</h3>
 <p>When processing the production <emu-prodref name="AsyncArrowFunction" a="1" class="inline"></emu-prodref> the interpretation of |CoverCallExpressionAndAsyncArrowHead| is refined using the following gramar:</p>
