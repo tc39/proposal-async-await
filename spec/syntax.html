@@ -20,7 +20,7 @@
     AsyncArrowFunction[In, Yield] ::
         `async` [no LineTerminator here] AsyncArrowBindingIdentifier[?Yield] [no LineTerminator here] `=>` AsyncConciseBody[?In] #1
         CoverCallExpressionAndAsyncArrowHead[?Yield, Await] [no LineTerminator here] `=>` AsyncConciseBody[?In]                  #2
-    
+
     AsyncConciseBody[In] ::
         [lookahead != `{`] AssignmentExpression[?In] #1
         `{` AsyncFunctionBody `}`                  #2
@@ -42,5 +42,5 @@
 
 <emu-grammar>
     AsyncArrowHead[?Yield] ::
-        async [no LineTerminator here] ArrowFormalParameters[?Yield, Await] #1
+        `async` [no LineTerminator here] ArrowFormalParameters[?Yield, Await] #1
 </emu-grammar>
