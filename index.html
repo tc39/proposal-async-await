@@ -122,7 +122,9 @@
     <emu-nt params="Yield, Await">CoverCallExpressionAndAsyncArrowHead<emu-mods><emu-params>[Yield, Await]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-nt params="?Yield, ?Await">MemberExpression<emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt><emu-nt params="?Yield, ?Await">Arguments<emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt></emu-rhs>
 </emu-production></emu-grammar>
 
-<emu-note><span class="note">Note</span><code>yield</code> is <emu-nt>Identifier</emu-nt> or <emu-nt>YieldExpression</emu-nt> in <emu-nt>FunctionParameters</emu-nt> of <emu-nt>AsyncFunctionDeclaration</emu-nt> and <emu-nt>AsyncFunctionExpression</emu-nt> and <emu-nt>ArrowParameters</emu-nt> of <emu-nt>AsyncArrowFunction</emu-nt> depending on context. <code>await</code> is always parsed as an <emu-nt>AwaitExpression</emu-nt> but is a Syntax Error via static semantics. Yield is always allowed as an identifier of an <emu-nt>AsyncFunctionExpression</emu-nt>.</emu-note>
+<emu-note><span class="note">Note 1</span><code>yield</code> is <emu-nt>Identifier</emu-nt> or <emu-nt>YieldExpression</emu-nt> in <emu-nt>FunctionParameters</emu-nt> of <emu-nt>AsyncFunctionDeclaration</emu-nt> and <emu-nt>AsyncFunctionExpression</emu-nt> and <emu-nt>ArrowParameters</emu-nt> of <emu-nt>AsyncArrowFunction</emu-nt> depending on context. <code>await</code> is always parsed as an <emu-nt>AwaitExpression</emu-nt> but is a Syntax Error via static semantics. Yield is always allowed as an identifier of an <emu-nt>AsyncFunctionExpression</emu-nt>.</emu-note>
+
+<emu-note><span class="note">Note 2</span>Unlike <code>yield</code>, it is a Syntax Error to omit the operand of an Await. You must await something.</emu-note>
 
 
 <h3>Supplemental Syntax</h3>
@@ -568,7 +570,17 @@
   <li>Let <var>closure</var> be <a href="#abstract-ops">AsyncFunctionCreate</a>(<code>"Arrow"</code>, <var>parameters</var>, <emu-nt>ConciseBody</emu-nt>, <var>scope</var>, <var>strict</var>).</li>
   <li>Return <var>closure</var>.</li>
 </ol></emu-alg>
-</emu-clause>
+
+  <p><emu-production name="AwaitExpression" params="Yield" type="lexical" a="1" class="inline">
+    <emu-nt params="Yield">AwaitExpression<emu-mods><emu-params>[Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>await</emu-t><emu-nt params="?Yield, Await">UnaryExpression<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
+  <emu-alg><ol>
+  <li>Let <var>exprRef</var> be the result of evaluating <emu-nt>UnaryExpression</emu-nt>.</li>
+  <li>Let <var>value</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-getvalue">GetValue</a>(<var>exprRef</var>).</li>
+  <li><a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-returnifabrupt">ReturnIfAbrupt</a>(<var>value</var>).</li>
+  <li>Return <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatoryield">GeneratorYield</a>(<a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-createiterresultobject">CreateIterResultObject</a>(<var>value</var>, <emu-val>false</emu-val>)).</li>
+</ol></emu-alg>
+  <emu-note><span class="note">Note</span>The semantics of await are identical to <code>yield</code>.<p></p>
+</emu-note></emu-clause>
 
 </emu-clause>
 <emu-clause id="async-function-objects">
@@ -796,7 +808,6 @@
     <li>Semantics (mostly runtime) for async methods.</li>
     <li>EvaluateBody semantics for AsyncConciseBody.</li>
     <li>IteratorBindingInitialization runtime semantics.</li>
-    <li>Await semantics.</li>
   </ol>
 </emu-annex>
 <emu-annex id="desugaring">
