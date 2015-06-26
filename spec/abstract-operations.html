@@ -1,12 +1,64 @@
 <emu-clause id="abstract-ops">
   <h1>Abstract Operations</h1>
-  <emu-clause id="abstract-ops" aoid="AsyncFunctionCreate">
+  <emu-clause id="abstract-ops-async-function-create" aoid="AsyncFunctionCreate">
     <h1>AsyncFunctionCreate(kind, ParameterList, Body, Scope, Strict)</h1>
     <p>The abstract operation AsyncFunctionCreate requires the arguments: _kind_ which is one of (Normal, Method, Arrow), a parameter list production specified by |ParameterList|, a body production specified by |Body|, a Lexical Environment specified by _Scope_, and a Boolean flag _Strict_. AsyncFunctionCreate performs the following steps:</p>
     <emu-alg>
       1. Let _functionPrototype_ be the intrinsic object %AsyncFunctionPrototype%.
       2. Let _F_ be FunctionAllocate(_functionPrototype_, _Strict_, "non-constructor").
       3. Return FunctionInitialize(_F_, _kind_, |ParameterList|, |Body|, _Scope_).
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="abstract-ops-async-function-start" aoid="AsyncFunctionStart">
+    <h1>AsyncFunctionStart(_generator_, _promiseCapability_, [ _operation_, _value_ ])</h1>
+    <p>With parameters _generator_, _promiseCapability_, _operation_, and _value_. The parameters _operation_ and _value_ are optional.</p>
+    <emu-note>This function does not return any important abrupt completions so in some cases they are ignored. In other cases, callers should ignore any abrupt completion values. Errors as a result of ticking forward the generator will be propagated as promise rejections. All other errors (such as those resulting from getting generator methods, calling Promise.resolve, or p.then) are ignored. It is possible that we can be statically assured that no errors will result from this algorithm.</emu-note>
+    <emu-alg>
+      1. If _operation_ was not provided, let _operation_ be "next".
+      1. If _value_ was not provided, let _value_ be *undefined*.
+      1. let _operationFn_ be the result of Get(_generator_, _operation_).
+      1. ReturnIfAbrupt(_operationFn_).
+      1. let _result_ be Call(_next_, _generator_).
+      1. If _result_ is an abrupt completion, then
+          1. Perform Call(_promiseCapability_.[[reject]], *undefined*, «_result_.value»)
+          1. Return.
+      1. Assert: The async function has either awaited something or returned something.
+      1. let _done_ be Get(_result_, "done").
+      1. ReturnIfAbrupt(_done_).
+      1. If _done_ is *true*, then
+          1. Perform Call(_promiseCapability_.[[resolve]], *undefined*, «_result_.value»).
+          1. Return.
+      1. Assert: _done_ is false, _result_.value is a value that has come out of the generator.
+      1. let _awaitedPromise_ be the result of Call(%Promise%.resolve, %Promise%, «_result_.value»).
+      1. let _promiseResolved_ be a new built-in function object as defined in <a href="#async-function-definitions-awaited-resolved">AsyncFunction Awaited Resolved</a>.
+      1. Set the [[Generator]] internal slot of _promiseResolved_ to _generator_.
+      1. Set the [[PromiseCapability]] internal slot of _promiseResolved_ to _promiseCapability_.
+      1. let _promiseRejected_ be a new built-in function object as defined in <a href="#async-function-definitions-awaited-rejected">AsyncFunction Awaited Rejected</a>.
+      1. Set the [[Generator]] internal slot of _promiseRejected_ to _generator_.
+      1. Set the [[PromiseCapability]] internal slot of _promiseRejected_ to _promiseCapability_.
+      1. Invoke(_awaitedPromise_, "then", «_promiseResolved_, _promiseRejected_»).
+      1. Return.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="abstract-ops-awaited-resolved">
+    <h1>AsyncFunction Awaited Resolved</h1>
+    <p>Function _F_ is called with the parameter _value_.</p>
+    <emu-alg>
+      1. let _generator_ be the value of _F_'s [[Generator]] internal slot.
+      1. let _promiseCapability_ be the value of _F_'s [[PromiseCapability]] internal slot.
+      1. return the result of performing AsyncFunctionStart(_generator_, _promiseCapability_, "next", _value_).
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="abstract-ops-awaited-rejected">
+    <h1>AsyncFunction Awaited Rejected</h1>
+    <p>Function _F_ is called with the parameter _value_.</p>
+    <emu-alg>
+      1. let _generator_ be the value of _F_'s [[Generator]] internal slot.
+      1. let _promiseCapability_ be the value of _F_'s [[PromiseCapability]] internal slot.
+      1. return the result of performing AsyncFunctionStart(_generator_, _promiseCapability_, "throw", _value_).
     </emu-alg>
   </emu-clause>
 </emu-clause>

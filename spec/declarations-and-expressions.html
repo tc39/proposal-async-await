@@ -1,0 +1,151 @@
+<emu-clause id="async-function-definitions-decls-and-exprs">
+  <h1>Async Function Declarations &amp; Expressions</h1>
+
+  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-early-errors">
+    <h1>Static Semantics: Early Errors</h1>
+    <p>
+      <emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref><br>
+      <emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref><br>
+      <emu-prodref name="AsyncFunctionExpression" a="1" class="inline"></emu-prodref>
+    </p>
+    <ul>
+      <li>It is a Syntax Error if |FormalParameters| Contains |AwaitExpression| is *true*.
+      <li>If the source code matching this production is strict code, the Early Error rules for |StrictFormalParameters| : |FormalParameters| are applied.
+      <li>If the source code matching this production is strict code, it is a Syntax Error if |BindingIdentifier| is the |IdentifierName| `eval` or the |IdentifierName| `arguments`.
+      <li>It is a Syntax Error if any element of the BoundNames of |FormalParameters| also occurs in the LexicallyDeclaredNames of |AsyncFunctionBody|.
+      <li>It is a Syntax Error if |FormalParameters| contains |SuperProperty| is *true*.
+      <li>It is a Syntax Error if |AsyncFunctionBody| contains |SuperProperty| is *true*.
+    </ul>
+  </emu-clause>
+
+  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-BoundNames">
+    <h1>Static Semantics: BoundNames</h1>
+    <p><emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. Return the BoundNames of |BindingIdentifier|.
+    </emu-alg>
+    <p><emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. Return «"*default*"».
+    </emu-alg>
+    <emu-note>"*default*" is used within this specification as a synthetic name for hoistable anonymous functions that are defined using export declarations.</emu-note>
+  </emu-clause>
+  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-Contains">
+    <h1>Static Semantics: Contains</h1>
+    <p>With parameter _symbol_.</p>
+    <p>
+      <emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref><br>
+      <emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref><br>
+      <emu-prodref name="AsyncFunctionExpression" a="1" class="inline"></emu-prodref><br>
+      <emu-prodref name="AsyncFunctionExpression" a="2" class="inline"></emu-prodref><br>
+    </p>
+    <emu-alg>
+      1. Return *false*.
+    </emu-alg>
+    <emu-note>Could probably check if _symbol_ is one of these declarations or expressions, but this is not done in current spec and may not be necessary. See also: <a href="https://bugs.ecmascript.org/show_bug.cgi?id=4383">https://bugs.ecmascript.org/show_bug.cgi?id=4383</a>.</emu-note>
+  </emu-clause>
+  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-HasDirectSuper">
+    <h1>Static Semantics: HasDirectSuper</h1>
+    <p>
+      <emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref><br>
+      <emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref><br>
+      <emu-prodref name="AsyncFunctionExpression" a="1" class="inline"></emu-prodref><br>
+      <emu-prodref name="AsyncFunctionExpression" a="2" class="inline"></emu-prodref><br>
+    </p>
+    <emu-alg>
+      1. If |FormalParameters| Contains |SuperCall| is *true*, return *true*.
+      2. Return |AsyncFunctionBody| Contains |SuperCall|.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-HasName">
+    <h1>Static Semantics: HasName</h1>
+    <p><emu-prodref name="AsyncFunctionExpression" a="1" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. Return *false*.
+    </emu-alg>
+    <p><emu-prodref name="AsyncFunctionExpression" a="2" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. Return *true*.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-IsConstantDeclaration">
+    <h1>Static Semantics: IsConstantDeclaration</h1>
+    <p>
+      <emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref><br>
+      <emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref>
+    </p>
+    <emu-alg>
+      1. Return *true*.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-IsFunctionDefinition">
+    <h1>Static Semantics: IsFunctionDefinition</h1>
+    <p>
+      <emu-prodref name="AsyncFunctionExpression" class="inline" a="1" class="inline"></emu-prodref><br>
+      <emu-prodref name="AsyncFunctionExpression" class="inline" a="2" class="inline"></emu-prodref>
+    </p>
+    <emu-alg>
+      1. Return *true*.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="async-function-definitions-decls-and-exprs-InstantiateFunctionObject">
+    <h1>Runtime Semantics: InstantiateFunctionObject</h1>
+    <p>With parameter _scope_.</p>
+    <p><emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. If the function code for |AsyncFunctionDeclaration| is strict mode code, let _strict_ be *true*. Otherwise, let _strict_ be *false*.
+      2. Let _name_ be StringValue of |BindingIdentifier|
+      3. Let _F_ be AsyncFunctionCreate(~Normal~, |FormalParameters|, |AsyncFunctionBody|, _scope_, _strict_).
+      4. Perform SetFunctionName(_F_, _name_).
+    </emu-alg>
+    <p><emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. If the function code for |AsyncFunctionDeclaration| is strict mode code, let _strict_ be *true*. Otherwise, let _strict_ be *false*.
+      2. Let _F_ be AsyncFunctionCreate(~Normal~, |FormalParameters|, |AsyncFunctionBody|, _scope_, _strict_).
+      3. Perform SetFunctionName(_F_, "default").
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="async-function-definitions-decls-and-exprs-EvaluateBody">
+    <h1>Runtime Semantics: EvaluateBody</h1>
+    <p>With parameter _functionObject_.</p>
+    <p>
+      <emu-prodref name="AsyncFunctionBody" a="1" class="inline"></emu-prodref><br>
+    </p>
+    <emu-alg>
+      1. Let _promiseCapability_ be NewPromiseCapability(%Promise%).
+      2. ReturnIfAbrupt(_promiseCapability_).
+      3. Let _G_ be ObjectCreate(%GeneratorPrototype%, «[[GeneratorState]], [[GeneratorContext]]» ).
+      4. ReturnIfAbrupt(_G_).
+      5. Perform GeneratorStart(_G_, _FunctionBody_).
+      6. Perform AsyncFunctionStart(_G_, _promiseCapability_).
+      6. Return Completion{[[type]]: return, [[value]]: _promiseCapability_.[[Promise]], [[target]]: empty}.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="async-function-definitions-decls-and-exprs-runtime-semantics-evaluation">
+    <h1>Runtime Semantics: Evaluation</h1>
+    <p><emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. Return.
+    </emu-alg>
+
+    <p><emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. Return.
+    </emu-alg>
+
+    <p><emu-prodref name="AwaitExpression" a="1" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. Let _exprRef_ be the result of evaluating |UnaryExpression|.
+      2. Let _value_ be GetValue(_exprRef_).
+      3. ReturnIfAbrupt(_value_).
+      4. Return GeneratorYield(CreateIterResultObject(_value_, *false*)).
+    </emu-alg>
+    <emu-note>The semantics of await are identical to `yield`.</p>
+  </emu-clause>
+</emu-clause>
