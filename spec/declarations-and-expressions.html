@@ -121,7 +121,7 @@
       2. ReturnIfAbrupt(_promiseCapability_).
       3. Let _G_ be ObjectCreate(%GeneratorPrototype%, «[[GeneratorState]], [[GeneratorContext]]» ).
       4. ReturnIfAbrupt(_G_).
-      5. Perform GeneratorStart(_G_, _FunctionBody_).
+      5. Perform GeneratorStart(_G_, |FunctionBody|).
       6. Perform AsyncFunctionStart(_G_, _promiseCapability_).
       6. Return Completion{[[type]]: return, [[value]]: _promiseCapability_.[[Promise]], [[target]]: empty}.
     </emu-alg>
