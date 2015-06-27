@@ -1,7 +1,7 @@
-<emu-clause id="async-function-definitions-decls-and-exprs">
+<emu-clause id="async-decls-exprs">
   <h1>Async Function Declarations &amp; Expressions</h1>
 
-  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-early-errors">
+  <emu-clause id="async-decls-exprs-static-semantics-early-errors">
     <h1>Static Semantics: Early Errors</h1>
     <p>
       <emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref><br>
@@ -18,7 +18,7 @@
     </ul>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-BoundNames">
+  <emu-clause id="async-decls-exprs-static-semantics-BoundNames">
     <h1>Static Semantics: BoundNames</h1>
     <p><emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref></p>
     <emu-alg>
@@ -30,7 +30,7 @@
     </emu-alg>
     <emu-note>"*default*" is used within this specification as a synthetic name for hoistable anonymous functions that are defined using export declarations.</emu-note>
   </emu-clause>
-  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-Contains">
+  <emu-clause id="async-decls-exprs-static-semantics-Contains">
     <h1>Static Semantics: Contains</h1>
     <p>With parameter _symbol_.</p>
     <p>
@@ -44,7 +44,7 @@
     </emu-alg>
     <emu-note>Could probably check if _symbol_ is one of these declarations or expressions, but this is not done in current spec and may not be necessary. See also: <a href="https://bugs.ecmascript.org/show_bug.cgi?id=4383">https://bugs.ecmascript.org/show_bug.cgi?id=4383</a>.</emu-note>
   </emu-clause>
-  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-HasDirectSuper">
+  <emu-clause id="async-decls-exprs-static-semantics-HasDirectSuper">
     <h1>Static Semantics: HasDirectSuper</h1>
     <p>
       <emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref><br>
@@ -58,7 +58,7 @@
     </emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-HasName">
+  <emu-clause id="async-decls-exprs-static-semantics-HasName">
     <h1>Static Semantics: HasName</h1>
     <p><emu-prodref name="AsyncFunctionExpression" a="1" class="inline"></emu-prodref></p>
     <emu-alg>
@@ -70,7 +70,7 @@
     </emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-IsConstantDeclaration">
+  <emu-clause id="async-decls-exprs-static-semantics-IsConstantDeclaration">
     <h1>Static Semantics: IsConstantDeclaration</h1>
     <p>
       <emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref><br>
@@ -81,7 +81,7 @@
     </emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-IsFunctionDefinition">
+  <emu-clause id="async-decls-exprs-static-semantics-IsFunctionDefinition">
     <h1>Static Semantics: IsFunctionDefinition</h1>
     <p>
       <emu-prodref name="AsyncFunctionExpression" class="inline" a="1" class="inline"></emu-prodref><br>
@@ -92,7 +92,7 @@
     </emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-decls-and-exprs-InstantiateFunctionObject">
+  <emu-clause id="async-decls-exprs-InstantiateFunctionObject">
     <h1>Runtime Semantics: InstantiateFunctionObject</h1>
     <p>With parameter _scope_.</p>
     <p><emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref></p>
@@ -110,7 +110,7 @@
     </emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-decls-and-exprs-EvaluateBody">
+  <emu-clause id="async-decls-exprs-EvaluateBody">
     <h1>Runtime Semantics: EvaluateBody</h1>
     <p>With parameter _functionObject_.</p>
     <p>
@@ -127,7 +127,7 @@
     </emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-decls-and-exprs-runtime-semantics-evaluation">
+  <emu-clause id="async-decls-exprs-runtime-semantics-evaluation">
     <h1>Runtime Semantics: Evaluation</h1>
     <p><emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref></p>
     <emu-alg>
