@@ -10,7 +10,7 @@
 
 <title>Async Functions</title>
 </head><body><h1>Async Functions</h1>
-<div><h2>Table of Contents</h2><ol class="toc"><li><a href="#intro"><span class="secnum"></span> Introduction</a><ol class="toc"><li><a href="#status"><span class="secnum"></span> Status of this proposal</a></li><li><a href="#examples"><span class="secnum"></span> Examples</a></li></ol></li><li><a href="#async-function-definitions"><span class="secnum">1</span> Async Function Definitions</a><ol class="toc"><li><a href="#async-function-definitions-decls-and-exprs"><span class="secnum">1.1</span> Async Function Declarations &amp; Expressions</a><ol class="toc"><li><a href="#async-function-definitions-decls-and-exprs-static-semantics-early-errors"><span class="secnum">1.1.1</span> Static Semantics: Early Errors</a></li><li><a href="#async-function-definitions-decls-and-exprs-static-semantics-BoundNames"><span class="secnum">1.1.2</span> Static Semantics: BoundNames</a></li><li><a href="#async-function-definitions-decls-and-exprs-static-semantics-Contains"><span class="secnum">1.1.3</span> Static Semantics: Contains</a></li><li><a href="#async-function-definitions-decls-and-exprs-static-semantics-HasDirectSuper"><span class="secnum">1.1.4</span> Static Semantics: HasDirectSuper</a></li><li><a href="#async-function-definitions-decls-and-exprs-static-semantics-HasName"><span class="secnum">1.1.5</span> Static Semantics: HasName</a></li><li><a href="#async-function-definitions-decls-and-exprs-static-semantics-IsConstantDeclaration"><span class="secnum">1.1.6</span> Static Semantics: IsConstantDeclaration</a></li><li><a href="#async-function-definitions-decls-and-exprs-static-semantics-IsFunctionDefinition"><span class="secnum">1.1.7</span> Static Semantics: IsFunctionDefinition</a></li><li><a href="#async-function-definitions-decls-and-exprs-InstantiateFunctionObject"><span class="secnum">1.1.8</span> Runtime Semantics: InstantiateFunctionObject</a></li><li><a href="#async-function-definitions-decls-and-exprs-EvaluateBody"><span class="secnum">1.1.9</span> Runtime Semantics: EvaluateBody</a></li><li><a href="#async-function-definitions-decls-and-exprs-runtime-semantics-evaluation"><span class="secnum">1.1.10</span> Runtime Semantics: Evaluation</a></li></ol></li><li><a href="#async-function-definitions-arrows"><span class="secnum">1.2</span> Async Arrow Functions</a><ol class="toc"><li><a href="#async-function-definitions-arrows-static-semantics-early-errors"><span class="secnum">1.2.1</span> Static Semantics: Early Errors</a></li><li><a href="#async-function-definitions-arrows-static-semantics-LexicallyDeclaredNames"><span class="secnum">1.2.2</span> Static Semantics: LexicallyDeclaredNames</a></li><li><a href="#async-function-definitions-arrows-static-semantics-CoveredAsyncArrowHead"><span class="secnum">1.2.3</span> Static Semantics: CoveredAsyncArrowHead</a></li><li><a href="#async-function-definitions-arrows-static-semantics-BoundNames"><span class="secnum">1.2.4</span> Static Semantics: BoundNames</a></li><li><a href="#async-function-definitions-arrows-static-semantics-Contains"><span class="secnum">1.2.5</span> Static Semantics: Contains</a></li><li><a href="#async-function-definitions-arrows-static-semantics-ContainsExpression"><span class="secnum">1.2.6</span> Static Semantics: ContainsExpression</a></li><li><a href="#async-function-definitions-arrows-static-semantics-HasInitializer"><span class="secnum">1.2.7</span> Static Semantics: HasInitializer</a></li><li><a href="#async-function-definitions-arrows-static-semantics-ExpectedArgumentCount"><span class="secnum">1.2.8</span> Static Semantics: ExpectedArgumentCount</a></li><li><a href="#async-function-definitions-arrows-static-semantics-HasName"><span class="secnum">1.2.9</span> Static Semantics: HasName</a></li><li><a href="#async-function-definitions-arrows-EvaluateBody"><span class="secnum">1.2.10</span> Runtime Semantics: EvaluateBody</a></li><li><a href="#async-function-definitions-runtime-semantics-evaluation"><span class="secnum">1.2.11</span> Runtime Semantics: Evaluation</a></li></ol></li><li><a href="#async-function-definitions-methods"><span class="secnum">1.3</span> Async Methods</a><ol class="toc"><li><a href="#async-function-definitions-methods-static-semantics-early-errors"><span class="secnum">1.3.1</span> Static Semantics: Early Errors</a></li><li><a href="#async-function-definitions-methods-static-semantics-ComputedPropertyContains"><span class="secnum">1.3.2</span> Static Semantics: ComputedPropertyContains</a></li><li><a href="#async-function-definitions-methods-static-semantics-HasComputedPropertyKey"><span class="secnum">1.3.3</span> Static Semantics: HasComputedPropertyKey</a></li><li><a href="#async-function-definitions-methods-static-semantics-HasDirectSuper"><span class="secnum">1.3.4</span> Static Semantics: HasDirectSuper</a></li><li><a href="#async-function-definitions-methods-static-semantics-PropName"><span class="secnum">1.3.5</span> Static Semantics: PropName</a></li></ol></li></ol></li><li><a href="#abstract-ops"><span class="secnum">2</span> Abstract Operations</a><ol class="toc"><li><a href="#abstract-ops-async-function-create"><span class="secnum">2.1</span> AsyncFunctionCreate(kind, ParameterList, Body, Scope, Strict)</a></li><li><a href="#abstract-ops-async-function-start"><span class="secnum">2.2</span> AsyncFunctionStart(<var>generator</var>, <var>promiseCapability</var>, [ <var>operation</var>, <var>value</var> ])</a></li><li><a href="#abstract-ops-awaited-resolved"><span class="secnum">2.3</span> AsyncFunction Awaited Resolved</a></li><li><a href="#abstract-ops-awaited-rejected"><span class="secnum">2.4</span> AsyncFunction Awaited Rejected</a></li></ol></li><li><a href="#async-function-objects"><span class="secnum">3</span> Async Function Objects</a><ol class="toc"><li><a href="#async-function-constructor"><span class="secnum">3.1</span> The Async Function Constructor</a><ol class="toc"><li><a href="#async-function-constructor-arguments"><span class="secnum">3.1.1</span> AsyncFunction(<var>p1</var>, <var>p2</var>, ..., <var>pn</var>, _body)</a></li></ol></li><li><a href="#async-function-constructor-properties"><span class="secnum">3.2</span> Properties of the AsyncFunction constructor</a><ol class="toc"><li><a href="#async-function-constructor-length"><span class="secnum">3.2.1</span> AsyncFunction.length</a></li><li><a href="#async-function-constructor-prototype"><span class="secnum">3.2.2</span> AsyncFunction.prototype</a></li></ol></li><li><a href="#async-function-prototype-properties"><span class="secnum">3.3</span> Properties of the AsyncFunction Prototype Object</a><ol class="toc"><li><a href="#async-function-prototype-properties-constructor"><span class="secnum">3.3.1</span> AsyncFunction.prototype.constructor</a></li><li><a href="#async-function-prototype-properties-toStringTag"><span class="secnum">3.3.2</span> AsyncFunction.prototype[@@toStringTag]</a></li></ol></li><li><a href="#async-function-instances"><span class="secnum">3.4</span> AsyncFunction Instances</a><ol class="toc"><li><a href="#async-function-instances-length"><span class="secnum">3.4.1</span> length</a></li><li><a href="#async-function-instances-name"><span class="secnum">3.4.2</span> name</a></li></ol></li></ol></li><li><a href="#modified-productions"><span class="secnum">4</span> Modifications to existing productions</a><ol class="toc"><li><a href="#HoistableDeclaration"><span class="secnum">4.1</span> <emu-nt>HoistableDeclaration</emu-nt></a></li><li><a href="#PrimaryExpression"><span class="secnum">4.2</span> <emu-nt>PrimaryExpression</emu-nt></a></li><li><a href="#CallExpression"><span class="secnum">4.3</span> <emu-nt>CallExpression</emu-nt></a></li><li><a href="#UnaryExpression"><span class="secnum">4.4</span> <emu-nt>UnaryExpression</emu-nt></a></li><li><a href="#MethodDefinition"><span class="secnum">4.5</span> <emu-nt>MethodDefinition</emu-nt></a></li><li><a href="#AssignmentExpression"><span class="secnum">4.6</span> <emu-nt>AssignmentExpression</emu-nt></a></li><li><a href="#ConciseBody"><span class="secnum">4.7</span> <emu-nt>ConciseBody</emu-nt></a></li><li><a href="#ExpressionStatement"><span class="secnum">4.8</span> <emu-nt>ExpressionStatement</emu-nt></a></li></ol></li><li><a href="#todo"><span class="secnum">A</span> Todo &amp; Known Issues</a></li><li><a href="#desugaring"><span class="secnum">B</span> Informative Desugaring</a></li></ol></div><emu-intro id="intro">
+<div><h2>Table of Contents</h2><ol class="toc"><li><a href="#intro"><span class="secnum"></span> Introduction</a><ol class="toc"><li><a href="#status"><span class="secnum"></span> Status of this proposal</a></li><li><a href="#examples"><span class="secnum"></span> Examples</a></li></ol></li><li><a href="#async-function-definitions"><span class="secnum">1</span> Async Function Definitions</a><ol class="toc"><li><a href="#async-decls-exprs"><span class="secnum">1.1</span> Async Function Declarations &amp; Expressions</a><ol class="toc"><li><a href="#async-decls-exprs-static-semantics-early-errors"><span class="secnum">1.1.1</span> Static Semantics: Early Errors</a></li><li><a href="#async-decls-exprs-static-semantics-BoundNames"><span class="secnum">1.1.2</span> Static Semantics: BoundNames</a></li><li><a href="#async-decls-exprs-static-semantics-Contains"><span class="secnum">1.1.3</span> Static Semantics: Contains</a></li><li><a href="#async-decls-exprs-static-semantics-HasDirectSuper"><span class="secnum">1.1.4</span> Static Semantics: HasDirectSuper</a></li><li><a href="#async-decls-exprs-static-semantics-HasName"><span class="secnum">1.1.5</span> Static Semantics: HasName</a></li><li><a href="#async-decls-exprs-static-semantics-IsConstantDeclaration"><span class="secnum">1.1.6</span> Static Semantics: IsConstantDeclaration</a></li><li><a href="#async-decls-exprs-static-semantics-IsFunctionDefinition"><span class="secnum">1.1.7</span> Static Semantics: IsFunctionDefinition</a></li><li><a href="#async-decls-exprs-InstantiateFunctionObject"><span class="secnum">1.1.8</span> Runtime Semantics: InstantiateFunctionObject</a></li><li><a href="#async-decls-exprs-EvaluateBody"><span class="secnum">1.1.9</span> Runtime Semantics: EvaluateBody</a></li><li><a href="#async-decls-exprs-runtime-semantics-evaluation"><span class="secnum">1.1.10</span> Runtime Semantics: Evaluation</a></li></ol></li><li><a href="#async-arrows"><span class="secnum">1.2</span> Async Arrow Functions</a><ol class="toc"><li><a href="#async-arrows-static-semantics-early-errors"><span class="secnum">1.2.1</span> Static Semantics: Early Errors</a></li><li><a href="#async-arrows-static-semantics-LexicallyDeclaredNames"><span class="secnum">1.2.2</span> Static Semantics: LexicallyDeclaredNames</a></li><li><a href="#async-arrows-static-semantics-CoveredAsyncArrowHead"><span class="secnum">1.2.3</span> Static Semantics: CoveredAsyncArrowHead</a></li><li><a href="#async-arrows-static-semantics-BoundNames"><span class="secnum">1.2.4</span> Static Semantics: BoundNames</a></li><li><a href="#async-arrows-static-semantics-Contains"><span class="secnum">1.2.5</span> Static Semantics: Contains</a></li><li><a href="#async-arrows-static-semantics-ContainsExpression"><span class="secnum">1.2.6</span> Static Semantics: ContainsExpression</a></li><li><a href="#async-arrows-static-semantics-HasInitializer"><span class="secnum">1.2.7</span> Static Semantics: HasInitializer</a></li><li><a href="#async-arrows-static-semantics-ExpectedArgumentCount"><span class="secnum">1.2.8</span> Static Semantics: ExpectedArgumentCount</a></li><li><a href="#async-arrows-static-semantics-HasName"><span class="secnum">1.2.9</span> Static Semantics: HasName</a></li><li><a href="#async-arrows-EvaluateBody"><span class="secnum">1.2.10</span> Runtime Semantics: EvaluateBody</a></li><li><a href="#async-function-definitions-runtime-semantics-evaluation"><span class="secnum">1.2.11</span> Runtime Semantics: Evaluation</a></li></ol></li><li><a href="#async-methods"><span class="secnum">1.3</span> Async Methods</a><ol class="toc"><li><a href="#async-methods-static-semantics-early-errors"><span class="secnum">1.3.1</span> Static Semantics: Early Errors</a></li><li><a href="#async-methods-static-semantics-ComputedPropertyContains"><span class="secnum">1.3.2</span> Static Semantics: ComputedPropertyContains</a></li><li><a href="#async-methods-static-semantics-HasComputedPropertyKey"><span class="secnum">1.3.3</span> Static Semantics: HasComputedPropertyKey</a></li><li><a href="#async-methods-static-semantics-HasDirectSuper"><span class="secnum">1.3.4</span> Static Semantics: HasDirectSuper</a></li><li><a href="#async-methods-static-semantics-PropName"><span class="secnum">1.3.5</span> Static Semantics: PropName</a></li></ol></li></ol></li><li><a href="#abstract-ops"><span class="secnum">2</span> Abstract Operations</a><ol class="toc"><li><a href="#abstract-ops-async-function-create"><span class="secnum">2.1</span> AsyncFunctionCreate(kind, ParameterList, Body, Scope, Strict)</a></li><li><a href="#abstract-ops-async-function-start"><span class="secnum">2.2</span> AsyncFunctionStart(<var>generator</var>, <var>promiseCapability</var>, [ <var>operation</var>, <var>value</var> ])</a></li><li><a href="#abstract-ops-awaited-resolved"><span class="secnum">2.3</span> AsyncFunction Awaited Resolved</a></li><li><a href="#abstract-ops-awaited-rejected"><span class="secnum">2.4</span> AsyncFunction Awaited Rejected</a></li></ol></li><li><a href="#async-function-objects"><span class="secnum">3</span> Async Function Objects</a><ol class="toc"><li><a href="#async-function-constructor"><span class="secnum">3.1</span> The Async Function Constructor</a><ol class="toc"><li><a href="#async-function-constructor-arguments"><span class="secnum">3.1.1</span> AsyncFunction(<var>p1</var>, <var>p2</var>, ..., <var>pn</var>, _body)</a></li></ol></li><li><a href="#async-function-constructor-properties"><span class="secnum">3.2</span> Properties of the AsyncFunction constructor</a><ol class="toc"><li><a href="#async-function-constructor-length"><span class="secnum">3.2.1</span> AsyncFunction.length</a></li><li><a href="#async-function-constructor-prototype"><span class="secnum">3.2.2</span> AsyncFunction.prototype</a></li></ol></li><li><a href="#async-function-prototype-properties"><span class="secnum">3.3</span> Properties of the AsyncFunction Prototype Object</a><ol class="toc"><li><a href="#async-function-prototype-properties-constructor"><span class="secnum">3.3.1</span> AsyncFunction.prototype.constructor</a></li><li><a href="#async-function-prototype-properties-toStringTag"><span class="secnum">3.3.2</span> AsyncFunction.prototype[@@toStringTag]</a></li></ol></li><li><a href="#async-function-instances"><span class="secnum">3.4</span> AsyncFunction Instances</a><ol class="toc"><li><a href="#async-function-instances-length"><span class="secnum">3.4.1</span> length</a></li><li><a href="#async-function-instances-name"><span class="secnum">3.4.2</span> name</a></li></ol></li></ol></li><li><a href="#modified-productions"><span class="secnum">4</span> Modifications to existing productions</a><ol class="toc"><li><a href="#HoistableDeclaration"><span class="secnum">4.1</span> <emu-nt>HoistableDeclaration</emu-nt></a></li><li><a href="#PrimaryExpression"><span class="secnum">4.2</span> <emu-nt>PrimaryExpression</emu-nt></a></li><li><a href="#CallExpression"><span class="secnum">4.3</span> <emu-nt>CallExpression</emu-nt></a></li><li><a href="#UnaryExpression"><span class="secnum">4.4</span> <emu-nt>UnaryExpression</emu-nt></a></li><li><a href="#MethodDefinition"><span class="secnum">4.5</span> <emu-nt>MethodDefinition</emu-nt></a></li><li><a href="#AssignmentExpression"><span class="secnum">4.6</span> <emu-nt>AssignmentExpression</emu-nt></a></li><li><a href="#ConciseBody"><span class="secnum">4.7</span> <emu-nt>ConciseBody</emu-nt></a></li><li><a href="#ExpressionStatement"><span class="secnum">4.8</span> <emu-nt>ExpressionStatement</emu-nt></a></li></ol></li><li><a href="#todo"><span class="secnum">A</span> Todo &amp; Known Issues</a></li><li><a href="#desugaring"><span class="secnum">B</span> Informative Desugaring</a></li></ol></div><emu-intro id="intro">
   <h1><span class="secnum"></span>Introduction</h1>
   <p>The introduction of Promises and Generators in ECMAScript presents an opportunity to dramatically improve the language-level model for writing asynchronous code in ECMAScript.</p>
 
@@ -136,10 +136,10 @@
 </emu-production></emu-grammar>
 
 
-  <emu-clause id="async-function-definitions-decls-and-exprs">
+  <emu-clause id="async-decls-exprs">
   <h1><span class="secnum">1.1</span>Async Function Declarations &amp; Expressions</h1>
 
-  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-early-errors">
+  <emu-clause id="async-decls-exprs-static-semantics-early-errors">
     <h1><span class="secnum">1.1.1</span>Static Semantics: Early Errors</h1>
     <p>
       <emu-production name="AsyncFunctionDeclaration" params="Yield, Await, Default" type="lexical" a="1" class="inline">
@@ -159,7 +159,7 @@
     </li></ul>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-BoundNames">
+  <emu-clause id="async-decls-exprs-static-semantics-BoundNames">
     <h1><span class="secnum">1.1.2</span>Static Semantics: BoundNames</h1>
     <p><emu-production name="AsyncFunctionDeclaration" params="Yield, Await, Default" type="lexical" a="1" class="inline">
     <emu-nt params="Yield, Await, Default">AsyncFunctionDeclaration<emu-mods><emu-params>[Yield, Await, Default]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-nt params="?Yield, ?Await">BindingIdentifier<emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production></p>
@@ -173,7 +173,7 @@
 </ol></emu-alg>
     <emu-note><span class="note">Note</span>"<emu-val>default</emu-val>" is used within this specification as a synthetic name for hoistable anonymous functions that are defined using export declarations.</emu-note>
   </emu-clause>
-  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-Contains">
+  <emu-clause id="async-decls-exprs-static-semantics-Contains">
     <h1><span class="secnum">1.1.3</span>Static Semantics: Contains</h1>
     <p>With parameter <var>symbol</var>.</p>
     <p>
@@ -191,7 +191,7 @@
 </ol></emu-alg>
     <emu-note><span class="note">Note</span>Could probably check if <var>symbol</var> is one of these declarations or expressions, but this is not done in current spec and may not be necessary. See also: <a href="https://bugs.ecmascript.org/show_bug.cgi?id=4383">https://bugs.ecmascript.org/show_bug.cgi?id=4383</a>.</emu-note>
   </emu-clause>
-  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-HasDirectSuper">
+  <emu-clause id="async-decls-exprs-static-semantics-HasDirectSuper">
     <h1><span class="secnum">1.1.4</span>Static Semantics: HasDirectSuper</h1>
     <p>
       <emu-production name="AsyncFunctionDeclaration" params="Yield, Await, Default" type="lexical" a="1" class="inline">
@@ -209,7 +209,7 @@
 </ol></emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-HasName">
+  <emu-clause id="async-decls-exprs-static-semantics-HasName">
     <h1><span class="secnum">1.1.5</span>Static Semantics: HasName</h1>
     <p><emu-production name="AsyncFunctionExpression" type="lexical" a="1" class="inline">
     <emu-nt>AsyncFunctionExpression</emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production></p>
@@ -223,7 +223,7 @@
 </ol></emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-IsConstantDeclaration">
+  <emu-clause id="async-decls-exprs-static-semantics-IsConstantDeclaration">
     <h1><span class="secnum">1.1.6</span>Static Semantics: IsConstantDeclaration</h1>
     <p>
       <emu-production name="AsyncFunctionDeclaration" params="Yield, Await, Default" type="lexical" a="1" class="inline">
@@ -236,7 +236,7 @@
 </ol></emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-decls-and-exprs-static-semantics-IsFunctionDefinition">
+  <emu-clause id="async-decls-exprs-static-semantics-IsFunctionDefinition">
     <h1><span class="secnum">1.1.7</span>Static Semantics: IsFunctionDefinition</h1>
     <p>
       <emu-production name="AsyncFunctionExpression" type="lexical" class="inline" a="1">
@@ -249,7 +249,7 @@
 </ol></emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-decls-and-exprs-InstantiateFunctionObject">
+  <emu-clause id="async-decls-exprs-InstantiateFunctionObject">
     <h1><span class="secnum">1.1.8</span>Runtime Semantics: InstantiateFunctionObject</h1>
     <p>With parameter <var>scope</var>.</p>
     <p><emu-production name="AsyncFunctionDeclaration" params="Yield, Await, Default" type="lexical" a="1" class="inline">
@@ -269,7 +269,7 @@
 </ol></emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-decls-and-exprs-EvaluateBody">
+  <emu-clause id="async-decls-exprs-EvaluateBody">
     <h1><span class="secnum">1.1.9</span>Runtime Semantics: EvaluateBody</h1>
     <p>With parameter <var>functionObject</var>.</p>
     <p>
@@ -281,13 +281,13 @@
   <li><a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-returnifabrupt">ReturnIfAbrupt</a>(<var>promiseCapability</var>).</li>
   <li>Let <var>G</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-objectcreate">ObjectCreate</a>(%GeneratorPrototype%, «[[GeneratorState]], [[GeneratorContext]]» ).</li>
   <li><a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-returnifabrupt">ReturnIfAbrupt</a>(<var>G</var>).</li>
-  <li>Perform <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorstart">GeneratorStart</a>(<var>G</var>, <var>FunctionBody</var>).</li>
+  <li>Perform <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorstart">GeneratorStart</a>(<var>G</var>, <emu-nt>FunctionBody</emu-nt>).</li>
   <li>Perform <a href="#abstract-ops-async-function-start">AsyncFunctionStart</a>(<var>G</var>, <var>promiseCapability</var>).</li>
   <li>Return Completion{[[type]]: return, [[value]]: <var>promiseCapability</var>.[[Promise]], [[target]]: empty}.</li>
 </ol></emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-decls-and-exprs-runtime-semantics-evaluation">
+  <emu-clause id="async-decls-exprs-runtime-semantics-evaluation">
     <h1><span class="secnum">1.1.10</span>Runtime Semantics: Evaluation</h1>
     <p><emu-production name="AsyncFunctionDeclaration" params="Yield, Await, Default" type="lexical" a="1" class="inline">
     <emu-nt params="Yield, Await, Default">AsyncFunctionDeclaration<emu-mods><emu-params>[Yield, Await, Default]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-nt params="?Yield, ?Await">BindingIdentifier<emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt><emu-t>(</emu-t><emu-nt params="Await">FormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production></p>
@@ -313,10 +313,10 @@
   </emu-note></emu-clause>
 </emu-clause>
 
-  <emu-clause id="async-function-definitions-arrows">
+  <emu-clause id="async-arrows">
   <h1><span class="secnum">1.2</span>Async Arrow Functions</h1>
 
-  <emu-clause id="async-function-definitions-arrows-static-semantics-early-errors">
+  <emu-clause id="async-arrows-static-semantics-early-errors">
     <h1><span class="secnum">1.2.1</span>Static Semantics: Early Errors</h1>
     <p><emu-production name="AsyncArrowFunction" params="In, Yield" type="lexical" a="1" class="inline">
     <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[?Yield]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In">AsyncConciseBody<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
@@ -339,7 +339,7 @@
     </li></ul>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-arrows-static-semantics-LexicallyDeclaredNames">
+  <emu-clause id="async-arrows-static-semantics-LexicallyDeclaredNames">
     <h1><span class="secnum">1.2.2</span>Static Semantics: LexicallyDeclaredNames</h1>
     <p><emu-production name="AsyncConciseBody" params="In" type="lexical" a="1">
     <emu-nt params="In">AsyncConciseBody<emu-mods><emu-params>[In]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-gann>[lookahead ≠ <emu-t>{</emu-t>]</emu-gann><emu-nt params="?In">AssignmentExpression<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
@@ -348,7 +348,7 @@
 </ol></emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-arrows-static-semantics-CoveredAsyncArrowHead">
+  <emu-clause id="async-arrows-static-semantics-CoveredAsyncArrowHead">
     <h1><span class="secnum">1.2.3</span>Static Semantics: CoveredAsyncArrowHead</h1>
     <p><emu-production name="CoverCallExpressionAndAsyncArrowHead" params="Yield, Await" type="lexical" class="inline">
     <emu-nt params="Yield, Await">CoverCallExpressionAndAsyncArrowHead<emu-mods><emu-params>[Yield, Await]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-nt params="?Yield, ?Await">MemberExpression<emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt><emu-nt params="?Yield, ?Await">Arguments<emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt></emu-rhs>
@@ -358,7 +358,7 @@
 </ol></emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-arrows-static-semantics-BoundNames">
+  <emu-clause id="async-arrows-static-semantics-BoundNames">
     <h1><span class="secnum">1.2.4</span>Static Semantics: BoundNames</h1>
     <p><emu-production name="AsyncArrowFunction" params="In, Yield" type="lexical" a="1" class="inline">
     <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[?Yield]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In">AsyncConciseBody<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
@@ -383,7 +383,7 @@
 </ol></emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-arrows-static-semantics-Contains">
+  <emu-clause id="async-arrows-static-semantics-Contains">
     <h1><span class="secnum">1.2.5</span>Static Semantics: Contains</h1>
     <p>With parameter <var>symbol</var>.</p>
     <p><emu-production name="AsyncArrowFunction" params="In, Yield" type="lexical" a="1" class="inline">
@@ -413,7 +413,7 @@
 </ol></emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-arrows-static-semantics-ContainsExpression">
+  <emu-clause id="async-arrows-static-semantics-ContainsExpression">
     <h1><span class="secnum">1.2.6</span>Static Semantics: ContainsExpression</h1>
     <p><emu-production name="AsyncArrowFunction" params="In, Yield" type="lexical" a="1" class="inline">
     <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[?Yield]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In">AsyncConciseBody<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
@@ -436,7 +436,7 @@
 </ol></emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-arrows-static-semantics-HasInitializer">
+  <emu-clause id="async-arrows-static-semantics-HasInitializer">
     <h1><span class="secnum">1.2.7</span>Static Semantics: HasInitializer</h1>
     <p><emu-production name="AsyncArrowBindingIdentifier" params="Yield" class="inline" a="1">
     <emu-nt params="Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[Yield]</emu-params></emu-mods></emu-nt><emu-geq>:</emu-geq><emu-rhs a="1"><emu-nt params="?Yield, Await">BindingIdentifier<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
@@ -450,7 +450,7 @@
 </ol></emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-arrows-static-semantics-ExpectedArgumentCount">
+  <emu-clause id="async-arrows-static-semantics-ExpectedArgumentCount">
     <h1><span class="secnum">1.2.8</span>Static Semantics: ExpectedArgumentCount</h1>
     <p><emu-production name="AsyncArrowBindingIdentifier" params="Yield" class="inline" a="1">
     <emu-nt params="Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[Yield]</emu-params></emu-mods></emu-nt><emu-geq>:</emu-geq><emu-rhs a="1"><emu-nt params="?Yield, Await">BindingIdentifier<emu-mods><emu-params>[?Yield, Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
@@ -464,7 +464,7 @@
 </ol></emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-arrows-static-semantics-HasName">
+  <emu-clause id="async-arrows-static-semantics-HasName">
     <h1><span class="secnum">1.2.9</span>Static Semantics: HasName</h1>
     <p><emu-production name="AsyncArrowFunction" params="In, Yield" type="lexical" a="1" class="inline">
     <emu-nt params="In, Yield">AsyncArrowFunction<emu-mods><emu-params>[In, Yield]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt params="?Yield">AsyncArrowBindingIdentifier<emu-mods><emu-params>[?Yield]</emu-params></emu-mods></emu-nt><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-t>=&gt;</emu-t><emu-nt params="?In">AsyncConciseBody<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
@@ -474,9 +474,20 @@
   <li>Return <emu-val>false</emu-val>.</li>
 </ol></emu-alg>
   </emu-clause>
-  <emu-clause id="async-function-definitions-arrows-EvaluateBody">
+  <emu-clause id="async-arrows-EvaluateBody">
     <h1><span class="secnum">1.2.10</span>Runtime Semantics: EvaluateBody</h1>
     <p>With parameter <var>functionObject</var>.</p>
+    <p><emu-production name="AsyncConciseBody" params="In" type="lexical" a="1" class="inline">
+    <emu-nt params="In">AsyncConciseBody<emu-mods><emu-params>[In]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-gann>[lookahead ≠ <emu-t>{</emu-t>]</emu-gann><emu-nt params="?In">AssignmentExpression<emu-mods><emu-params>[?In]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production></p>
+    <emu-alg><ol>
+  <li>Let <var>promiseCapability</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-newpromisecapability">NewPromiseCapability</a>(%Promise%).</li>
+  <li><a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-returnifabrupt">ReturnIfAbrupt</a>(<var>promiseCapability</var>).</li>
+  <li>Let <var>G</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-objectcreate">ObjectCreate</a>(%GeneratorPrototype%, «[[GeneratorState]], [[GeneratorContext]]» ).</li>
+  <li><a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-returnifabrupt">ReturnIfAbrupt</a>(<var>G</var>).</li>
+  <li>Perform <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorstart">GeneratorStart</a>(<var>G</var>, <emu-nt>AssignmentExpression</emu-nt>).</li>
+  <li>Perform <a href="#abstract-ops-async-function-start">AsyncFunctionStart</a>(<var>G</var>, <var>promiseCapability</var>).</li>
+  <li>Return Completion{[[type]]: return, [[value]]: <var>promiseCapability</var>.[[Promise]], [[target]]: empty}.</li>
+</ol></emu-alg>
     <p><emu-production name="AsyncConciseBody" params="In" type="lexical" a="2" class="inline">
     <emu-nt params="In">AsyncConciseBody<emu-mods><emu-params>[In]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="2"><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs></emu-production></p>
     <emu-alg><ol>
@@ -509,10 +520,10 @@
   </emu-clause>
 </emu-clause>
 
-  <emu-clause id="async-function-definitions-methods">
+  <emu-clause id="async-methods">
   <h1><span class="secnum">1.3</span>Async Methods</h1>
 
-  <emu-clause id="async-function-definitions-methods-static-semantics-early-errors">
+  <emu-clause id="async-methods-static-semantics-early-errors">
     <h1><span class="secnum">1.3.1</span>Static Semantics: Early Errors</h1>
 
     <p><emu-production name="AsyncMethod" type="lexical" a="1" class="inline">
@@ -524,7 +535,7 @@
     </li></ul>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-methods-static-semantics-ComputedPropertyContains">
+  <emu-clause id="async-methods-static-semantics-ComputedPropertyContains">
     <h1><span class="secnum">1.3.2</span>Static Semantics: ComputedPropertyContains</h1>
     <p>With parameter <var>symbol</var>.</p>
     <p><emu-production name="AsyncMethod" type="lexical" class="inline">
@@ -535,7 +546,7 @@
 </ol></emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-methods-static-semantics-HasComputedPropertyKey">
+  <emu-clause id="async-methods-static-semantics-HasComputedPropertyKey">
     <h1><span class="secnum">1.3.3</span>Static Semantics: HasComputedPropertyKey</h1>
     <p><emu-production name="AsyncMethod" type="lexical" class="inline">
     <emu-nt>AsyncMethod</emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt>LineTerminator</emu-nt> here]</emu-gann><emu-nt>PropertyName</emu-nt><emu-t>(</emu-t><emu-nt params="Await">StrictFormalParameters<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt>AsyncFunctionBody</emu-nt><emu-t>}</emu-t></emu-rhs>
@@ -545,7 +556,7 @@
 </ol></emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-methods-static-semantics-HasDirectSuper">
+  <emu-clause id="async-methods-static-semantics-HasDirectSuper">
     <h1><span class="secnum">1.3.4</span>Static Semantics: HasDirectSuper</h1>
     <p>
       <emu-production name="AsyncMethod" type="lexical" class="inline">
@@ -558,7 +569,7 @@
 </ol></emu-alg>
   </emu-clause>
 
-  <emu-clause id="async-function-definitions-methods-static-semantics-PropName">
+  <emu-clause id="async-methods-static-semantics-PropName">
     <h1><span class="secnum">1.3.5</span>Static Semantics: PropName</h1>
     <p>
       <emu-production name="AsyncMethod" type="lexical" class="inline">
@@ -854,8 +865,6 @@
   <ol>
     <li>Updates to CreateDynamicFunction for creating dynamic async functions.</li>
     <li>Semantics (mostly runtime) for async methods.</li>
-    <li>EvaluateBody semantics for AsyncConciseBody.</li>
-    <li>IteratorBindingInitialization runtime semantics.</li>
   </ol>
 </emu-annex>
 <emu-annex id="desugaring">
