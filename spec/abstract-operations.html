@@ -16,7 +16,7 @@
     <emu-alg>
       1. If _operation_ was not provided, let _operation_ be "next".
       1. If _value_ was not provided, let _value_ be *undefined*.
-      1. If _operation_ is "next", then let _result_ be GeneratorResume(_generator_, _value_). 
+      1. If _operation_ is "next", then let _result_ be GeneratorResume(_generator_, _value_).
       1. Else if _operation_ is "throw", then
         1. Let _C_ be Completion{[[type]]: throw, [[value]]: _value_, [[target]]: empty}.
         1. Let _result_ be GeneratorResumeAbrupt(_generator_, _C_).
