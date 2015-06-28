@@ -598,13 +598,15 @@
   <emu-clause id="abstract-ops-async-function-start" aoid="AsyncFunctionStart">
     <h1><span class="secnum">2.2</span>AsyncFunctionStart(<var>generator</var>, <var>promiseCapability</var>, [ <var>operation</var>, <var>value</var> ])</h1>
     <p>With parameters <var>generator</var>, <var>promiseCapability</var>, <var>operation</var>, and <var>value</var>. The parameters <var>operation</var> and <var>value</var> are optional.</p>
-    <emu-note><span class="note">Note</span>This function does not return any important abrupt completions so in some cases they are ignored. In other cases, callers should ignore any abrupt completion values. Errors as a result of ticking forward the generator will be propagated as promise rejections. All other errors (such as those resulting from getting generator methods, calling Promise.resolve, or p.then) are ignored. It is possible that we can be statically assured that no errors will result from this algorithm.</emu-note>
     <emu-alg><ol>
   <li>If <var>operation</var> was not provided, let <var>operation</var> be <code>"next"</code>.</li>
   <li>If <var>value</var> was not provided, let <var>value</var> be <emu-val>undefined</emu-val>.</li>
-  <li>let <var>operationFn</var> be the result of <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-o-p">Get</a>(<var>generator</var>, <var>operation</var>).</li>
-  <li><a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-returnifabrupt">ReturnIfAbrupt</a>(<var>operationFn</var>).</li>
-  <li>let <var>result</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-call-f-v-args">Call</a>(<var>next</var>, <var>generator</var>).</li>
+  <li>If <var>operation</var> is <code>"next"</code>, then let <var>result</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume">GeneratorResume</a>(<var>generator</var>, <var>value</var>). 1. Else if <var>operation</var> is <code>"throw"</code>, then
+    <ol>
+      <li>Let <var>C</var> be Completion{[[type]]: throw, [[value]]: <var>value</var>, [[target]]: empty}.</li>
+      <li>Let <var>result</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresumeabrupt">GeneratorResumeAbrupt</a>(<var>generator</var>, <var>C</var>).</li>
+    </ol>
+  </li>
   <li>If <var>result</var> is an abrupt completion, then
     <ol>
       <li>Perform <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-call-f-v-args">Call</a>(<var>promiseCapability</var>.[[reject]], <emu-val>undefined</emu-val>, «<var>result</var>.value»)</li>
