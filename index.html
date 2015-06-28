@@ -601,7 +601,8 @@
     <emu-alg><ol>
   <li>If <var>operation</var> was not provided, let <var>operation</var> be <code>"next"</code>.</li>
   <li>If <var>value</var> was not provided, let <var>value</var> be <emu-val>undefined</emu-val>.</li>
-  <li>If <var>operation</var> is <code>"next"</code>, then let <var>result</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume">GeneratorResume</a>(<var>generator</var>, <var>value</var>). 1. Else if <var>operation</var> is <code>"throw"</code>, then
+  <li>If <var>operation</var> is <code>"next"</code>, then let <var>result</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume">GeneratorResume</a>(<var>generator</var>, <var>value</var>).</li>
+  <li>Else if <var>operation</var> is <code>"throw"</code>, then
     <ol>
       <li>Let <var>C</var> be Completion{[[type]]: throw, [[value]]: <var>value</var>, [[target]]: empty}.</li>
       <li>Let <var>result</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresumeabrupt">GeneratorResumeAbrupt</a>(<var>generator</var>, <var>C</var>).</li>
