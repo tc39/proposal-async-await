@@ -112,18 +112,13 @@
 
   <emu-clause id="async-decls-exprs-EvaluateBody">
     <h1>Runtime Semantics: EvaluateBody</h1>
-    <p>With parameter _functionObject_.</p>
     <p>
       <emu-prodref name="AsyncFunctionBody" a="1" class="inline"></emu-prodref><br>
     </p>
     <emu-alg>
       1. Let _promiseCapability_ be NewPromiseCapability(%Promise%).
-      2. ReturnIfAbrupt(_promiseCapability_).
-      3. Let _G_ be ObjectCreate(%GeneratorPrototype%, «[[GeneratorState]], [[GeneratorContext]]» ).
-      4. ReturnIfAbrupt(_G_).
-      5. Perform GeneratorStart(_G_, |FunctionBody|).
-      6. Perform AsyncFunctionStart(_G_, _promiseCapability_).
-      6. Return Completion{[[type]]: return, [[value]]: _promiseCapability_.[[Promise]], [[target]]: empty}.
+      1. Perform AsyncFunctionStart(_promiseCapability_, _FunctionBody_).
+      1. Return Completion{[[type]]: ~return~, [[value]]: _promiseCapability_.[[Promise]], [[target]]: ~empty~}.
     </emu-alg>
   </emu-clause>
 
@@ -142,10 +137,9 @@
     <p><emu-prodref name="AwaitExpression" a="1" class="inline"></emu-prodref></p>
     <emu-alg>
       1. Let _exprRef_ be the result of evaluating |UnaryExpression|.
-      2. Let _value_ be GetValue(_exprRef_).
-      3. ReturnIfAbrupt(_value_).
-      4. Return GeneratorYield(CreateIterResultObject(_value_, *false*)).
+      1. Let _value_ be GetValue(_exprRef_).
+      1. ReturnIfAbrupt(_value_).
+      1. Return AsyncFunctionAwait(_value_).
     </emu-alg>
-    <emu-note>The semantics of await are identical to `yield`.</p>
   </emu-clause>
 </emu-clause>
