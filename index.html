@@ -10,7 +10,7 @@
 
 <title>Async Functions</title>
 </head><body><h1>Async Functions</h1>
-<div><h2>Table of Contents</h2><ol class="toc"><li><a href="#intro"><span class="secnum"></span> Introduction</a><ol class="toc"><li><a href="#status"><span class="secnum"></span> Status of this proposal</a></li><li><a href="#examples"><span class="secnum"></span> Examples</a></li></ol></li><li><a href="#async-function-definitions"><span class="secnum">1</span> Async Function Definitions</a><ol class="toc"><li><a href="#async-decls-exprs"><span class="secnum">1.1</span> Async Function Declarations &amp; Expressions</a><ol class="toc"><li><a href="#async-decls-exprs-static-semantics-early-errors"><span class="secnum">1.1.1</span> Static Semantics: Early Errors</a></li><li><a href="#async-decls-exprs-static-semantics-BoundNames"><span class="secnum">1.1.2</span> Static Semantics: BoundNames</a></li><li><a href="#async-decls-exprs-static-semantics-Contains"><span class="secnum">1.1.3</span> Static Semantics: Contains</a></li><li><a href="#async-decls-exprs-static-semantics-HasDirectSuper"><span class="secnum">1.1.4</span> Static Semantics: HasDirectSuper</a></li><li><a href="#async-decls-exprs-static-semantics-HasName"><span class="secnum">1.1.5</span> Static Semantics: HasName</a></li><li><a href="#async-decls-exprs-static-semantics-IsConstantDeclaration"><span class="secnum">1.1.6</span> Static Semantics: IsConstantDeclaration</a></li><li><a href="#async-decls-exprs-static-semantics-IsFunctionDefinition"><span class="secnum">1.1.7</span> Static Semantics: IsFunctionDefinition</a></li><li><a href="#async-decls-exprs-InstantiateFunctionObject"><span class="secnum">1.1.8</span> Runtime Semantics: InstantiateFunctionObject</a></li><li><a href="#async-decls-exprs-EvaluateBody"><span class="secnum">1.1.9</span> Runtime Semantics: EvaluateBody</a></li><li><a href="#async-decls-exprs-runtime-semantics-evaluation"><span class="secnum">1.1.10</span> Runtime Semantics: Evaluation</a></li></ol></li><li><a href="#async-arrows"><span class="secnum">1.2</span> Async Arrow Functions</a><ol class="toc"><li><a href="#async-arrows-static-semantics-early-errors"><span class="secnum">1.2.1</span> Static Semantics: Early Errors</a></li><li><a href="#async-arrows-static-semantics-LexicallyDeclaredNames"><span class="secnum">1.2.2</span> Static Semantics: LexicallyDeclaredNames</a></li><li><a href="#async-arrows-static-semantics-CoveredAsyncArrowHead"><span class="secnum">1.2.3</span> Static Semantics: CoveredAsyncArrowHead</a></li><li><a href="#async-arrows-static-semantics-BoundNames"><span class="secnum">1.2.4</span> Static Semantics: BoundNames</a></li><li><a href="#async-arrows-static-semantics-Contains"><span class="secnum">1.2.5</span> Static Semantics: Contains</a></li><li><a href="#async-arrows-static-semantics-ContainsExpression"><span class="secnum">1.2.6</span> Static Semantics: ContainsExpression</a></li><li><a href="#async-arrows-static-semantics-HasInitializer"><span class="secnum">1.2.7</span> Static Semantics: HasInitializer</a></li><li><a href="#async-arrows-static-semantics-ExpectedArgumentCount"><span class="secnum">1.2.8</span> Static Semantics: ExpectedArgumentCount</a></li><li><a href="#async-arrows-static-semantics-HasName"><span class="secnum">1.2.9</span> Static Semantics: HasName</a></li><li><a href="#async-arrows-EvaluateBody"><span class="secnum">1.2.10</span> Runtime Semantics: EvaluateBody</a></li><li><a href="#async-function-definitions-runtime-semantics-evaluation"><span class="secnum">1.2.11</span> Runtime Semantics: Evaluation</a></li></ol></li><li><a href="#async-methods"><span class="secnum">1.3</span> Async Methods</a><ol class="toc"><li><a href="#async-methods-static-semantics-early-errors"><span class="secnum">1.3.1</span> Static Semantics: Early Errors</a></li><li><a href="#async-methods-static-semantics-ComputedPropertyContains"><span class="secnum">1.3.2</span> Static Semantics: ComputedPropertyContains</a></li><li><a href="#async-methods-static-semantics-HasComputedPropertyKey"><span class="secnum">1.3.3</span> Static Semantics: HasComputedPropertyKey</a></li><li><a href="#async-methods-static-semantics-HasDirectSuper"><span class="secnum">1.3.4</span> Static Semantics: HasDirectSuper</a></li><li><a href="#async-methods-static-semantics-PropName"><span class="secnum">1.3.5</span> Static Semantics: PropName</a></li></ol></li></ol></li><li><a href="#abstract-ops"><span class="secnum">2</span> Abstract Operations</a><ol class="toc"><li><a href="#abstract-ops-async-function-create"><span class="secnum">2.1</span> AsyncFunctionCreate(kind, ParameterList, Body, Scope, Strict)</a></li><li><a href="#abstract-ops-async-function-start"><span class="secnum">2.2</span> AsyncFunctionStart(<var>generator</var>, <var>promiseCapability</var>, [ <var>operation</var>, <var>value</var> ])</a></li><li><a href="#abstract-ops-awaited-resolved"><span class="secnum">2.3</span> AsyncFunction Awaited Resolved</a></li><li><a href="#abstract-ops-awaited-rejected"><span class="secnum">2.4</span> AsyncFunction Awaited Rejected</a></li></ol></li><li><a href="#async-function-objects"><span class="secnum">3</span> Async Function Objects</a><ol class="toc"><li><a href="#async-function-constructor"><span class="secnum">3.1</span> The Async Function Constructor</a><ol class="toc"><li><a href="#async-function-constructor-arguments"><span class="secnum">3.1.1</span> AsyncFunction(<var>p1</var>, <var>p2</var>, ..., <var>pn</var>, _body)</a></li></ol></li><li><a href="#async-function-constructor-properties"><span class="secnum">3.2</span> Properties of the AsyncFunction constructor</a><ol class="toc"><li><a href="#async-function-constructor-length"><span class="secnum">3.2.1</span> AsyncFunction.length</a></li><li><a href="#async-function-constructor-prototype"><span class="secnum">3.2.2</span> AsyncFunction.prototype</a></li></ol></li><li><a href="#async-function-prototype-properties"><span class="secnum">3.3</span> Properties of the AsyncFunction Prototype Object</a><ol class="toc"><li><a href="#async-function-prototype-properties-constructor"><span class="secnum">3.3.1</span> AsyncFunction.prototype.constructor</a></li><li><a href="#async-function-prototype-properties-toStringTag"><span class="secnum">3.3.2</span> AsyncFunction.prototype[@@toStringTag]</a></li></ol></li><li><a href="#async-function-instances"><span class="secnum">3.4</span> AsyncFunction Instances</a><ol class="toc"><li><a href="#async-function-instances-length"><span class="secnum">3.4.1</span> length</a></li><li><a href="#async-function-instances-name"><span class="secnum">3.4.2</span> name</a></li></ol></li></ol></li><li><a href="#modified-productions"><span class="secnum">4</span> Modifications to existing productions</a><ol class="toc"><li><a href="#HoistableDeclaration"><span class="secnum">4.1</span> <emu-nt>HoistableDeclaration</emu-nt></a></li><li><a href="#PrimaryExpression"><span class="secnum">4.2</span> <emu-nt>PrimaryExpression</emu-nt></a></li><li><a href="#CallExpression"><span class="secnum">4.3</span> <emu-nt>CallExpression</emu-nt></a></li><li><a href="#UnaryExpression"><span class="secnum">4.4</span> <emu-nt>UnaryExpression</emu-nt></a></li><li><a href="#MethodDefinition"><span class="secnum">4.5</span> <emu-nt>MethodDefinition</emu-nt></a></li><li><a href="#AssignmentExpression"><span class="secnum">4.6</span> <emu-nt>AssignmentExpression</emu-nt></a></li><li><a href="#ConciseBody"><span class="secnum">4.7</span> <emu-nt>ConciseBody</emu-nt></a></li><li><a href="#ExpressionStatement"><span class="secnum">4.8</span> <emu-nt>ExpressionStatement</emu-nt></a></li></ol></li><li><a href="#todo"><span class="secnum">A</span> Todo &amp; Known Issues</a></li><li><a href="#desugaring"><span class="secnum">B</span> Informative Desugaring</a></li></ol></div><emu-intro id="intro">
+<div><h2>Table of Contents</h2><ol class="toc"><li><a href="#intro"><span class="secnum"></span> Introduction</a><ol class="toc"><li><a href="#status"><span class="secnum"></span> Status of this proposal</a></li><li><a href="#examples"><span class="secnum"></span> Examples</a></li></ol></li><li><a href="#async-function-definitions"><span class="secnum">1</span> Async Function Definitions</a><ol class="toc"><li><a href="#async-decls-exprs"><span class="secnum">1.1</span> Async Function Declarations &amp; Expressions</a><ol class="toc"><li><a href="#async-decls-exprs-static-semantics-early-errors"><span class="secnum">1.1.1</span> Static Semantics: Early Errors</a></li><li><a href="#async-decls-exprs-static-semantics-BoundNames"><span class="secnum">1.1.2</span> Static Semantics: BoundNames</a></li><li><a href="#async-decls-exprs-static-semantics-Contains"><span class="secnum">1.1.3</span> Static Semantics: Contains</a></li><li><a href="#async-decls-exprs-static-semantics-HasDirectSuper"><span class="secnum">1.1.4</span> Static Semantics: HasDirectSuper</a></li><li><a href="#async-decls-exprs-static-semantics-HasName"><span class="secnum">1.1.5</span> Static Semantics: HasName</a></li><li><a href="#async-decls-exprs-static-semantics-IsConstantDeclaration"><span class="secnum">1.1.6</span> Static Semantics: IsConstantDeclaration</a></li><li><a href="#async-decls-exprs-static-semantics-IsFunctionDefinition"><span class="secnum">1.1.7</span> Static Semantics: IsFunctionDefinition</a></li><li><a href="#async-decls-exprs-InstantiateFunctionObject"><span class="secnum">1.1.8</span> Runtime Semantics: InstantiateFunctionObject</a></li><li><a href="#async-decls-exprs-EvaluateBody"><span class="secnum">1.1.9</span> Runtime Semantics: EvaluateBody</a></li><li><a href="#async-decls-exprs-runtime-semantics-evaluation"><span class="secnum">1.1.10</span> Runtime Semantics: Evaluation</a></li></ol></li><li><a href="#async-arrows"><span class="secnum">1.2</span> Async Arrow Functions</a><ol class="toc"><li><a href="#async-arrows-static-semantics-early-errors"><span class="secnum">1.2.1</span> Static Semantics: Early Errors</a></li><li><a href="#async-arrows-static-semantics-LexicallyDeclaredNames"><span class="secnum">1.2.2</span> Static Semantics: LexicallyDeclaredNames</a></li><li><a href="#async-arrows-static-semantics-CoveredAsyncArrowHead"><span class="secnum">1.2.3</span> Static Semantics: CoveredAsyncArrowHead</a></li><li><a href="#async-arrows-static-semantics-BoundNames"><span class="secnum">1.2.4</span> Static Semantics: BoundNames</a></li><li><a href="#async-arrows-static-semantics-Contains"><span class="secnum">1.2.5</span> Static Semantics: Contains</a></li><li><a href="#async-arrows-static-semantics-ContainsExpression"><span class="secnum">1.2.6</span> Static Semantics: ContainsExpression</a></li><li><a href="#async-arrows-static-semantics-HasInitializer"><span class="secnum">1.2.7</span> Static Semantics: HasInitializer</a></li><li><a href="#async-arrows-static-semantics-ExpectedArgumentCount"><span class="secnum">1.2.8</span> Static Semantics: ExpectedArgumentCount</a></li><li><a href="#async-arrows-static-semantics-HasName"><span class="secnum">1.2.9</span> Static Semantics: HasName</a></li><li><a href="#async-arrows-EvaluateBody"><span class="secnum">1.2.10</span> Runtime Semantics: EvaluateBody</a></li><li><a href="#async-function-definitions-runtime-semantics-evaluation"><span class="secnum">1.2.11</span> Runtime Semantics: Evaluation</a></li></ol></li><li><a href="#async-methods"><span class="secnum">1.3</span> Async Methods</a><ol class="toc"><li><a href="#async-methods-static-semantics-early-errors"><span class="secnum">1.3.1</span> Static Semantics: Early Errors</a></li><li><a href="#async-methods-static-semantics-ComputedPropertyContains"><span class="secnum">1.3.2</span> Static Semantics: ComputedPropertyContains</a></li><li><a href="#async-methods-static-semantics-HasComputedPropertyKey"><span class="secnum">1.3.3</span> Static Semantics: HasComputedPropertyKey</a></li><li><a href="#async-methods-static-semantics-HasDirectSuper"><span class="secnum">1.3.4</span> Static Semantics: HasDirectSuper</a></li><li><a href="#async-methods-static-semantics-PropName"><span class="secnum">1.3.5</span> Static Semantics: PropName</a></li></ol></li></ol></li><li><a href="#abstract-ops"><span class="secnum">2</span> Abstract Operations</a><ol class="toc"><li><a href="#abstract-ops-async-function-create"><span class="secnum">2.1</span> AsyncFunctionCreate(kind, ParameterList, Body, Scope, Strict)</a></li><li><a href="#abstract-ops-async-function-start"><span class="secnum">2.2</span> AsyncFunctionStart(promiseCapability, asyncFunctionBody)</a></li><li><a href="#abstract-ops-async-function-await"><span class="secnum">2.3</span> AsyncFunctionAwait(value)</a></li><li><a href="#abstract-ops-awaited-fulfilled"><span class="secnum">2.4</span> AsyncFunction Awaited fulfilled</a></li><li><a href="#abstract-ops-awaited-rejected"><span class="secnum">2.5</span> AsyncFunction Awaited Rejected</a></li></ol></li><li><a href="#async-function-objects"><span class="secnum">3</span> Async Function Objects</a><ol class="toc"><li><a href="#async-function-constructor"><span class="secnum">3.1</span> The Async Function Constructor</a><ol class="toc"><li><a href="#async-function-constructor-arguments"><span class="secnum">3.1.1</span> AsyncFunction(<var>p1</var>, <var>p2</var>, ..., <var>pn</var>, _body)</a></li></ol></li><li><a href="#async-function-constructor-properties"><span class="secnum">3.2</span> Properties of the AsyncFunction constructor</a><ol class="toc"><li><a href="#async-function-constructor-length"><span class="secnum">3.2.1</span> AsyncFunction.length</a></li><li><a href="#async-function-constructor-prototype"><span class="secnum">3.2.2</span> AsyncFunction.prototype</a></li></ol></li><li><a href="#async-function-prototype-properties"><span class="secnum">3.3</span> Properties of the AsyncFunction Prototype Object</a><ol class="toc"><li><a href="#async-function-prototype-properties-constructor"><span class="secnum">3.3.1</span> AsyncFunction.prototype.constructor</a></li><li><a href="#async-function-prototype-properties-toStringTag"><span class="secnum">3.3.2</span> AsyncFunction.prototype[@@toStringTag]</a></li></ol></li><li><a href="#async-function-instances"><span class="secnum">3.4</span> AsyncFunction Instances</a><ol class="toc"><li><a href="#async-function-instances-length"><span class="secnum">3.4.1</span> length</a></li><li><a href="#async-function-instances-name"><span class="secnum">3.4.2</span> name</a></li></ol></li></ol></li><li><a href="#modified-productions"><span class="secnum">4</span> Modifications to existing productions</a><ol class="toc"><li><a href="#HoistableDeclaration"><span class="secnum">4.1</span> <emu-nt>HoistableDeclaration</emu-nt></a></li><li><a href="#PrimaryExpression"><span class="secnum">4.2</span> <emu-nt>PrimaryExpression</emu-nt></a></li><li><a href="#CallExpression"><span class="secnum">4.3</span> <emu-nt>CallExpression</emu-nt></a></li><li><a href="#UnaryExpression"><span class="secnum">4.4</span> <emu-nt>UnaryExpression</emu-nt></a></li><li><a href="#MethodDefinition"><span class="secnum">4.5</span> <emu-nt>MethodDefinition</emu-nt></a></li><li><a href="#AssignmentExpression"><span class="secnum">4.6</span> <emu-nt>AssignmentExpression</emu-nt></a></li><li><a href="#ConciseBody"><span class="secnum">4.7</span> <emu-nt>ConciseBody</emu-nt></a></li><li><a href="#ExpressionStatement"><span class="secnum">4.8</span> <emu-nt>ExpressionStatement</emu-nt></a></li></ol></li><li><a href="#todo"><span class="secnum">A</span> Todo &amp; Known Issues</a></li><li><a href="#desugaring"><span class="secnum">B</span> Informative Desugaring</a></li></ol></div><emu-intro id="intro">
   <h1><span class="secnum"></span>Introduction</h1>
   <p>The introduction of Promises and Generators in ECMAScript presents an opportunity to dramatically improve the language-level model for writing asynchronous code in ECMAScript.</p>
 
@@ -271,19 +271,14 @@
 
   <emu-clause id="async-decls-exprs-EvaluateBody">
     <h1><span class="secnum">1.1.9</span>Runtime Semantics: EvaluateBody</h1>
-    <p>With parameter <var>functionObject</var>.</p>
     <p>
       <emu-production name="AsyncFunctionBody" type="lexical" a="1" class="inline">
     <emu-nt>AsyncFunctionBody</emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-nt params="Await">FunctionBody<emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt></emu-rhs></emu-production><br>
     </p>
     <emu-alg><ol>
   <li>Let <var>promiseCapability</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-newpromisecapability">NewPromiseCapability</a>(%Promise%).</li>
-  <li><a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-returnifabrupt">ReturnIfAbrupt</a>(<var>promiseCapability</var>).</li>
-  <li>Let <var>G</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-objectcreate">ObjectCreate</a>(%GeneratorPrototype%, «[[GeneratorState]], [[GeneratorContext]]» ).</li>
-  <li><a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-returnifabrupt">ReturnIfAbrupt</a>(<var>G</var>).</li>
-  <li>Perform <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorstart">GeneratorStart</a>(<var>G</var>, <emu-nt>FunctionBody</emu-nt>).</li>
-  <li>Perform <a href="#abstract-ops-async-function-start">AsyncFunctionStart</a>(<var>G</var>, <var>promiseCapability</var>).</li>
-  <li>Return Completion{[[type]]: return, [[value]]: <var>promiseCapability</var>.[[Promise]], [[target]]: empty}.</li>
+  <li>Perform <a href="#abstract-ops-async-function-start">AsyncFunctionStart</a>(<var>promiseCapability</var>, <var>FunctionBody</var>).</li>
+  <li>Return Completion{[[type]]: <emu-const>return</emu-const>, [[value]]: <var>promiseCapability</var>.[[Promise]], [[target]]: <emu-const>empty</emu-const>}.</li>
 </ol></emu-alg>
   </emu-clause>
 
@@ -307,10 +302,9 @@
   <li>Let <var>exprRef</var> be the result of evaluating <emu-nt>UnaryExpression</emu-nt>.</li>
   <li>Let <var>value</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-getvalue">GetValue</a>(<var>exprRef</var>).</li>
   <li><a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-returnifabrupt">ReturnIfAbrupt</a>(<var>value</var>).</li>
-  <li>Return <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatoryield">GeneratorYield</a>(<a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-createiterresultobject">CreateIterResultObject</a>(<var>value</var>, <emu-val>false</emu-val>)).</li>
+  <li>Return <a href="#abstract-ops-async-function-await">AsyncFunctionAwait</a>(<var>value</var>).</li>
 </ol></emu-alg>
-    <emu-note><span class="note">Note</span>The semantics of await are identical to <code>yield</code>.<p></p>
-  </emu-note></emu-clause>
+  </emu-clause>
 </emu-clause>
 
   <emu-clause id="async-arrows">
@@ -596,63 +590,75 @@
   </emu-clause>
 
   <emu-clause id="abstract-ops-async-function-start" aoid="AsyncFunctionStart">
-    <h1><span class="secnum">2.2</span>AsyncFunctionStart(<var>generator</var>, <var>promiseCapability</var>, [ <var>operation</var>, <var>value</var> ])</h1>
-    <p>With parameters <var>generator</var>, <var>promiseCapability</var>, <var>operation</var>, and <var>value</var>. The parameters <var>operation</var> and <var>value</var> are optional.</p>
+    <h1><span class="secnum">2.2</span>AsyncFunctionStart(promiseCapability, asyncFunctionBody)</h1>
     <emu-alg><ol>
-  <li>If <var>operation</var> was not provided, let <var>operation</var> be <code>"next"</code>.</li>
-  <li>If <var>value</var> was not provided, let <var>value</var> be <emu-val>undefined</emu-val>.</li>
-  <li>If <var>operation</var> is <code>"next"</code>, then let <var>result</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume">GeneratorResume</a>(<var>generator</var>, <var>value</var>).</li>
-  <li>Else if <var>operation</var> is <code>"throw"</code>, then
-    <ol>
-      <li>Let <var>C</var> be Completion{[[type]]: throw, [[value]]: <var>value</var>, [[target]]: empty}.</li>
-      <li>Let <var>result</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresumeabrupt">GeneratorResumeAbrupt</a>(<var>generator</var>, <var>C</var>).</li>
-    </ol>
+  <li>Let <var>asyncContext</var> be the running execution context.</li>
+  <li>Set the PromiseCapability component of <var>asyncContext</var> to <var>promiseCapability</var>.
+    <!-- TODO: modify the definition of running execution contexts to contain this -->
   </li>
-  <li>If <var>result</var> is an abrupt completion, then
-    <ol>
-      <li>Perform <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-call-f-v-args">Call</a>(<var>promiseCapability</var>.[[reject]], <emu-val>undefined</emu-val>, «<var>result</var>.value»)</li>
-      <li>Return.</li>
-    </ol>
-  </li>
-  <li>Assert: The async function has either awaited something or returned something.</li>
-  <li>let <var>done</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-o-p">Get</a>(<var>result</var>, <code>"done"</code>).</li>
-  <li><a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-returnifabrupt">ReturnIfAbrupt</a>(<var>done</var>).</li>
-  <li>If <var>done</var> is <emu-val>true</emu-val>, then
-    <ol>
-      <li>Perform <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-call-f-v-args">Call</a>(<var>promiseCapability</var>.[[resolve]], <emu-val>undefined</emu-val>, «<var>result</var>.value»).</li>
-      <li>Return.</li>
-    </ol>
-  </li>
-  <li>Assert: <var>done</var> is false, <var>result</var>.value is a value that has come out of the generator.</li>
-  <li>let <var>awaitedPromise</var> be the result of <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-call-f-v-args">Call</a>(%Promise%.resolve, %Promise%, «<var>result</var>.value»).</li>
-  <li>let <var>promiseResolved</var> be a new built-in function object as defined in <a href="#async-function-definitions-awaited-resolved">AsyncFunction Awaited Resolved</a>.</li>
-  <li>Set the [[Generator]] internal slot of <var>promiseResolved</var> to <var>generator</var>.</li>
-  <li>Set the [[PromiseCapability]] internal slot of <var>promiseResolved</var> to <var>promiseCapability</var>.</li>
-  <li>let <var>promiseRejected</var> be a new built-in function object as defined in <a href="#async-function-definitions-awaited-rejected">AsyncFunction Awaited Rejected</a>.</li>
-  <li>Set the [[Generator]] internal slot of <var>promiseRejected</var> to <var>generator</var>.</li>
-  <li>Set the [[PromiseCapability]] internal slot of <var>promiseRejected</var> to <var>promiseCapability</var>.</li>
-  <li><a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-invoke">Invoke</a>(<var>awaitedPromise</var>, <code>"then"</code>, «<var>promiseResolved</var>, <var>promiseRejected</var>»).</li>
-  <li>Return.</li>
+  <li>Let <var>result</var> be the result of evaluating <var>asyncFunctionBody</var>.</li>
+  <li>Assert: once this step is reached, the async function either threw an exception or performed an implicit or explicit return; all awaiting is done.</li>
+  <li>Remove <var>asyncContext</var> from the execution context stack and restore the execution context that is at the top of the execution context stack as the running execution context.</li>
+  <li>If <var>result</var>.[[type]] is <emu-const>normal</emu-const>, let <var>completionResult</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-call-f-v-args">Call</a>(<var>promiseCapability</var>.[[Resolve]], <emu-val>undefined</emu-val>, «<emu-val>undefined</emu-val>»).</li>
+  <li>Otherwise, if <var>result</var>.[[type]] is <emu-const>return</emu-const>, let <var>completionResult</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-call-f-v-args">Call</a>(<var>promiseCapability</var>.[[Resolve]], <emu-val>undefined</emu-val>, «<var>result</var>.[[value]]»).</li>
+  <li>Otherwise, <var>result</var>.[[type]] must be <emu-const>throw</emu-const>. Let <var>completionResult</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-call-f-v-args">Call</a>(<var>promiseCapability</var>.[[Reject]], <emu-val>undefined</emu-val>, «<var>result</var>.[[value]]»)</li>
+  <li>If <var>completionResult</var> is an abrupt completion, return <var>completionResult</var>.</li>
 </ol></emu-alg>
   </emu-clause>
 
-  <emu-clause id="abstract-ops-awaited-resolved">
-    <h1><span class="secnum">2.3</span>AsyncFunction Awaited Resolved</h1>
+  <emu-clause id="abstract-ops-async-function-await" aoid="AsyncFunctionAwait">
+    <h1><span class="secnum">2.3</span>AsyncFunctionAwait(value)</h1>
+    <emu-alg><ol>
+  <li>Let <var>asyncContext</var> be the running execution context.</li>
+  <li>Assert: <var>asyncContext</var> is the execution context of an async function.</li>
+  <li>Let <var>promiseCapability</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-newpromisecapability">NewPromiseCapability</a>(%Promise%).</li>
+  <li><a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-returnifabrupt">ReturnIfAbrupt</a>(<var>promiseCapability</var>).</li>
+  <li>Let <var>resolveResult</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-call-f-v-args">Call</a>(<var>promiseCapability</var>.[[Resolve]], <emu-val>undefined</emu-val>, «<var>value</var>»).</li>
+  <li><a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-returnifabrupt">ReturnIfAbrupt</a>(<var>resolveResult</var>).</li>
+  <li>Let <var>onFulfilled</var> be a new built-in function object as defined in <a href="#async-function-definitions-awaited-fulfilled">AsyncFunction Awaited Fulfilled</a>.</li>
+  <li>Let <var>onRejected</var> be a new built-in function object as defined in <a href="#async-function-definitions-awaited-rejected">AsyncFunction Awaited Rejected</a>.</li>
+  <li>Set <var>onFulfilled</var> and <var>onRejected</var>'s [[AsyncContext]] internal slots to <var>asyncContext</var>.</li>
+  <li>Let <var>throwawayCapability</var> be <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-newpromisecapability">NewPromiseCapability</a>(%Promise%).
+    <!-- Kind of lame. This is the equivalent of ignoring the return value -->
+  </li>
+  <li>Perform <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-performpromisethen">PerformPromiseThen</a>(<var>promise</var>, <var>onFulfilled</var>, <var>onRejected</var>, <var>throwawayCapability</var>).</li>
+  <li>Remove <var>asyncContext</var> from the execution context stack and restore the execution context that is at the top of the execution context stack as the running execution context.</li>
+  <li>Set the code evaluation state of <var>asyncContext</var> such that when evaluation is resumed with a Completion <var>resumptionValue</var> the following steps will be performed:
+    <ol>
+      <li>Return <var>resumptionValue</var>.</li>
+    </ol>
+  </li>
+  <li>Return <emu-val>undefined</emu-val>.</li>
+</ol></emu-alg>
+
+     <!-- could factor out the first four steps into something like "let _resolveResult_ be PromiseCoerce(_value_)" that is guaranteed to never throw -->
+
+    <emu-note><span class="note">Note</span>The return value of this abstract operation is unused. The interesting return is that of <var>resumptionValue</var> being returned to the <emu-nt>AwaitExpression</emu-nt> production that originally called this abstract operation.</emu-note>
+  </emu-clause>
+
+  <emu-clause id="abstract-ops-awaited-fulfilled">
+    <h1><span class="secnum">2.4</span>AsyncFunction Awaited fulfilled</h1>
     <p>Function <var>F</var> is called with the parameter <var>value</var>.</p>
     <emu-alg><ol>
-  <li>let <var>generator</var> be the value of <var>F</var>'s [[Generator]] internal slot.</li>
-  <li>let <var>promiseCapability</var> be the value of <var>F</var>'s [[PromiseCapability]] internal slot.</li>
-  <li>return the result of performing <a href="#abstract-ops-async-function-start">AsyncFunctionStart</a>(<var>generator</var>, <var>promiseCapability</var>, <code>"next"</code>, <var>value</var>).</li>
+  <li>Let <var>asyncContext</var> be the value of <var>F</var>'s [[AsyncContext]] internal slot.</li>
+  <li>Let <var>prevContext</var> be the running execution context.</li>
+  <li>Suspend <var>prevContext</var>.</li>
+  <li>Push <var>asyncContext</var> onto the execution context stack; <var>asyncContext</var> is now the running execution context.</li>
+  <li>Resume the suspended evaluation of <var>asyncContext</var> using <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-normalcompletion">NormalCompletion</a>(<var>value</var>) as the result of the operation that suspended it.</li>
+  <li>Assert: When we reach this step, <var>asyncContext</var> has already been removed from the execution context stack and <var>prevContext</var> is the currently running execution context.</li>
 </ol></emu-alg>
   </emu-clause>
 
   <emu-clause id="abstract-ops-awaited-rejected">
-    <h1><span class="secnum">2.4</span>AsyncFunction Awaited Rejected</h1>
-    <p>Function <var>F</var> is called with the parameter <var>value</var>.</p>
+    <h1><span class="secnum">2.5</span>AsyncFunction Awaited Rejected</h1>
+    <p>Function <var>F</var> is called with the parameter <var>reason</var>.</p>
     <emu-alg><ol>
-  <li>let <var>generator</var> be the value of <var>F</var>'s [[Generator]] internal slot.</li>
-  <li>let <var>promiseCapability</var> be the value of <var>F</var>'s [[PromiseCapability]] internal slot.</li>
-  <li>return the result of performing <a href="#abstract-ops-async-function-start">AsyncFunctionStart</a>(<var>generator</var>, <var>promiseCapability</var>, <code>"throw"</code>, <var>value</var>).</li>
+  <li>Let <var>asyncContext</var> be the value of <var>F</var>'s [[AsyncContext]] internal slot.</li>
+  <li>Let <var>prevContext</var> be the running execution context.</li>
+  <li>Suspend <var>prevContext</var>.</li>
+  <li>Push <var>asyncContext</var> onto the execution context stack; <var>asyncContext</var> is now the running execution context.</li>
+  <li>Resume the suspended evaluation of <var>asyncContext</var> using Completion{[[type]]: <emu-const>throw</emu-const>, [[value]]: <var>reason</var>, [[target]]: <emu-const>empty</emu-const>} as the result of the operation that suspended it.</li>
+  <li>Assert: When we reach this step, <var>asyncContext</var> has already been removed from the execution context stack and <var>prevContext</var> is the currently running execution context.</li>
 </ol></emu-alg>
   </emu-clause>
 </emu-clause>
