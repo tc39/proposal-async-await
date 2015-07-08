@@ -11,54 +11,68 @@
   </emu-clause>
 
   <emu-clause id="abstract-ops-async-function-start" aoid="AsyncFunctionStart">
-    <h1>AsyncFunctionStart(_generator_, _promiseCapability_, [ _operation_, _value_ ])</h1>
-    <p>With parameters _generator_, _promiseCapability_, _operation_, and _value_. The parameters _operation_ and _value_ are optional.</p>
+    <h1>AsyncFunctionStart(promiseCapability, asyncFunctionBody)</h1>
     <emu-alg>
-      1. If _operation_ was not provided, let _operation_ be "next".
-      1. If _value_ was not provided, let _value_ be *undefined*.
-      1. If _operation_ is "next", then let _result_ be GeneratorResume(_generator_, _value_).
-      1. Else if _operation_ is "throw", then
-        1. Let _C_ be Completion{[[type]]: throw, [[value]]: _value_, [[target]]: empty}.
-        1. Let _result_ be GeneratorResumeAbrupt(_generator_, _C_).
-      1. If _result_ is an abrupt completion, then
-        1. Perform Call(_promiseCapability_.[[reject]], *undefined*, «_result_.value»)
-        1. Return.
-      1. Assert: The async function has either awaited something or returned something.
-      1. let _done_ be Get(_result_, "done").
-      1. ReturnIfAbrupt(_done_).
-      1. If _done_ is *true*, then
-        1. Perform Call(_promiseCapability_.[[resolve]], *undefined*, «_result_.value»).
-        1. Return.
-      1. Assert: _done_ is false, _result_.value is a value that has come out of the generator.
-      1. let _awaitedPromise_ be the result of Call(%Promise%.resolve, %Promise%, «_result_.value»).
-      1. let _promiseResolved_ be a new built-in function object as defined in <a href="#async-function-definitions-awaited-resolved">AsyncFunction Awaited Resolved</a>.
-      1. Set the [[Generator]] internal slot of _promiseResolved_ to _generator_.
-      1. Set the [[PromiseCapability]] internal slot of _promiseResolved_ to _promiseCapability_.
-      1. let _promiseRejected_ be a new built-in function object as defined in <a href="#async-function-definitions-awaited-rejected">AsyncFunction Awaited Rejected</a>.
-      1. Set the [[Generator]] internal slot of _promiseRejected_ to _generator_.
-      1. Set the [[PromiseCapability]] internal slot of _promiseRejected_ to _promiseCapability_.
-      1. Invoke(_awaitedPromise_, "then", «_promiseResolved_, _promiseRejected_»).
-      1. Return.
+      1. Let _asyncContext_ be the running execution context.
+      1. Set the PromiseCapability component of _asyncContext_ to _promiseCapability_. <!-- TODO: modify the definition of running execution contexts to contain this -->
+      1. Let _result_ be the result of evaluating _asyncFunctionBody_.
+      1. Assert: once this step is reached, the async function either threw an exception or performed an implicit or explicit return; all awaiting is done.
+      1. Remove _asyncContext_ from the execution context stack and restore the execution context that is at the top of the execution context stack as the running execution context.
+      1. If _result_.[[type]] is ~normal~, let _completionResult_ be Call(_promiseCapability_.[[Resolve]], *undefined*, «*undefined*»).
+      1. Otherwise, if _result_.[[type]] is ~return~, let _completionResult_ be Call(_promiseCapability_.[[Resolve]], *undefined*, «_result_.[[value]]»).
+      1. Otherwise, _result_.[[type]] must be ~throw~. Let _completionResult_ be Call(_promiseCapability_.[[Reject]], *undefined*, «_result_.[[value]]»)
+      1. If _completionResult_ is an abrupt completion, return _completionResult_.
     </emu-alg>
   </emu-clause>
 
-  <emu-clause id="abstract-ops-awaited-resolved">
-    <h1>AsyncFunction Awaited Resolved</h1>
+  <emu-clause id="abstract-ops-async-function-await" aoid="AsyncFunctionAwait">
+    <h1>AsyncFunctionAwait(value)</h1>
+    <emu-alg>
+      1. Let _asyncContext_ be the running execution context.
+      1. Assert: _asyncContext_ is the execution context of an async function.
+      1. Let _promiseCapability_ be NewPromiseCapability(%Promise%).
+      1. ReturnIfAbrupt(_promiseCapability_).
+      1. Let _resolveResult_ be Call(_promiseCapability_.[[Resolve]], *undefined*, «_value_»).
+      1. ReturnIfAbrupt(_resolveResult_).
+      1. Let _onFulfilled_ be a new built-in function object as defined in <a href="#async-function-definitions-awaited-fulfilled">AsyncFunction Awaited Fulfilled</a>.
+      1. Let _onRejected_ be a new built-in function object as defined in <a href="#async-function-definitions-awaited-rejected">AsyncFunction Awaited Rejected</a>.
+      1. Set _onFulfilled_ and _onRejected_'s [[AsyncContext]] internal slots to _asyncContext_.
+      1. Let _throwawayCapability_ be NewPromiseCapability(%Promise%). <!-- Kind of lame. This is the equivalent of ignoring the return value -->
+      1. Perform PerformPromiseThen(_promise_, _onFulfilled_, _onRejected_, _throwawayCapability_).
+      1. Remove _asyncContext_ from the execution context stack and restore the execution context that is at the top of the execution context stack as the running execution context.
+      1. Set the code evaluation state of _asyncContext_ such that when evaluation is resumed with a Completion _resumptionValue_ the following steps will be performed:
+        1. Return _resumptionValue_.
+      1. Return *undefined*.
+    </emu-alg>
+
+     <!-- could factor out the first four steps into something like "let _resolveResult_ be PromiseCoerce(_value_)" that is guaranteed to never throw -->
+
+    <emu-note>The return value of this abstract operation is unused. The interesting return is that of _resumptionValue_ being returned to the |AwaitExpression| production that originally called this abstract operation.</emu-note>
+  </emu-clause>
+
+  <emu-clause id="abstract-ops-awaited-fulfilled">
+    <h1>AsyncFunction Awaited fulfilled</h1>
     <p>Function _F_ is called with the parameter _value_.</p>
     <emu-alg>
-      1. let _generator_ be the value of _F_'s [[Generator]] internal slot.
-      1. let _promiseCapability_ be the value of _F_'s [[PromiseCapability]] internal slot.
-      1. return the result of performing AsyncFunctionStart(_generator_, _promiseCapability_, "next", _value_).
+      1. Let _asyncContext_ be the value of _F_'s [[AsyncContext]] internal slot.
+      1. Let _prevContext_ be the running execution context.
+      1. Suspend _prevContext_.
+      1. Push _asyncContext_ onto the execution context stack; _asyncContext_ is now the running execution context.
+      1. Resume the suspended evaluation of _asyncContext_ using NormalCompletion(_value_) as the result of the operation that suspended it.
+      1. Assert: When we reach this step, _asyncContext_ has already been removed from the execution context stack and _prevContext_ is the currently running execution context.
     </emu-alg>
   </emu-clause>
 
   <emu-clause id="abstract-ops-awaited-rejected">
     <h1>AsyncFunction Awaited Rejected</h1>
-    <p>Function _F_ is called with the parameter _value_.</p>
+    <p>Function _F_ is called with the parameter _reason_.</p>
     <emu-alg>
-      1. let _generator_ be the value of _F_'s [[Generator]] internal slot.
-      1. let _promiseCapability_ be the value of _F_'s [[PromiseCapability]] internal slot.
-      1. return the result of performing AsyncFunctionStart(_generator_, _promiseCapability_, "throw", _value_).
+      1. Let _asyncContext_ be the value of _F_'s [[AsyncContext]] internal slot.
+      1. Let _prevContext_ be the running execution context.
+      1. Suspend _prevContext_.
+      1. Push _asyncContext_ onto the execution context stack; _asyncContext_ is now the running execution context.
+      1. Resume the suspended evaluation of _asyncContext_ using Completion{[[type]]: ~throw~, [[value]]: _reason_, [[target]]: ~empty~} as the result of the operation that suspended it.
+      1. Assert: When we reach this step, _asyncContext_ has already been removed from the execution context stack and _prevContext_ is the currently running execution context.
     </emu-alg>
   </emu-clause>
 </emu-clause>
