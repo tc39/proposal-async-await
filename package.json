@@ -15,7 +15,7 @@
   "dependencies": {
     "ecmarkup": "^1.2.1",
     "q": "*",
-    "regenerator": "git://github.com/facebook/regenerator#async-await",
+    "regenerator": "^0.8.34",
     "request": "*"
   },
   "repository": {
