@@ -8,11 +8,11 @@
     <p>The `AsyncFunction` constructor is designed to be subclassable. It may be used as the value of an extends clause of a class definition. Subclass constructors that intend to inherit the specified AsyncFunction behaviour must include a super call to the AsyncFunction constructor to create and initialize a subclass instances with the internal slots necessary for built-in async function behaviour.</p>
 
     <emu-clause id="async-function-constructor-arguments">
-      <h1>AsyncFunction(_p1_, _p2_, ..., _pn_, _body)</h1>
+      <h1>AsyncFunction(_p1_, _p2_, ..., _pn_, _body_)</h1>
 
       <p>The last argument specifies the body (executable code) of an async function. Any preceding arguments specify formal parameters.
 
-      <p>When the `AsyncFunction` function is called with some arguments _p1_, _p2_, ..., _pn_, _body_ (where _n_ migh tbe 0, that is, there are no _p_ arguments, and where _body) might also not be provided), the following steps are taken:</p>
+      <p>When the `AsyncFunction` function is called with some arguments _p1_, _p2_, ..., _pn_, _body_ (where _n_ might be 0, that is, there are no _p_ arguments, and where _body_ might also not be provided), the following steps are taken:</p>
 
       <emu-alg>
           1. Let _C_ be the active function object.
@@ -25,7 +25,7 @@
   </emu-clause>
   <emu-clause id="async-function-constructor-properties">
     <h1>Properties of the AsyncFunction constructor</h1>
-    
+
     <p>The AsyncFunction constructor is a standard built-in function object that inherits from the `Function` constructor. The value of the [[Prototype]] internal slot of the AsyncFunction constructor is the intrinsic object %Function%.
 
     <p>The value of the [[Extensible]] internal slot of the AsyncFunction constructor is *true*
@@ -51,7 +51,7 @@
     <p>The AsyncFunction prototype object is an ordinary object. In addition to being the value of the prototpe property of the %AsyncFunction% instrinsic, it is the %AsyncFunctionPrototype% intrinsic.</p>
 
     <p>The value of the [[Prototype]] internal slot of the AsyncFunction prototype object is the %FunctionPrototype% intrinsic object. The initial value of the [[Extensible]] internal slot of the AsyncFunction prototype object is *true*.</p>
-    
+
     <p>The AsyncFunction prototype object does not have a prototype property.</p>
     <emu-note>Presumably this could be Promise.prototype but I'm not sure this has any value?</emu-note>
 
@@ -76,7 +76,7 @@
   <emu-clause id="async-function-instances">
     <h1>AsyncFunction Instances</h1>
 
-    <p>Every AsyncFunction instance is an ECMAScript function object and has the internal slots listed in Table 27. The value of the [[FunctionKind]] internal slot for all such instances is "generator".</p>
+    <p>Every AsyncFunction instance is an ECMAScript function object and has the internal slots listed in Table 27. The value of the [[FunctionKind]] internal slot for all such instances is `"normal"`.</p>
 
     <p>Each AsyncFunction instance has the following own properties:</p>
 
@@ -91,7 +91,7 @@
     <emu-clause id="async-function-instances-name">
       <h1>name</h1>
 
-      <p>The specification for the `name` property of Function instances given in 19.2.4.2 also applies to Asyncfunction instances.</p>
+      <p>The specification for the `name` property of Function instances given in 19.2.4.2 also applies to AsyncFunction instances.</p>
     </emu-clause>
   </emu-clause>
 </emu-clause>

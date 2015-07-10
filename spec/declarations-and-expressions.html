@@ -101,12 +101,14 @@
       2. Let _name_ be StringValue of |BindingIdentifier|
       3. Let _F_ be AsyncFunctionCreate(~Normal~, |FormalParameters|, |AsyncFunctionBody|, _scope_, _strict_).
       4. Perform SetFunctionName(_F_, _name_).
+      5. Return _F_.
     </emu-alg>
     <p><emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref></p>
     <emu-alg>
       1. If the function code for |AsyncFunctionDeclaration| is strict mode code, let _strict_ be *true*. Otherwise, let _strict_ be *false*.
       2. Let _F_ be AsyncFunctionCreate(~Normal~, |FormalParameters|, |AsyncFunctionBody|, _scope_, _strict_).
       3. Perform SetFunctionName(_F_, "default").
+      4. Return _F_.
     </emu-alg>
   </emu-clause>
 
