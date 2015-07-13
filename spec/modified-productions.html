@@ -11,6 +11,56 @@
     </emu-production>
   </emu-clause>
 
+  <emu-clause id="ArrowFunction">
+    <h1>|ArrowFunction|</h1>
+    <emu-production name="ArrowFunction" params="Yield, Default, Await">
+      <emu-rhs><emu-nt params="?Yield, ?Await">ArrowParameters</emu-nt> <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann> => <emu-nt params="?In">ConciseBody</emu-nt></emu-rhs>
+    </emu-production>
+
+    <emu-clause id="arrow-function-static-semantics-early-errors">
+      <h1>Static Semantics: Early Errors</h1>
+      <p>
+        <emu-prodref name="ArrowFunction" class="inline"></emu-prodref>
+      </p>
+      <ul>
+        <li>It is a Syntax Error if |ArrowParameters| Contains |YieldExpression| is *true*.
+        <li><ins class="block">It is a Syntax Error if |ArrowParameters| Contains |AwaitExpression| is *true*.</ins>
+        <li>It is a Syntax Error if any element of the BoundNames of |ArrowParameters| also occurs in the LexicallyDeclaredNames of |ConciseBody|.
+      </ul>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="Identifiers">
+    <h1>|Identifiers|</h1>
+    <emu-production name="IdentifierReference" params="Yield, Await">
+      <emu-rhs a="identifier-reference"><emu-nt>Identifier</emu-nt></emu-rhs>
+      <emu-rhs a="identifier-reference-yield" constraints="~Yield">yield</emu-rhs>
+    </emu-production>
+
+    <emu-production name="BindingIdentifier" params="Yield, Await">
+      <emu-rhs a="binding-identifier"><emu-nt>Identifier</emu-nt></emu-rhs>
+      <emu-rhs a="binding-identifier-yield" constraints="~Yield">yield</emu-rhs>
+    </emu-production>
+
+    <emu-production name="LabelIdentifier" params="Yield, Await">
+      <emu-rhs a="label-identifier"><emu-nt>Identifier</emu-nt></emu-rhs>
+      <emu-rhs a="label-identifier-yield" constraints="~Yield">yield</emu-rhs>
+    </emu-production>
+
+    <emu-clause id="identifier-static-semantics-early-errors">
+      <h1>Static Semantics: Early Errors</h1>
+      <p>
+        <emu-prodref name="IdentifierReference" a="identifier-reference" class="inline"></emu-prodref><br>
+        <emu-prodref name="BindingIdentifier" a="binding-identifier" class="inline"></emu-prodref><br>
+        <emu-prodref name="LabelIdentifier" a="label-identifier" class="inline"></emu-prodref>
+      </p>
+      <ul>
+        <li>It is a Syntax Error if this production has a <sub>[Yield]</sub> parameter and StringValue of |Identifier| is `"yield"`.
+        <li><ins class="block">It is a Syntax Error if this production has an <sub>[Await]</sub> parameter and StringValue of |Identifier| is `"await"`.</ins>
+      </ul>
+    </emu-clause>
+  </emu-clause>
+
   <emu-clause id="PrimaryExpression">
     <h1>|PrimaryExpression|</h1>
     <emu-production name="PrimaryExpression" params="Yield, Await">
@@ -48,19 +98,58 @@
   <emu-clause id="UnaryExpression">
     <h1>|UnaryExpression|</h1>
     <emu-production name="UnaryExpression" params="Yield, Await">
-      <emu-rhs><emu-nt params="?Yield, ?Await">PostfixExpression</emu-nt></emu-rhs>
-      <emu-rhs>delete <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
-      <emu-rhs>void <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
-      <emu-rhs>typeof <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
-      <emu-rhs>++ <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
-      <emu-rhs>-- <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
-      <emu-rhs>+ <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
-      <emu-rhs>- <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
-      <emu-rhs>~ <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
-      <ins class="block"><emu-rhs constraints="+Await"><emu-nt params="?Yield">AwaitExpression</emu-nt></emu-rhs></ins>
+      <emu-rhs a="unary-expression-postfix"><emu-nt params="?Yield, ?Await">PostfixExpression</emu-nt></emu-rhs>
+      <emu-rhs a="unary-expression-delete">delete <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+      <emu-rhs a="unary-expression-void">void <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+      <emu-rhs a="unary-expression-typeof">typeof <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+      <emu-rhs a="unary-expression-increment">++ <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+      <emu-rhs a="unary-expression-decrement">-- <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+      <emu-rhs a="unary-expression-positive">+ <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+      <emu-rhs a="unary-expression-negative">- <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+      <emu-rhs a="unary-expression-bitwise-complement">~ <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+      <emu-rhs a="unary-expression-logical-complement">! <emu-nt params="?Yield, ?Await">UnaryExpression</emu-nt></emu-rhs>
+      <ins class="block"><emu-rhs a="unary-expression-await" constraints="+Await"><emu-nt params="?Yield">AwaitExpression</emu-nt></emu-rhs></ins>
     </emu-production>
 
     <emu-note>Currently it is not possible for an |AwaitExpression| and a |YieldExpression| to be parsed together, so technically passing the `?Yield` parameter for <emu-production name="UnaryExpression" class="inline"><emu-rhs constraints="+Await">await <emu-nt params="?Yield, Await">UnaryExpression</emu-nt></emu-rhs></emu-production> is unnecessary. It will probably be useful for AsyncGenerators however.</emu-note>
+
+    <emu-clause id="unary-operators-static-semantics-isfunctiondefinition">
+      <h1>Static Semantics: IsFunctionDefinition</h1>
+      <p>
+        <emu-prodref name="UnaryExpression" a="unary-expression-delete" class="inline"></emu-prodref><br>
+        <emu-prodref name="UnaryExpression" a="unary-expression-void" class="inline"></emu-prodref><br>
+        <emu-prodref name="UnaryExpression" a="unary-expression-typeof" class="inline"></emu-prodref><br>
+        <emu-prodref name="UnaryExpression" a="unary-expression-increment" class="inline"></emu-prodref><br>
+        <emu-prodref name="UnaryExpression" a="unary-expression-decrement" class="inline"></emu-prodref><br>
+        <emu-prodref name="UnaryExpression" a="unary-expression-positive" class="inline"></emu-prodref><br>
+        <emu-prodref name="UnaryExpression" a="unary-expression-negative" class="inline"></emu-prodref><br>
+        <emu-prodref name="UnaryExpression" a="unary-expression-bitwise-complement" class="inline"></emu-prodref><br>
+        <emu-prodref name="UnaryExpression" a="unary-expression-logical-complement" class="inline"></emu-prodref><br>
+        <ins><emu-prodref name="UnaryExpression" a="unary-expression-await" class="inline"></emu-prodref></ins>
+      </p>
+      <emu-alg>
+        1. Return *false*.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="unary-operators-static-semantics-isvalidsimpleassignmenttarget">
+      <h1>Static Semantics: IsValidSimpleAssignmentTarget</h1>
+      <p>
+        <emu-prodref name="UnaryExpression" a="unary-expression-delete" class="inline"></emu-prodref><br>
+        <emu-prodref name="UnaryExpression" a="unary-expression-void" class="inline"></emu-prodref><br>
+        <emu-prodref name="UnaryExpression" a="unary-expression-typeof" class="inline"></emu-prodref><br>
+        <emu-prodref name="UnaryExpression" a="unary-expression-increment" class="inline"></emu-prodref><br>
+        <emu-prodref name="UnaryExpression" a="unary-expression-decrement" class="inline"></emu-prodref><br>
+        <emu-prodref name="UnaryExpression" a="unary-expression-positive" class="inline"></emu-prodref><br>
+        <emu-prodref name="UnaryExpression" a="unary-expression-negative" class="inline"></emu-prodref><br>
+        <emu-prodref name="UnaryExpression" a="unary-expression-bitwise-complement" class="inline"></emu-prodref><br>
+        <emu-prodref name="UnaryExpression" a="unary-expression-logical-complement" class="inline"></emu-prodref><br>
+        <ins><emu-prodref name="UnaryExpression" a="unary-expression-await" class="inline"></emu-prodref></ins>
+      </p>
+      <emu-alg>
+        1. Return *false*.
+      </emu-alg>
+    </emu-clause>
   </emu-clause>
 
   <emu-clause id="MethodDefinition">
@@ -77,30 +166,53 @@
   <emu-clause id="AssignmentExpression">
     <h1>|AssignmentExpression|</h1>
     <emu-production name="AssignmentExpression" params="In, Yield, Await">
-      <emu-rhs><emu-nt params="?In, ?Yield, ?Await">ConditionalExpression</emu-nt></emu-rhs>
-      <emu-rhs constraints="+Yield"><emu-nt params="?In, ?Await">YieldExpression</emu-nt></emu-rhs>
-      <emu-rhs><emu-nt params="?In, ?Yield, ?Await">ArrowFunction</emu-nt></emu-rhs>
-      <ins class="block"><emu-rhs><emu-nt params="?In, ?Yield">AsyncArrowFunction</emu-nt></emu-rhs></ins>
-      <emu-rhs><emu-nt params="?Yield, ?Await">LeftHandSideExpression</emu-nt> = <emu-nt params="?In, ?Yield, ?Await">AssignmentExpression</emu-nt></emu-rhs>
-      <emu-rhs><emu-nt params="?Yield, ?Await">LeftHandSideExpression</emu-nt> <emu-nt>AssignmentOperator</emu-nt> <emu-nt params="?In, ?Yield, ?Await">AssignmentExpression</emu-nt></emu-rhs>
-    </emu-production>
-  </emu-clause>
-
-  <emu-clause id="ConciseBody">
-    <h1>|ConciseBody|</h1>
-    <emu-production name="ConciseBody" params="In, Await">
-      <emu-rhs><emu-gann>lookahead ≠ {</emu-gann> <emu-nt params="?In, ?Await">AssignmentExpression</emu-nt></emu-rhs>
-      <emu-rhs>{ <emu-nt params="?Await">FunctionBody</emu-nt> }</emu-rhs>
+      <emu-rhs a="assignment-expression-conditional"><emu-nt params="?In, ?Yield, ?Await">ConditionalExpression</emu-nt></emu-rhs>
+      <emu-rhs a="assignment-expression-yield" constraints="+Yield"><emu-nt params="?In, ?Await">YieldExpression</emu-nt></emu-rhs>
+      <emu-rhs a="assignment-expression-arrow"><emu-nt params="?In, ?Yield, ?Await">ArrowFunction</emu-nt></emu-rhs>
+      <ins class="block"><emu-rhs a="assignment-expression-async"><emu-nt params="?In, ?Yield, ?Await">AsyncArrowFunction</emu-nt></emu-rhs></ins>
+      <emu-rhs a="assignment-expression-assignment"><emu-nt params="?Yield, ?Await">LeftHandSideExpression</emu-nt> = <emu-nt params="?In, ?Yield, ?Await">AssignmentExpression</emu-nt></emu-rhs>
+      <emu-rhs a="assignment-expression-compound"><emu-nt params="?Yield, ?Await">LeftHandSideExpression</emu-nt> <emu-nt>AssignmentOperator</emu-nt> <emu-nt params="?In, ?Yield, ?Await">AssignmentExpression</emu-nt></emu-rhs>
     </emu-production>
 
-    <emu-note>Await parameter added.</emu-note>
+    <emu-clause id="assignment-operators-static-semantics-isfunctiondefinition">
+      <h1>Static Semantics: IsFunctionDefinition</h1>
+      <p>
+        <emu-prodref name="AssignmentExpression" a="assignment-expression-arrow" class="inline"></emu-prodref><br>
+        <ins><emu-prodref name="AssignmentExpression" a="assignment-expression-async" class="inline"></emu-prodref></ins>
+      </p>
+      <emu-alg>
+        1. Return *true*.
+      </emu-alg>
+      <p>
+        <emu-prodref name="AssignmentExpression" a="assignment-expression-yield" class="inline"></emu-prodref><br>
+        <emu-prodref name="AssignmentExpression" a="assignment-expression-assignment" class="inline"></emu-prodref><br>
+        <emu-prodref name="AssignmentExpression" a="assignment-expression-compound" class="inline"></emu-prodref>
+      </p>
+      <emu-alg>
+        1. Return *false*.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="assignment-operators-static-semantics-isvalidsimpleassignmenttarget">
+      <h1>Static Semantics: IsValidSimpleAssignmentTarget</h1>
+      <p>
+        <emu-prodref name="AssignmentExpression" a="assignment-expression-yield" class="inline"></emu-prodref><br>
+        <emu-prodref name="AssignmentExpression" a="assignment-expression-arrow" class="inline"></emu-prodref><br>
+        <ins><emu-prodref name="AssignmentExpression" a="assignment-expression-async" class="inline"></emu-prodref></ins><br>
+        <emu-prodref name="AssignmentExpression" a="assignment-expression-assignment" class="inline"></emu-prodref><br>
+        <emu-prodref name="AssignmentExpression" a="assignment-expression-compound" class="inline"></emu-prodref>
+      </p>
+      <emu-alg>
+        1. Return *false*.
+      </emu-alg>
+    </emu-clause>
   </emu-clause>
 
   <emu-clause id="ExpressionStatement">
     <h1>|ExpressionStatement|</h1>
     <emu-production name="ExpressionStatement" params="Yield, Await">
       <emu-rhs>
-        <emu-gann>lookahead ∉ { <emu-t>{</emu-t>, <emu-t>function</emu-t>, <emu-t>class</emu-t>, <emu-t>let [</emu-t><ins>,<emu-t>async function</emu-t></ins>}</emu-gann>
+        <emu-gann>lookahead ∉ { <emu-t>{</emu-t>, <emu-t>function</emu-t>, <emu-t>class</emu-t>, <emu-t>let [</emu-t><ins>,<emu-t>async</emu-t><emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann><emu-t>function</emu-t></ins>}</emu-gann>
         <emu-nt params="In, ?Yield, ?Await">Expression</emu-nt>
       </emu-rhs>
     </emu-production>
