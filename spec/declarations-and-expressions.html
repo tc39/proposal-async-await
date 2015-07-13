@@ -6,7 +6,8 @@
     <p>
       <emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref><br>
       <emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref><br>
-      <emu-prodref name="AsyncFunctionExpression" a="1" class="inline"></emu-prodref>
+      <emu-prodref name="AsyncFunctionExpression" a="1" class="inline"></emu-prodref><br>
+      <emu-prodref name="AsyncFunctionExpression" a="2" class="inline"></emu-prodref>
     </p>
     <ul>
       <li>It is a Syntax Error if |FormalParameters| Contains |AwaitExpression| is *true*.
@@ -15,6 +16,8 @@
       <li>It is a Syntax Error if any element of the BoundNames of |FormalParameters| also occurs in the LexicallyDeclaredNames of |AsyncFunctionBody|.
       <li>It is a Syntax Error if |FormalParameters| contains |SuperProperty| is *true*.
       <li>It is a Syntax Error if |AsyncFunctionBody| contains |SuperProperty| is *true*.
+      <li>It is a Syntax Error if |FormalParameters| contains |SuperCall| is *true*.
+      <li>It is a Syntax Error if |AsyncFunctionBody| contains |SuperCall| is *true*.
     </ul>
   </emu-clause>
 
@@ -28,7 +31,7 @@
     <emu-alg>
       1. Return «"*default*"».
     </emu-alg>
-    <emu-note>"*default*" is used within this specification as a synthetic name for hoistable anonymous functions that are defined using export declarations.</emu-note>
+    <emu-note>"`*default*`" is used within this specification as a synthetic name for hoistable anonymous functions that are defined using export declarations.</emu-note>
   </emu-clause>
   <emu-clause id="async-decls-exprs-static-semantics-Contains">
     <h1>Static Semantics: Contains</h1>
@@ -43,19 +46,6 @@
       1. Return *false*.
     </emu-alg>
     <emu-note>Could probably check if _symbol_ is one of these declarations or expressions, but this is not done in current spec and may not be necessary. See also: <a href="https://bugs.ecmascript.org/show_bug.cgi?id=4383">https://bugs.ecmascript.org/show_bug.cgi?id=4383</a>.</emu-note>
-  </emu-clause>
-  <emu-clause id="async-decls-exprs-static-semantics-HasDirectSuper">
-    <h1>Static Semantics: HasDirectSuper</h1>
-    <p>
-      <emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref><br>
-      <emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref><br>
-      <emu-prodref name="AsyncFunctionExpression" a="1" class="inline"></emu-prodref><br>
-      <emu-prodref name="AsyncFunctionExpression" a="2" class="inline"></emu-prodref><br>
-    </p>
-    <emu-alg>
-      1. If |FormalParameters| Contains |SuperCall| is *true*, return *true*.
-      2. Return |AsyncFunctionBody| Contains |SuperCall|.
-    </emu-alg>
   </emu-clause>
 
   <emu-clause id="async-decls-exprs-static-semantics-HasName">
@@ -77,7 +67,7 @@
       <emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref>
     </p>
     <emu-alg>
-      1. Return *true*.
+      1. Return *false*.
     </emu-alg>
   </emu-clause>
 
@@ -114,6 +104,7 @@
 
   <emu-clause id="async-decls-exprs-EvaluateBody">
     <h1>Runtime Semantics: EvaluateBody</h1>
+    <p>With parameter _functionObject_.</p>
     <p>
       <emu-prodref name="AsyncFunctionBody" a="1" class="inline"></emu-prodref><br>
     </p>
@@ -128,12 +119,34 @@
     <h1>Runtime Semantics: Evaluation</h1>
     <p><emu-prodref name="AsyncFunctionDeclaration" a="1" class="inline"></emu-prodref></p>
     <emu-alg>
-      1. Return.
+      1. Return NormalCompletion(~empty~).
     </emu-alg>
 
     <p><emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref></p>
     <emu-alg>
-      1. Return.
+      1. Return NormalCompletion(~empty~).
+    </emu-alg>
+
+    <p><emu-prodref name="AsyncFunctionExpression" a="1" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. If the function code for |AsyncFunctionExpression| is strict mode code, let _strict_ be *true*. Otherwise let _strict_ be *false*.
+      1. Let _scope_ be the LexicalEnvironment of the running execution context.
+      1. Let _closure_ be AsyncFunctionCreate(~Normal~, |FormalParameters|, |AsyncFunctionBody|, _scope_, _strict_).
+      1. Return _closure_.
+    </emu-alg>
+
+    <p><emu-prodref name="AsyncFunctionExpression" a="2" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. If the function code for |AsyncFunctionExpression| is strict mode code, let _strict_ be *true*. Otherwise let _strict_ be *false*.
+      1. Let _scope_ be the LexicalEnvironment of the running execution context.
+      1. Let _funcEnv_ be NewDeclarativeEnvironment(_scope_).
+      1. Let _envRec_ be _funcEnv_'s EnvironmentRecord.
+      1. Let _name_ be StringValue of |BindingIdentifier|.
+      1. Perform _envRec_.CreateImmutableBinding( _name_). <!-- FIXME: Remove the space before _name_ without breaking the result html. -->
+      1. Let _closure_ be AsyncFunctionCreate(~Normal~, |FormalParameters|, |AsyncFunctionBody|, _funcEnv_, _strict_).
+      1. Perform SetFunctionName(_closure_, _name_).
+      1. Perform _envRec_.InitializeBinding( _name_, _closure_).
+      1. Return _closure_.
     </emu-alg>
 
     <p><emu-prodref name="AwaitExpression" a="1" class="inline"></emu-prodref></p>

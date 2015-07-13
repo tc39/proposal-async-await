@@ -6,10 +6,10 @@
 
     AsyncFunctionExpression ::
         `async` [no LineTerminator here] `function` `(` FormalParameters[Await] `)` `{` AsyncFunctionBody `}`                   #1
-        `async` [no LineTerminator here] `function` BindingIdentifier `(` FormalParameters[Await] `)` `{` AsyncFunctionBody `}` #2
+        `async` [no LineTerminator here] `function` BindingIdentifier[Await] `(` FormalParameters[Await] `)` `{` AsyncFunctionBody `}` #2
 
-    AsyncMethod ::
-        `async` [no LineTerminator here] PropertyName `(` StrictFormalParameters[Await] `)` `{` AsyncFunctionBody `}` #1
+    AsyncMethod[Yield, Await] ::
+        `async` [no LineTerminator here] PropertyName[?Yield, ?Await] `(` StrictFormalParameters[Await] `)` `{` AsyncFunctionBody `}` #1
 
     AsyncFunctionBody ::
         FunctionBody[Await] #1
@@ -17,13 +17,13 @@
     AwaitExpression[Yield] ::
         `await` UnaryExpression[?Yield, Await] #1
 
-    AsyncArrowFunction[In, Yield] ::
+    AsyncArrowFunction[In, Yield, Await] ::
         `async` [no LineTerminator here] AsyncArrowBindingIdentifier[?Yield] [no LineTerminator here] `=>` AsyncConciseBody[?In] #1
-        CoverCallExpressionAndAsyncArrowHead[?Yield, Await] [no LineTerminator here] `=>` AsyncConciseBody[?In]                  #2
+        CoverCallExpressionAndAsyncArrowHead[?Yield, ?Await] [no LineTerminator here] `=>` AsyncConciseBody[?In]                 #2
 
     AsyncConciseBody[In] ::
-        [lookahead != `{`] AssignmentExpression[?In] #1
-        `{` AsyncFunctionBody `}`                  #2
+        [lookahead != `{`] AssignmentExpression[?In, Await] #1
+        `{` AsyncFunctionBody `}`                           #2
 
     AsyncArrowBindingIdentifier[Yield]
         BindingIdentifier[?Yield, Await] #1
@@ -32,13 +32,13 @@
         MemberExpression[?Yield, ?Await] Arguments[?Yield, ?Await] #1
 </emu-grammar>
 
-<emu-note>`yield` is |Identifier| or |YieldExpression| in |FunctionParameters| of |AsyncFunctionDeclaration| and |AsyncFunctionExpression| and |ArrowParameters| of |AsyncArrowFunction| depending on context. `await` is always parsed as an |AwaitExpression| but is a Syntax Error via static semantics. Yield is always allowed as an identifier of an |AsyncFunctionExpression|.</emu-note>
+<emu-note>`yield` is |Identifier| or |YieldExpression| in |FunctionParameters| of |AsyncFunctionDeclaration| and |AsyncFunctionExpression| and |ArrowParameters| of |AsyncArrowFunction| depending on context. `await` is always parsed as an |AwaitExpression| but is a Syntax Error via static semantics. `yield` is always allowed as an identifier of an |AsyncFunctionExpression|.</emu-note>
 
-<emu-note>Unlike `yield`, it is a Syntax Error to omit the operand of an Await. You must await something.</emu-note>
+<emu-note>Unlike |YieldExpression|, it is a Syntax Error to omit the operand of an |AwaitExpression|. You must await something.</emu-note>
 
 
 <h3>Supplemental Syntax</h3>
-<p>When processing the production <emu-prodref name="AsyncArrowFunction" a="1" class="inline"></emu-prodref> the interpretation of |CoverCallExpressionAndAsyncArrowHead| is refined using the following gramar:</p>
+<p>When processing the production <emu-prodref name="AsyncArrowFunction" a="2" class="inline"></emu-prodref> the interpretation of |CoverCallExpressionAndAsyncArrowHead| is refined using the following gramar:</p>
 
 <emu-grammar>
     AsyncArrowHead[?Yield] ::
