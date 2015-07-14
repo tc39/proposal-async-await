@@ -85,10 +85,6 @@
     <emu-alg>
       1. Return an empty List.
     </emu-alg>
-    <p><emu-prodref name="AsyncConciseBody" a="2" class="inline"></emu-prodref></p>
-    <emu-alg>
-      1. Return LexicallyDeclaredNames of |AsyncFunctionBody|.
-    </emu-alg>
   </emu-clause>
 
   <emu-clause id="async-arrows-static-semantics-LexicallyScopedDeclarations">
@@ -96,10 +92,6 @@
     <p><emu-prodref name="AsyncConciseBody" a="1" class="inline"></emu-prodref></p>
     <emu-alg>
       1. Return an empty List.
-    </emu-alg>
-    <p><emu-prodref name="AsyncConciseBody" a="2" class="inline"></emu-prodref></p>
-    <emu-alg>
-      1. Return LexicallyScopedDeclarations of |AsyncFunctionBody|.
     </emu-alg>
   </emu-clause>
 
@@ -109,10 +101,6 @@
     <emu-alg>
       1. Return an empty List.
     </emu-alg>
-    <p><emu-prodref name="AsyncConciseBody" a="2" class="inline"></emu-prodref></p>
-    <emu-alg>
-      1. Return VarDeclaredNames of |AsyncFunctionBody|.
-    </emu-alg>
   </emu-clause>
 
   <emu-clause id="async-arrows-static-semantics-VarScopedDeclarations">
@@ -120,10 +108,6 @@
     <p><emu-prodref name="AsyncConciseBody" a="1" class="inline"></emu-prodref></p>
     <emu-alg>
       1. Return an empty List.
-    </emu-alg>
-    <p><emu-prodref name="AsyncConciseBody" a="2" class="inline"></emu-prodref></p>
-    <emu-alg>
-      1. Return VarScopedDeclarations of |AsyncFunctionBody|.
     </emu-alg>
   </emu-clause>
 
@@ -152,7 +136,8 @@
     <p><emu-prodref name="AsyncConciseBody" a="1" class="inline"></emu-prodref></p>
     <emu-alg>
       1. Let _promiseCapability_ be NewPromiseCapability(%Promise%).
-      1. Perform AsyncFunctionStart(_promiseCapability_, _FunctionBody_).
+      1. Let _result_ be AsyncFunctionStart(_promiseCapability_, _FunctionBody_).
+      1. ReturnIfAbrupt(_result_).
       1. Return Completion{[[type]]: ~return~, [[value]]: _promiseCapability_.[[Promise]], [[target]]: ~empty~}.
     </emu-alg>
     <p><emu-prodref name="AsyncConciseBody" a="2" class="inline"></emu-prodref></p>
