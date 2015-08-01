@@ -29,6 +29,6 @@
   ],
   "license": "Apache V2",
   "scripts": {
-    "update-pages": "iojs node_modules/ecmarkup/bin/ecmarkup.js spec/index.html _index.html && git checkout gh-pages && rm index.html && mv _index.html index.html && git add index.html && git commit -m \"update pages\" && git checkout master"
+    "update-pages": "node node_modules/ecmarkup/bin/ecmarkup.js spec/index.html _index.html && git checkout gh-pages && rm index.html && mv _index.html index.html && git add index.html && git commit -m \"update pages\" && git checkout master"
   }
 }
