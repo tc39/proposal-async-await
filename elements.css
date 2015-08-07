@@ -1,14 +1,16 @@
-html {
-}
-
 body {
     font-size: 18px;
     line-height: 1.5;
     font-family: Cambria, Palatino Linotype, Palatino, Liberation Serif, serif;
     padding: 0;
     color: #333;
-    max-width: 65em;
-    margin: 0 0 0 25em;
+    max-width: 844px;
+    margin: 0 0 0 38%;
+    overflow-x: hidden;
+
+    text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
 }
 
 a {
@@ -294,6 +296,8 @@ del.block {
 
 /* Menu Styles */
 #menu-toggle {
+  font-size: 2em;
+
   position: fixed;
   top: 0;
   left: 0;
@@ -305,7 +309,6 @@ del.block {
   background-color: #111;
   color: #B6C8E4;
 
-  font-size: 2em;
   line-height: 1.5em;
   text-align: center;
   -webkit-touch-callout: none;
@@ -323,8 +326,7 @@ del.block {
   left: 0;
   top: 0;
   height: 100%;
-  padding-top: 2em;
-  width: 20em;
+  width: 24%;
   z-index: 2;
   overflow-x: hidden;
   overflow-y: auto;
@@ -359,7 +361,7 @@ del.block {
 
 #menu-toc .item-toggle {
   display: inline-block;
-  transform: rotate(-45deg);
+  transform: rotate(-45deg) translate(-5px, -5px);
   transition: transform 0.1s ease;
   width: 1em;
 
@@ -397,13 +399,14 @@ del.block {
   color: #B6C8E4;
 }
 
-@media (max-width: 60em) {
+@media (max-width: 1366px) {
   body {
-    margin: 0 0 0 5em;
+    margin: 0 0 0 150px;
   }
 
   #menu {
     opacity: 0;
+    padding-top: 2em;
   }
 
   #menu-toggle {
@@ -411,18 +414,13 @@ del.block {
   }
 }
 
-@media (max-width: 20em) {
+@media only screen and (max-width: 800px) and (min-resolution: 194dpi) {
+  body {
+    font-size: 250%;
+    margin: 0 0 0 200px;
+  }
   #menu {
     width: 100%;
+    font-size: 1.5em;
   }
-}
-
-@media (min-width: 95em) {
-    #menu {
-        width: calc(100% - 65em);
-    }
-
-    body {
-        margin: 0 5em 0 calc(100% - 60em);
-    }
 }
