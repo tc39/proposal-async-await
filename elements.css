@@ -414,7 +414,7 @@ del.block {
   }
 }
 
-@media only screen and (max-width: 800px) and (min-resolution: 194dpi) {
+@media only screen and (max-width: 1366px) and (min-resolution: 194dpi) {
   body {
     font-size: 250%;
     margin: 0 0 0 200px;
