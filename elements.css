@@ -5,7 +5,7 @@ body {
     padding: 0;
     color: #333;
     max-width: 844px;
-    margin: 0 0 0 38%;
+    margin: 0 0 0 31%;
     overflow-x: hidden;
 }
 
@@ -334,6 +334,7 @@ del.block {
 }
 
 #menu.active {
+  display: block;
   opacity: 1;
 }
 
@@ -401,8 +402,9 @@ del.block {
   }
 
   #menu {
-    opacity: 0;
+    display: none;
     padding-top: 2em;
+    width: 323px;
   }
 
   #menu-toggle {
@@ -410,11 +412,23 @@ del.block {
   }
 }
 
-@media only screen and (max-width: 1366px) and (min-resolution: 194dpi) {
+@media only screen and (max-width: 800px) {
   body {
-    margin: 0 0 0 75px;
+    margin: 2em 10px 0 10px;
   }
+
   #menu {
     width: 100%;
+  }
+
+  h1 .secnum {
+    display: inline;
+    position: inherit;
+    left: 0;
+    right: 0;
+  }
+
+  h1 .secnum:empty {
+    margin: 0; padding: 0;
   }
 }
