@@ -7,10 +7,6 @@ body {
     max-width: 844px;
     margin: 0 0 0 38%;
     overflow-x: hidden;
-
-    text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
 }
 
 a {
@@ -416,11 +412,9 @@ del.block {
 
 @media only screen and (max-width: 1366px) and (min-resolution: 194dpi) {
   body {
-    font-size: 250%;
-    margin: 0 0 0 200px;
+    margin: 0 0 0 75px;
   }
   #menu {
     width: 100%;
-    font-size: 1.5em;
   }
 }
