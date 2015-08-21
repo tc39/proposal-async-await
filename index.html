@@ -29,20 +29,20 @@
 
     <p>Take the following example, first written using Promises.  This code chains a set of animations on an element, stopping when there is an exception in an animation, and returning the value produced by the final succesfully executed animation.</p>
 
-    <pre><code lang="javascript">
-    function chainAnimationsPromise(elem, animations) {
-        let ret = null;
-        let p = currentPromise;
-        for(const anim of animations) {
-            p = p.then(function(val) {
+    <pre><code class="javascript hljs">
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">chainAnimationsPromise</span>(<span class="hljs-params">elem, animations</span>) </span>{
+        <span class="hljs-keyword">let</span> ret = <span class="hljs-literal">null</span>;
+        <span class="hljs-keyword">let</span> p = currentPromise;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">const</span> anim <span class="hljs-keyword">of</span> animations) {
+            p = p.then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">val</span>) </span>{
                 ret = val;
-                return anim(elem);
+                <span class="hljs-keyword">return</span> anim(elem);
             })
         }
-        return p.catch(function(e) {
-            /* ignore and keep going */
-        }).then(function() {
-            return ret;
+        <span class="hljs-keyword">return</span> p.catch(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
+            <span class="hljs-comment">/* ignore and keep going */</span>
+        }).then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            <span class="hljs-keyword">return</span> ret;
         });
     }
     </code></pre>
