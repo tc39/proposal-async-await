@@ -5,7 +5,7 @@
   "engines": {
     "node": ">=0.11.0"
   },
-  "author": "Luke Hoban",
+  "author": "Brian Terlson",
   "licenses": [
     {
       "type": "Apache V2",
@@ -13,7 +13,7 @@
     }
   ],
   "dependencies": {
-    "ecmarkup": "^1.2.1",
+    "ecmarkup": "^2.0.1",
     "q": "*",
     "regenerator": "^0.8.34",
     "request": "*"
@@ -29,6 +29,6 @@
   ],
   "license": "Apache V2",
   "scripts": {
-    "update-pages": "node node_modules/ecmarkup/bin/ecmarkup.js spec/index.html _index.html && git checkout gh-pages && rm index.html && mv _index.html index.html && git add index.html && git commit -m \"update pages\" && git checkout master"
+    "update-pages": "node node_modules/ecmarkup/bin/ecmarkup.js spec/index.html _index.html --css _ecmarkup.css --js _ecmarkup.js && git checkout gh-pages && rm index.html ecmarkup.css ecmarkup.js && mv _index.html index.html && mv _ecmarkup.css ecmarkup.css && mv _ecmarkup.js ecmarkup.js && git add index.html ecmarkup.js ecmarkup.css && git commit -m \"update pages\" && git checkout master"
   }
 }
