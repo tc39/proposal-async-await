@@ -575,12 +575,9 @@
   <emu-clause id="async-function-instances">
     <h1><span class="secnum">3.4</span>AsyncFunction Instances<span class="utils"><span class="anchor"><a href="#async-function-instances">#</a></span></span></h1>
 
-    <p>Every AsyncFunction instance is an ECMAScript function object and has the internal slots listed in Table 27. The value of the [[FunctionKind]] internal slot for all such instances is <code>"normal"</code>.</p>
+    <p>Every AsyncFunction instance is an ECMAScript function object and has the internal slots listed in Table 27. The value of the [[FunctionKind]] internal slot for all such instances is <code>"normal"</code>. AsyncFunction instances are not constructors and do not have a [[<emu-xref href="#sec-construct"><a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-construct">Construct</a></emu-xref>]] internal slot. AsyncFunction instances do not have a prototype property as they are not constructable.</p>
 
     <p>Each AsyncFunction instance has the following own properties:</p>
-
-    <p>AsyncFunction instances do not have a prototype property as they are not constructable.</p>
-
     <emu-clause id="async-function-instances-length">
       <h1><span class="secnum">3.4.1</span>length<span class="utils"><span class="anchor"><a href="#async-function-instances-length">#</a></span></span></h1>
       <p>The value of the <emu-val>length</emu-val> property is an integer that indicates the typical number of arguments expected by the AsyncFunction. However, the language permits the function to be invoked with some other number of arguments. The behaviour of an AsyncFunction when invoked on a number of arguments other than the number specified by its length property depends on the function.</p>
