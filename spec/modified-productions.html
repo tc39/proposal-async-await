@@ -35,16 +35,19 @@
     <emu-production name="IdentifierReference" params="Yield, Await">
       <emu-rhs a="identifier-reference"><emu-nt>Identifier</emu-nt></emu-rhs>
       <emu-rhs a="identifier-reference-yield" constraints="~Yield">yield</emu-rhs>
+      <emu-rhs a="identifier-reference-await" constraints="~Await">await</emu-rhs>
     </emu-production>
 
     <emu-production name="BindingIdentifier" params="Yield, Await">
       <emu-rhs a="binding-identifier"><emu-nt>Identifier</emu-nt></emu-rhs>
       <emu-rhs a="binding-identifier-yield" constraints="~Yield">yield</emu-rhs>
+      <emu-rhs a="binding-identifier-await" constraints="~Await">await</emu-rhs>
     </emu-production>
 
     <emu-production name="LabelIdentifier" params="Yield, Await">
       <emu-rhs a="label-identifier"><emu-nt>Identifier</emu-nt></emu-rhs>
       <emu-rhs a="label-identifier-yield" constraints="~Yield">yield</emu-rhs>
+      <emu-rhs a="label-identifier-await" constraints="~Await">await</emu-rhs>
     </emu-production>
 
     <emu-clause id="identifier-static-semantics-early-errors">
