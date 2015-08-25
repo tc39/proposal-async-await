@@ -671,16 +671,19 @@
     <emu-production name="IdentifierReference" params="Yield, Await" id="prod-IdentifierReference">
       <emu-nt params="Yield, Await"><a href="#prod-IdentifierReference">IdentifierReference</a><emu-mods><emu-params>[Yield, Await]</emu-params></emu-mods></emu-nt><emu-geq>:</emu-geq><emu-rhs a="identifier-reference"><emu-nt><a href="http://www.ecma-international.org/ecma-262/6.0/index.html#prod-Identifier">Identifier</a><emu-mods></emu-mods></emu-nt></emu-rhs>
       <emu-rhs a="identifier-reference-yield" constraints="~Yield"><emu-constraints>[~Yield]</emu-constraints><emu-t>yield</emu-t></emu-rhs>
+      <emu-rhs a="identifier-reference-await" constraints="~Await"><emu-constraints>[~Await]</emu-constraints><emu-t>await</emu-t></emu-rhs>
     </emu-production>
 
     <emu-production name="BindingIdentifier" params="Yield, Await" id="prod-BindingIdentifier">
       <emu-nt params="Yield, Await"><a href="#prod-BindingIdentifier">BindingIdentifier</a><emu-mods><emu-params>[Yield, Await]</emu-params></emu-mods></emu-nt><emu-geq>:</emu-geq><emu-rhs a="binding-identifier"><emu-nt><a href="http://www.ecma-international.org/ecma-262/6.0/index.html#prod-Identifier">Identifier</a><emu-mods></emu-mods></emu-nt></emu-rhs>
       <emu-rhs a="binding-identifier-yield" constraints="~Yield"><emu-constraints>[~Yield]</emu-constraints><emu-t>yield</emu-t></emu-rhs>
+      <emu-rhs a="binding-identifier-await" constraints="~Await"><emu-constraints>[~Await]</emu-constraints><emu-t>await</emu-t></emu-rhs>
     </emu-production>
 
     <emu-production name="LabelIdentifier" params="Yield, Await" id="prod-LabelIdentifier">
       <emu-nt params="Yield, Await"><a href="#prod-LabelIdentifier">LabelIdentifier</a><emu-mods><emu-params>[Yield, Await]</emu-params></emu-mods></emu-nt><emu-geq>:</emu-geq><emu-rhs a="label-identifier"><emu-nt><a href="http://www.ecma-international.org/ecma-262/6.0/index.html#prod-Identifier">Identifier</a><emu-mods></emu-mods></emu-nt></emu-rhs>
       <emu-rhs a="label-identifier-yield" constraints="~Yield"><emu-constraints>[~Yield]</emu-constraints><emu-t>yield</emu-t></emu-rhs>
+      <emu-rhs a="label-identifier-await" constraints="~Await"><emu-constraints>[~Await]</emu-constraints><emu-t>await</emu-t></emu-rhs>
     </emu-production>
 
     <emu-clause id="identifier-static-semantics-early-errors">
