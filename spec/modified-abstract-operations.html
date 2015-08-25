@@ -1,0 +1,63 @@
+<emu-clause id="sec-modified-abstract-ops">
+  <h1>Modified Abstract Operations</h1>
+  <emu-clause id="sec-modified-OrdinaryCallEvaluateBody" aoid="OrdinaryCallEvaluateBody">
+    <h1>OrdinaryCallEvaluateBody</h1>
+    <p>When the abstract operation  <emu-xref href="#sec-ordinarycallevaluatebody">OrdinaryCallEvaluateBody</emu-xref> is called with function object _F_ and List _argumentsList_ the following steps are taken:</p>
+    <emu-alg>
+      1. <del>Let _status_ be FunctionDeclarationInstantiation(_F_, _argumentsList_).</del>
+      2. <del>ReturnIfAbrupt(_status_)</del>
+      3. Return the result of EvaluateBody of the parsed code that is the value of _F_'s [[ECMAScriptCode]] internal slot passing _F_ as the argument.
+    </emu-alg>
+
+    <emu-note>
+      The call to FunctionDeclarationInstantiation has moved to the EvaluateBody step of all the EvaluateBody steps. Async functions have special handling.
+    </emu-note>
+  </emu-clause>
+
+  <emu-clause id="sec-modified-function-definitions-evaluatebody">
+    <h1>Runtime Semantics: EvaluateBody</h1>
+    <p>With parameter<ins>s</ins> _functionObject_ <ins>and List _argumentsList_</ins>.</p>
+    <emu-note>This clause redefines EvaluateBody for Function Declaration and Expression bodies.</emu-note>
+    <emu-grammar class="inline">
+      FunctionBody :: FunctionStatementList
+    </emu-grammar>
+    <emu-alg>
+      1. <ins>Let _status_ be FunctionDeclarationInstantiation(_functionObject_, _argumentsList_).</ins>
+      2. <ins>ReturnIfAbrupt(_status_)</ins>
+      3. Return the result of evaluating |FunctionStatementList|.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-modified-arrow-function-definitions-evaluatebody">
+    <h1>Runtime Semantics: EvaluateBody</h1>
+    <p>With parameter<ins>s</ins> _functionObject_ <ins>and List _argumentsList_</ins>.</p>
+    <emu-note>This clause redefines EvaluateBody for arrow function concise bodies.</emu-note>
+    <emu-grammar class="inline">
+      ConciseBody :: AssignmentExpression
+    </emu-grammar>
+    <emu-alg>
+      1. <ins>Let _status_ be FunctionDeclarationInstantiation(_functionObject_, _argumentsList_).</ins>
+      2. <ins>ReturnIfAbrupt(_status_)</ins>
+      3. Let _exprRef_ be the result of evaluating |AssignmentExpression|.
+      4. Let _exprValue_ be GetValue(_exprRef_).
+      5. ReturnIfAbrupt(_exprValue_).
+      6. Return Completion{[[type]]: ~return~, [[value]]: _exprValue_, [[target]]: ~empty~}.
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-modified-generator-function-definitions-evaluatebody">
+    <h1>Runtime Semantics: EvaluateBody</h1>
+    <p>With parameter<ins>s</ins> _functionObject_ <ins>and List _argumentsList_</ins>.</p>
+    <emu-note>This clause redefines EvaluateBody for generator function bodies.</emu-note>
+    <emu-grammar class="inline">
+      GeneratorBody :: FunctionBody
+    </emu-grammar>
+    <emu-alg>
+      1. <ins>Let _status_ be FunctionDeclarationInstantiation(_functionObject_, _argumentsList_).</ins>
+      2. <ins>ReturnIfAbrupt(_status_)</ins>
+      3. Let _G_ be OrdinaryCreateFromConstructor(_functionObject_, "%GeneratorPrototype%", «[[GeneratorState]], [[GeneratorContext]]» ).
+      4. ReturnIfAbrupt(_G_).
+      5. Perform GeneratorStart(_G_, |FunctionBody|).
+      6. Return Completion{[[type]]: ~return~, [[value]]: _G_, [[target]]: ~empty~}.
+    </emu-alg>
+  </emu-clause>
+</emu-clause>
