@@ -86,7 +86,7 @@ emu-eqn div:first-child {
 
 emu-note {
     display: block;
-    margin-left: 6em;
+    margin: 1em 0 1em 6em;
     color: #666;
 }
 
@@ -114,12 +114,13 @@ emu-production {
     margin-left: 5ex;
 }
 
-emu-production.inline {
+
+emu-grammar.inline emu-production, emu-production.inline {
     display: inline;
     margin: 0;
 }
 
-emu-production.inline emu-rhs {
+emu-grammar.inline emu-production emu-rhs, emu-production.inline emu-rhs {
     display: inline;
     padding-left: 1ex;
 }
