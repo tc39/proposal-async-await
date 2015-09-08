@@ -898,32 +898,32 @@ function &lt;name&gt;?&lt;argumentlist&gt;{ return spawn(function*() &lt;body&gt
 
   <p>The <code>spawn</code> used in the above desugaring is a call to the following algorithm.  This algorithm does not need to be exposed directly as an API to user code, it is part of the semantics of async functions.</p>
 
-<pre><code language="javascript">
-function spawn(genF, self) {
-    return new Promise(function(resolve, reject) {
-        var gen = genF.call(self);
-        function step(nextF) {
-            var next;
-            try {
+<pre><code class="lang-javascript hljs">
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">spawn</span>(<span class="hljs-params">genF, self</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">resolve, reject</span>) </span>{
+        <span class="hljs-keyword">var</span> gen = genF.call(self);
+        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">step</span>(<span class="hljs-params">nextF</span>) </span>{
+            <span class="hljs-keyword">var</span> next;
+            <span class="hljs-keyword">try</span> {
                 next = nextF();
-            } catch(e) {
-                // finished with failure, reject the promise
+            } <span class="hljs-keyword">catch</span>(e) {
+                <span class="hljs-comment">// finished with failure, reject the promise</span>
                 reject(e);
-                return;
+                <span class="hljs-keyword">return</span>;
             }
-            if(next.done) {
-                // finished with success, resolve the promise
+            <span class="hljs-keyword">if</span>(next.done) {
+                <span class="hljs-comment">// finished with success, resolve the promise</span>
                 resolve(next.value);
-                return;
+                <span class="hljs-keyword">return</span>;
             }
-            // not finished, chain off the yielded promise and `step` again
-            Promise.resolve(next.value).then(function(v) {
-                step(function() { return gen.next(v); });
-            }, function(e) {
-                step(function() { return gen.throw(e); });
+            <span class="hljs-comment">// not finished, chain off the yielded promise and `step` again</span>
+            <span class="hljs-built_in">Promise</span>.resolve(next.value).then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">v</span>) </span>{
+                step(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-keyword">return</span> gen.next(v); });
+            }, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
+                step(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-keyword">return</span> gen.throw(e); });
             });
         }
-        step(function() { return gen.next(undefined); });
+        step(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-keyword">return</span> gen.next(<span class="hljs-literal">undefined</span>); });
     });
 }</code></pre>
 </emu-annex>
