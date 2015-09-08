@@ -17,7 +17,7 @@ function &lt;name>?&lt;argumentlist>{ return spawn(function*() &lt;body>, this);
 
   <p>The `spawn` used in the above desugaring is a call to the following algorithm.  This algorithm does not need to be exposed directly as an API to user code, it is part of the semantics of async functions.</p>
 
-<pre><code language="javascript">
+<pre><code class="lang-javascript">
 function spawn(genF, self) {
     return new Promise(function(resolve, reject) {
         var gen = genF.call(self);
