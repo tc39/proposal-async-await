@@ -4,16 +4,16 @@
 
   <emu-clause id="HoistableDeclaration">
     <h1>|HoistableDeclaration|</h1>
-    <emu-production name="HoistableDeclaration" params="Yield, Default">
-      <emu-rhs><emu-nt params="?Yield, ?Default">FunctionDeclaration</emu-nt></emu-rhs>
-      <emu-rhs><emu-nt params="?Yield, ?Default">GeneratorDeclaration</emu-nt></emu-rhs>
-      <ins class="block"><emu-rhs><emu-nt params="?Yield, ?Default">AsyncFunctionDeclaration</emu-nt></emu-rhs></ins>
+    <emu-production name="HoistableDeclaration" params="Yield, Default, Await">
+      <emu-rhs><emu-nt params="?Yield, ?Default, ?Await">FunctionDeclaration</emu-nt></emu-rhs>
+      <emu-rhs><emu-nt params="?Yield, ?Default, ?Await">GeneratorDeclaration</emu-nt></emu-rhs>
+      <ins class="block"><emu-rhs><emu-nt params="?Yield, ?Default, ?Await">AsyncFunctionDeclaration</emu-nt></emu-rhs></ins>
     </emu-production>
   </emu-clause>
 
   <emu-clause id="ArrowFunction">
     <h1>|ArrowFunction|</h1>
-    <emu-production name="ArrowFunction" params="Yield, Default, Await">
+    <emu-production name="ArrowFunction" params="Yield, In, Await">
       <emu-rhs><emu-nt params="?Yield, ?Await">ArrowParameters</emu-nt> <emu-gann>no <emu-nt>LineTerminator</emu-nt> here</emu-gann> => <emu-nt params="?In">ConciseBody</emu-nt></emu-rhs>
     </emu-production>
 
@@ -74,11 +74,11 @@
       <emu-rhs><emu-nt params="?Yield, ?Await">ObjectLiteral</emu-nt></emu-rhs> 
       <emu-rhs><emu-nt>FunctionExpression</emu-nt></emu-rhs>
       <emu-rhs><emu-nt params="?Yield, ?Await">ClassExpression</emu-nt></emu-rhs>
-      <emu-rhs><emu-nt params="?Await">GeneratorExpression</emu-nt></emu-rhs>
-      <ins class="block"><emu-rhs><emu-nt params="?Yield">AsyncFunctionExpression</emu-nt></emu-rhs></ins>
+      <emu-rhs><emu-nt>GeneratorExpression</emu-nt></emu-rhs>
+      <ins class="block"><emu-rhs><emu-nt>AsyncFunctionExpression</emu-nt></emu-rhs></ins>
       <emu-rhs><emu-nt>RegularExpressionLiteral</emu-nt></emu-rhs>
-      <emu-rhs><emu-nt params="?Yield">TemplateLiteral</emu-nt></emu-rhs>
-      <emu-rhs><emu-nt params="?Yield">CoverParenthesizedExpressionAndArrowParameterList</emu-nt></emu-rhs>
+      <emu-rhs><emu-nt params="?Yield, ?Await">TemplateLiteral</emu-nt></emu-rhs>
+      <emu-rhs><emu-nt params="?Yield, ?Await">CoverParenthesizedExpressionAndArrowParameterList</emu-nt></emu-rhs>
     </emu-production>
   </emu-clause>
 
@@ -171,7 +171,7 @@
     <h1>|AssignmentExpression|</h1>
     <emu-production name="AssignmentExpression" params="In, Yield, Await">
       <emu-rhs a="assignment-expression-conditional"><emu-nt params="?In, ?Yield, ?Await">ConditionalExpression</emu-nt></emu-rhs>
-      <emu-rhs a="assignment-expression-yield" constraints="+Yield"><emu-nt params="?In, ?Await">YieldExpression</emu-nt></emu-rhs>
+      <emu-rhs a="assignment-expression-yield" constraints="+Yield"><emu-nt params="?In">YieldExpression</emu-nt></emu-rhs>
       <emu-rhs a="assignment-expression-arrow"><emu-nt params="?In, ?Yield, ?Await">ArrowFunction</emu-nt></emu-rhs>
       <ins class="block"><emu-rhs a="assignment-expression-async"><emu-nt params="?In, ?Yield, ?Await">AsyncArrowFunction</emu-nt></emu-rhs></ins>
       <emu-rhs a="assignment-expression-assignment"><emu-nt params="?Yield, ?Await">LeftHandSideExpression</emu-nt> = <emu-nt params="?In, ?Yield, ?Await">AssignmentExpression</emu-nt></emu-rhs>
