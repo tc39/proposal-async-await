@@ -13,7 +13,7 @@
     }
   ],
   "dependencies": {
-    "ecmarkup": "^2.0.3",
+    "ecmarkup": "^2.5.1",
     "q": "*",
     "regenerator": "^0.8.34",
     "request": "*"
