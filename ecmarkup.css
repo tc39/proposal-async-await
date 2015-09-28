@@ -149,8 +149,10 @@ emu-oneof {
 }
 
 emu-nt {
+    display: inline-block;
     font-style: italic;
     white-space: nowrap;
+    text-indent: 0;
 }
 
 emu-nt a, emu-nt a:visited {
@@ -162,8 +164,11 @@ emu-rhs emu-nt {
 }
 
 emu-t {
+    display: inline-block;
     font-family: monospace;
     font-weight: bold;
+    white-space: nowrap;
+    text-indent: 0;
 }
 
 emu-production emu-t {
@@ -201,6 +206,20 @@ emu-gprose {
     font-family: Helvetica, Arial, sans-serif;
 }
 
+h1.shortname {
+  color: #f60;
+  font-size: 1.5em;
+  margin: 0;
+}
+h1.version {
+  color: #f60;
+  font-size: 1.5em;
+  margin: 0;
+}
+h1.title {
+  margin-top: 0;
+  color: #f60;
+}
 h1, h2, h3, h4, h5, h6 {
     position: relative;
 }
@@ -422,7 +441,7 @@ del.block {
 }
 
 #menu-toc li.active > .item-toggle {
-  transform: rotate(0);
+  transform: rotate(45deg) translate(-5px, -5px);
 }
 
 #menu-toc li > ol {
