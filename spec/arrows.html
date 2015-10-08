@@ -9,14 +9,11 @@
     </ul>
     <p><emu-prodref name="AsyncArrowFunction" a="2" class="inline"></emu-prodref></p>
     <ul>
+      <li>It is a Syntax Error if |CoverCallExpressionAndAsyncArrowHead| Contains |YieldExpression| is *true*.
+      <li>It is a Syntax Error if |CoverCallExpressionAndAsyncArrowHead| Contains |AwaitExpression| is *true*.
+      <li>It is a Syntax Error if any element of the BoundNames of |CoverCallExpressionAndAsyncArrowHead| also occurs in the LexicallyDeclaredNames of |AsyncConciseBody|.
       <li>It is a Syntax Error if the lexical token sequence matched by |CoverCallExpressionAndAsyncArrowHead| cannot be parsed with no tokens left over using |AsyncArrowHead| as the goal symbol.</li>
       <li>All Early Error rules for |AsyncArrowHead| and its derived productions apply to CoveredAsyncArrowHead of |CoverCallExpressionAndAsyncArrowHead|.</li>
-    </ul>
-    <p><emu-prodref name="AsyncArrowHead" class="inline"></emu-prodref></p>
-    <ul>
-      <li>It is a Syntax Error if |ArrowFormalParameters| Contains |YieldExpression| is *true*.
-      <li>It is a Syntax Error if |ArrowFormalParameters| Contains |AwaitExpression| is *true*.
-      <li>It is a Syntax Error if any element of the BoundNames of |ArrowFormalParameters| also occurs in the LexicallyDeclaredNames of |AsyncConciseBody|.
     </ul>
   </emu-clause>
 
@@ -25,6 +22,15 @@
     <p><emu-prodref name="CoverCallExpressionAndAsyncArrowHead" class="inline"></emu-prodref></p>
     <emu-alg>
       1. Return the result of parsing the lexical token stream matched by |CoverCallExpressionAndAsyncArrowHead|<sub>[Yield, Await]</sub> using either |AsyncArrowHead| or |AsyncArrowHead|<sub>[Yield]</sub> as the goal symbol depending upon whether the <sub>[Yield]</sub> grammar parameter was present when |CoverCallExpressionAndAsyncArrowHead| was matched.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="async-arrows-static-semantics-BoundNames">
+    <h1>Static Semantics: BoundNames</h1>
+    <p><emu-prodref name="CoverCallExpressionAndAsyncArrowHead" a="1" class="inline"></emu-prodref></p>
+    <emu-alg>
+      1. Let _head_ be CoveredAsyncFunctionHead of |CoverCallExpressionAndAsyncArrowHead|.
+      1. Return the BoundNames of _head_.
     </emu-alg>
   </emu-clause>
 
