@@ -41,6 +41,6 @@
 <p>When processing the production <emu-prodref name="AsyncArrowFunction" a="2" class="inline"></emu-prodref> the interpretation of |CoverCallExpressionAndAsyncArrowHead| is refined using the following gramar:</p>
 
 <emu-grammar>
-    AsyncArrowHead[?Yield] ::
-        `async` [no LineTerminator here] ArrowFormalParameters[?Yield, Await] #1
+    AsyncArrowHead ::
+        `async` [no LineTerminator here] ArrowFormalParameters[Await] #1
 </emu-grammar>
