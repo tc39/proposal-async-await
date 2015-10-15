@@ -203,6 +203,10 @@ emu-mods {
     font-weight: normal;
 }
 
+emu-production[collapsed] emu-mods {
+  display: none;
+}
+
 emu-params, emu-opt {
   margin-right: 1ex;
   font-family: monospace;
