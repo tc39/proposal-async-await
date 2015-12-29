@@ -110,11 +110,9 @@
       1. Let _promiseCapability_ be NewPromiseCapability(%Promise%).
       1. Let _declResult_ be FunctionDeclarationInstantiation(_functionObject_, _argumentsList_).
       1. If _declResult_ is not an abrupt completion, then
-        1. Let _result_ be AsyncFunctionStart(_promiseCapability_, _FunctionBody_).
-        1. ReturnIfAbrupt(_result_).
+        1. Perform ? AsyncFunctionStart(_promiseCapability_, _FunctionBody_).
       1. Else _declResult_ is an abrupt completion
-        1. Let _rejectResult_ be Call(_promiseCapability_.[[Reject]], *undefined*, «_declResult_.[[value]]»).
-        2. ReturnIfAbrupt(_rejectResult_).
+        1. Perform ? Call(_promiseCapability_.[[Reject]], *undefined*, «_declResult_.[[value]]»).
       1. Return Completion{[[type]]: ~return~, [[value]]: _promiseCapability_.[[Promise]], [[target]]: ~empty~}.
     </emu-alg>
   </emu-clause>
@@ -156,8 +154,7 @@
     <p><emu-prodref name="AwaitExpression" a="1" class="inline"></emu-prodref></p>
     <emu-alg>
       1. Let _exprRef_ be the result of evaluating |UnaryExpression|.
-      1. Let _value_ be GetValue(_exprRef_).
-      1. ReturnIfAbrupt(_value_).
+      1. Let _value_ be ? GetValue(_exprRef_).
       1. Return AsyncFunctionAwait(_value_).
     </emu-alg>
   </emu-clause>

@@ -14,7 +14,7 @@
     <h1>AsyncFunctionStart ( _promiseCapability_, |asyncFunctionBody| )</h1>
     <emu-alg>
       1. Let _runningContext_ be the running execution context.
-      1. Let _asyncContext_ be a copy of _runningContext_. <!-- TODO: Probably need to define how to copy an execution context. -->
+      1. Let _asyncContext_ be a copy of _runningContext_.
       1. Set the code evaluation state of _asyncContext_ such that when evaluation is resumed for that execution context the following steps will be performed:
         1. Let _result_ be the result of evaluating _asyncFunctionBody_.
         1. Assert: If we return here, the async function either threw an exception or performed an implicit or explicit return; all awaiting is done.
@@ -37,15 +37,13 @@
     <h1>AsyncFunctionAwait ( _value_ )</h1>
     <emu-alg>
       1. Let _asyncContext_ be the running execution context.
-      1. Let _promiseCapability_ be NewPromiseCapability(%Promise%).
-      1. Assert: _promiseCapability_ is not an abrupt completion. <!-- TODO: Either remove this assertion or add after every call to NewPromiseCapability(%Promise%). -->
-      1. Let _resolveResult_ be Call(_promiseCapability_.[[Resolve]], *undefined*, «_value_»).
-      1. ReturnIfAbrupt(_resolveResult_).
+      1. Let _promiseCapability_ be ! NewPromiseCapability(%Promise%).
+      1. Let _resolveResult_ be ! Call(_promiseCapability_.[[Resolve]], *undefined*, « _value_ »).
       1. Let _onFulfilled_ be a new built-in function object as defined in <a href="#async-function-definitions-awaited-fulfilled">AsyncFunction Awaited Fulfilled</a>.
       1. Let _onRejected_ be a new built-in function object as defined in <a href="#async-function-definitions-awaited-rejected">AsyncFunction Awaited Rejected</a>.
       1. Set _onFulfilled_ and _onRejected_'s [[AsyncContext]] internal slots to _asyncContext_.
       1. Let _throwawayCapability_ be NewPromiseCapability(%Promise%). <!-- Kind of lame. This is the equivalent of ignoring the return value -->
-      1. Perform PerformPromiseThen(_promiseCapability_.[[Promise]], _onFulfilled_, _onRejected_, _throwawayCapability_).
+      1. Perform ! PerformPromiseThen(_promiseCapability_.[[Promise]], _onFulfilled_, _onRejected_, _throwawayCapability_).
       1. Remove _asyncContext_ from the execution context stack and restore the execution context that is at the top of the execution context stack as the running execution context.
       1. Set the code evaluation state of _asyncContext_ such that when evaluation is resumed with a Completion _resumptionValue_ the following steps will be performed:
         1. Return _resumptionValue_.
