@@ -5,7 +5,7 @@ The introduction of Promises and Generators in ECMAScript presents an opportunit
 
 This proposal is implemented in a [regenerator](https://github.com/facebook/regenerator) which can compile ES5 code containing `async` and `await` down to vanilla ES5 to run in existing browsers and runtimes.
 
-This repo contains a complete example using a large number of the features of the proposal.  To run this example:
+This repo contains a complete example using a large number of the features of the proposal.  To run this example:(Currently it's not work because changes in GitHub API.)
 
 ```Shell
 npm install
