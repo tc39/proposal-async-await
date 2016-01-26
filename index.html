@@ -145,6 +145,7 @@
     <emu-nt><a href="#prod-AsyncFunctionExpression">AsyncFunctionExpression</a><emu-mods></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="2"><emu-t>async</emu-t><emu-gann>[no <emu-nt><a href="http://www.ecma-international.org/ecma-262/6.0/index.html#prod-LineTerminator">LineTerminator</a><emu-mods></emu-mods></emu-nt> here]</emu-gann><emu-t>function</emu-t><emu-nt params="Await"><a href="#prod-BindingIdentifier">BindingIdentifier</a><emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>(</emu-t><emu-nt params="Await"><a href="http://www.ecma-international.org/ecma-262/6.0/index.html#prod-FormalParameters">FormalParameters</a><emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt><a href="#prod-AsyncFunctionBody">AsyncFunctionBody</a><emu-mods></emu-mods></emu-nt><emu-t>}</emu-t></emu-rhs></emu-production>
     </p>
     <ul>
+      <li>It is a Syntax Error if ContainsUseStrict of <emu-nt>AsyncFunctionBody</emu-nt> is <emu-val>true</emu-val> and IsSimpleParameterList of <emu-nt>FormalParameters</emu-nt> is <emu-val>false</emu-val>.</li>
       <li>It is a Syntax Error if <emu-nt>FormalParameters</emu-nt> Contains <emu-nt>AwaitExpression</emu-nt> is <emu-val>true</emu-val>.
       
       </li><li>If the source code matching this production is strict code, the Early Error rules for <emu-nt>StrictFormalParameters</emu-nt> : <emu-nt>FormalParameters</emu-nt> are applied.
@@ -449,6 +450,7 @@
     <p><emu-production name="AsyncMethod" params="Yield, Await" type="lexical" id="prod-AsyncMethod" a="1" class="inline" collapsed="">
     <emu-nt params="Yield, Await"><a href="#prod-AsyncMethod">AsyncMethod</a><emu-mods><emu-params>[Yield, Await]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="1"><emu-t>async</emu-t><emu-gann>[no <emu-nt><a href="http://www.ecma-international.org/ecma-262/6.0/index.html#prod-LineTerminator">LineTerminator</a><emu-mods></emu-mods></emu-nt> here]</emu-gann><emu-nt params="?Yield, ?Await"><a href="http://www.ecma-international.org/ecma-262/6.0/index.html#prod-PropertyName">PropertyName</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt><emu-t>(</emu-t><emu-nt params="Await"><a href="http://www.ecma-international.org/ecma-262/6.0/index.html#prod-StrictFormalParameters">StrictFormalParameters</a><emu-mods><emu-params>[Await]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt><a href="#prod-AsyncFunctionBody">AsyncFunctionBody</a><emu-mods></emu-mods></emu-nt><emu-t>}</emu-t></emu-rhs></emu-production></p>
     <ul>
+      <li>It is a Syntax Error if ContainsUseStrict of <emu-nt>AsyncFunctionBody</emu-nt> is <emu-val>true</emu-val> and IsSimpleParameterList of <emu-nt>FormalParameters</emu-nt> is <emu-val>false</emu-val>.</li>
       <li>It is a Syntax Error if HasDirectSuper of <emu-nt>AsyncMethod</emu-nt> is <emu-val>true</emu-val>.
       
       </li><li>It is a Syntax Error if <emu-nt>StrictFormalParameters</emu-nt> Contains <emu-nt>AwaitExpression</emu-nt> is <emu-val>true</emu-val>.
