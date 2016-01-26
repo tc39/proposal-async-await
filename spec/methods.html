@@ -6,6 +6,7 @@
 
     <p><emu-prodref name="AsyncMethod" a="1" class="inline"></emu-prodref></p>
     <ul>
+      <li>It is a Syntax Error if ContainsUseStrict of |AsyncFunctionBody| is *true* and IsSimpleParameterList of |FormalParameters| is *false*.</li>
       <li>It is a Syntax Error if HasDirectSuper of |AsyncMethod| is *true*.
       <li>It is a Syntax Error if |StrictFormalParameters| Contains |AwaitExpression| is *true*.
       <li>It is a Syntax Error if any element of the BoundNames of |StrictFormalParameters| also occurs in the LexicallyDeclaredNames of |AsyncFunctionBody|
