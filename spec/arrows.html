@@ -5,6 +5,7 @@
     <h1>Static Semantics: Early Errors</h1>
     <p><emu-prodref name="AsyncArrowFunction" a="1" class="inline"></emu-prodref></p>
     <ul>
+      <li>It is a Syntax Error if ContainsUseStrict of |AsyncConciseBody| is *true* and IsSimpleParameterList of |ArrowParameters| is *false*.</li>
       <li>It is a Syntax Error if any element of the BoundNames of |AsyncArrowBindingIdentifier| also occurs in the LexicallyDeclaredNames of |AsyncConciseBody|.
     </ul>
     <p><emu-prodref name="AsyncArrowFunction" a="2" class="inline"></emu-prodref></p>
