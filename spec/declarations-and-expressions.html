@@ -92,6 +92,7 @@
       2. Let _name_ be StringValue of |BindingIdentifier|
       3. Let _F_ be AsyncFunctionCreate(~Normal~, |FormalParameters|, |AsyncFunctionBody|, _scope_, _strict_).
       4. Perform SetFunctionName(_F_, _name_).
+      1. Set the [[SourceText]] internal slot of _F_ to the source text matched by |AsyncFunctionDeclaration|.
       5. Return _F_.
     </emu-alg>
     <p><emu-prodref name="AsyncFunctionDeclaration" a="2" class="inline"></emu-prodref></p>
@@ -99,6 +100,7 @@
       1. If the function code for |AsyncFunctionDeclaration| is strict mode code, let _strict_ be *true*. Otherwise, let _strict_ be *false*.
       2. Let _F_ be AsyncFunctionCreate(~Normal~, |FormalParameters|, |AsyncFunctionBody|, _scope_, _strict_).
       3. Perform SetFunctionName(_F_, `"default"`).
+      1. Set the [[SourceText]] internal slot of _F_ to the source text matched by |AsyncFunctionDeclaration|.
       4. Return _F_.
     </emu-alg>
   </emu-clause>
@@ -135,6 +137,7 @@
       1. If the function code for |AsyncFunctionExpression| is strict mode code, let _strict_ be *true*. Otherwise let _strict_ be *false*.
       1. Let _scope_ be the LexicalEnvironment of the running execution context.
       1. Let _closure_ be AsyncFunctionCreate(~Normal~, |FormalParameters|, |AsyncFunctionBody|, _scope_, _strict_).
+      1. Set the [[SourceText]] internal slot of _closure_ to the source text matched by |AsyncFunctionExpression|.
       1. Return _closure_.
     </emu-alg>
 
@@ -147,6 +150,7 @@
       1. Let _name_ be StringValue of |BindingIdentifier|.
       1. Perform _envRec_.CreateImmutableBinding( _name_). <!-- FIXME: Remove the space before _name_ without breaking the result html. -->
       1. Let _closure_ be AsyncFunctionCreate(~Normal~, |FormalParameters|, |AsyncFunctionBody|, _funcEnv_, _strict_).
+      1. Set the [[SourceText]] internal slot of _closure_ to the source text matched by |AsyncFunctionExpression|.
       1. Perform SetFunctionName(_closure_, _name_).
       1. Perform _envRec_.InitializeBinding( _name_, _closure_).
       1. Return _closure_.

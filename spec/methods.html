@@ -65,6 +65,7 @@
       1. Let _closure_ be AsyncFunctionCreate(~Method~, |StrictFormalParameters|, |AsyncFunctionBody|, _scope_, _strict_).
       1. Perform ! MakeMethod(_closure_, _object_).
       1. Perform ! SetFunctionName(_closure_, _propKey_).
+      1. Set the [[SourceText]] internal slot of _closure_ to the source text matched by |AsyncMethod|.
       1. Let _desc_ be the Property Descriptor{[[Value]]: _closure_, [[Writable]]: *true*, [[Enumerable]]: _enumerable_, [[Configurable]]: *true*}.
       1. Return ? DefinePropertyOrThrow(_object_, _propKey_, _desc_).
     </emu-alg>
