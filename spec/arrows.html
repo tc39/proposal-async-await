@@ -164,6 +164,7 @@
       2. Let _scope_ be the LexicalEnvironment of the running execution context.
       3. Let _parameters_ be |AsyncArrowBindingIdentifier|.
       4. Let _closure_ be AsyncFunctionCreate(~Arrow~, _parameters_, |AsyncConciseBody|, _scope_, _strict_).
+      1. Set the [[SourceText]] internal slot of _closure_ to the source text matched by |AsyncArrowFunction|.
       5. Return _closure_.
     </emu-alg>
 
@@ -174,6 +175,7 @@
       3. Let _head_ be CoveredAsyncArrowHead of |CoverCallExpressionAndAsyncArrowHead|.
       4. Let _parameters_ be the |ArrowFormalParameters| production matched by _head_.
       5. Let _closure_ be AsyncFunctionCreate(~Arrow~, _parameters_, |AsyncConciseBody|, _scope_, _strict_).
+      1. Set the [[SourceText]] internal slot of _closure_ to the source text matched by |AsyncArrowFunction|.
       6. Return _closure_.
     </emu-alg>
   </emu-clause>
