@@ -27,13 +27,14 @@ http.createServer(async function (req, res) {
             // promise-returning async HTTP GET
             var res = await request({url: url, headers: headers});
             var items = JSON.parse(res.body).items;
-            // nested parallel work is still possible with await* ( or `await Promise.all`)
-            var newItems = await* items.map(async function (item) { 
+            // can do nested parallel work by constructing promises in
+            // parallel then awaiting them, e.g. with Promise.all
+            var newItems = await Promise.all(items.map(async function (item) {
                 return {
                     full_name: item.full_name, 
                     collabs_images: await getCollaboratorImages(item.full_name)
                }
-            });
+            }));
             results = results.concat(newItems);
             url = (/<(.*)>; rel="next"/.exec(res.headers.link) || [])[1];
             // break once there is no 'next' link
