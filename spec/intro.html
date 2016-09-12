@@ -19,7 +19,7 @@
     <pre><code class="javascript">
     function chainAnimationsPromise(elem, animations) {
         let ret = null;
-        let p = currentPromise;
+        let p = Promise.resolve(); // current promise
         for(const anim of animations) {
             p = p.then(function(val) {
                 ret = val;
