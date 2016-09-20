@@ -25,8 +25,8 @@ http.createServer(async function (req, res) {
         // use normal exception handling
         try { 
             // promise-returning async HTTP GET
-            var res = await request({url: url, headers: headers});
-            var items = JSON.parse(res.body).items;
+            var resp = await request({url: url, headers: headers});
+            var items = JSON.parse(resp.body).items;
             // can do nested parallel work by constructing promises in
             // parallel then awaiting them, e.g. with Promise.all
             var newItems = await Promise.all(items.map(async function (item) {
