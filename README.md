@@ -11,15 +11,3 @@ This repo contains a complete example using a large number of the features of th
 npm install
 regenerator -r server.asyncawait.js | node
 ```
-
-## Debatable Syntax & Semantics
-
-### Awaiting Non-Promise
-When the value passed to `await` is a Promise, the completion of the async function is scheduled on completion of the Promise.  For non-promises, behaviour aligns with Promise conversion rules according to the proposed semantic polyfill.
-
-### Surface syntax
-Instead of `async function`/`await`, the following are options:
-- `function^`/`await`
-- `function!`/`yield`
-- `function!`/`await`
-- `function^`/`yield`
